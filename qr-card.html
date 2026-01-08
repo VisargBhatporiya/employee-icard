@@ -9,137 +9,70 @@
   *{box-sizing:border-box;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
   body{margin:0;background:#eef2f0;padding:20px}
 
-  .topbar{
-    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;
-  }
-  select,button,a.btn{
-    padding:10px 14px;border-radius:10px;border:none;font-weight:800;
-  }
-  select{
-    min-width:260px;background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.06);
-  }
-  button,.btn{
-    background:#0b84c6;color:#fff;cursor:pointer;text-decoration:none;
-    box-shadow:0 10px 22px rgba(0,0,0,.10);
-  }
+  .topbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+  select,button,a.btn{padding:10px 14px;border-radius:10px;border:none;font-weight:800}
+  select{min-width:260px;background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.06)}
+  button,.btn{background:#0b84c6;color:#fff;cursor:pointer;text-decoration:none;box-shadow:0 10px 22px rgba(0,0,0,.10)}
   button:active,.btn:active{transform:scale(.98)}
 
-  /* ===== Card (87x56mm like screenshot) ===== */
+  /* ===== Card (UI like your screenshot) ===== */
   .card{
     width:640px;max-width:95vw;margin:auto;
     border-radius:12px;overflow:hidden;
     box-shadow:0 18px 40px rgba(0,0,0,.15);
-    background:#f7f7f7;
-    position:relative;
+    background:#f7f7f7;position:relative;
   }
-
-  /* subtle paper texture */
   .card::before{
-    content:"";
-    position:absolute;inset:0;
+    content:"";position:absolute;inset:0;
     background:
       radial-gradient(circle at 12% 30%, rgba(0,0,0,.04), transparent 55%),
       radial-gradient(circle at 78% 72%, rgba(0,0,0,.03), transparent 60%),
       repeating-linear-gradient(0deg, rgba(0,0,0,.015), rgba(0,0,0,.015) 1px, transparent 1px, transparent 6px);
-    pointer-events:none;
-    opacity:.55;
+    pointer-events:none;opacity:.55;
   }
-
   .card-inner{
     position:relative;
     padding:18px 18px 16px;
     display:grid;
-    grid-template-columns: 220px 1fr;
+    grid-template-columns:220px 1fr;
     gap:18px;
     min-height:260px;
   }
 
-  /* LEFT COLUMN */
-  .left{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:14px;
-  }
-  .logoWrap{
-    width:96px;height:96px;
-    border-radius:999px;
-    display:grid;place-items:center;
-    background:transparent;
-  }
+  /* LEFT */
+  .left{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+  .logoWrap{width:96px;height:96px;border-radius:999px;display:grid;place-items:center}
   .logo{
     width:96px;height:96px;border-radius:999px;object-fit:contain;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,.12));
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.12));
   }
-
-  .qrWrap{
-    margin-top:6px;
-    width:200px;
-    max-width:100%;
-  }
+  .qrWrap{margin-top:6px;width:200px;max-width:100%}
   .qr{
     width:200px;height:200px;max-width:100%;
-    background:#fff;
-    border-radius:10px;
-    padding:10px;
-    border:2px solid rgba(0,0,0,.10);
+    background:#fff;border-radius:10px;padding:10px;border:2px solid rgba(0,0,0,.10);
   }
   .qr img{width:100%;height:100%;display:block}
 
-  /* RIGHT COLUMN */
-  .right{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    padding-top:6px;
-  }
-
-  .name{
-    font-size:34px;
-    font-weight:900;
-    line-height:1.05;
-    color:#0f172a;
-  }
-  .designation{
-    font-size:20px;
-    font-weight:500;
-    color:#111827;
-    margin-top:2px;
-  }
-
-  .company{
-    margin-top:10px;
-    font-size:18px;
-    font-weight:900;
-    color:#111827;
-  }
-  .addr{
-    font-size:15px;
-    line-height:1.45;
-    color:#1f2937;
-    font-weight:500;
-    margin-top:2px;
-    max-width:360px;
-  }
-
+  /* RIGHT */
+  .right{display:flex;flex-direction:column;gap:6px;padding-top:6px}
+  .name{font-size:34px;font-weight:900;line-height:1.05;color:#0f172a}
+  .designation{font-size:20px;font-weight:500;color:#111827;margin-top:2px}
+  .company{margin-top:10px;font-size:18px;font-weight:900;color:#111827}
+  .addr{font-size:15px;line-height:1.45;color:#1f2937;font-weight:500;margin-top:2px;max-width:360px}
   .meta{
     margin-top:10px;
     display:grid;
-    grid-template-columns: 90px 10px 1fr;
-    row-gap:6px;
-    column-gap:8px;
-    align-items:center;
+    grid-template-columns:90px 10px 1fr;
+    row-gap:6px;column-gap:8px;align-items:center;
     font-size:16px;
   }
-  .label{font-weight:900;color:#111827}
-  .colon{font-weight:900;color:#111827}
+  .label,.colon{font-weight:900;color:#111827}
   .value{font-weight:600;color:#111827}
   .value a{color:inherit;text-decoration:none}
   .value a:hover{text-decoration:underline}
 
-  /* responsive */
   @media (max-width:560px){
-    .card-inner{grid-template-columns: 1fr; gap:10px;}
+    .card-inner{grid-template-columns:1fr;gap:10px}
     .left{flex-direction:row;align-items:center;justify-content:space-between}
     .qrWrap{width:170px}
     .qr{width:170px;height:170px}
@@ -150,23 +83,18 @@
 </head>
 
 <body>
-
 <div class="topbar">
   <select id="empSelect"></select>
   <button id="pdfBtn" type="button">Download PDF (3.5x2)</button>
   <a id="openProfileBtn" class="btn" target="_blank" rel="noopener">Open Profile</a>
 </div>
 
-<!-- Card -->
 <div class="card" id="printCard">
   <div class="card-inner">
-
-    <!-- LEFT -->
     <div class="left">
       <div class="logoWrap">
         <img id="logoImg" class="logo" alt="Logo">
       </div>
-
       <div class="qrWrap">
         <div class="qr">
           <img id="qrImg" alt="QR">
@@ -174,7 +102,6 @@
       </div>
     </div>
 
-    <!-- RIGHT -->
     <div class="right">
       <div class="name" id="name">—</div>
       <div class="designation" id="designation">—</div>
@@ -188,11 +115,9 @@
         <div class="label">Website</div><div class="colon">:</div><div class="value" id="website">—</div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- libs -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
@@ -201,6 +126,7 @@
 let EMPLOYEES = [];
 let CURRENT_EMP = null;
 
+/* ========= HELPERS ========= */
 function text(id, v){
   document.getElementById(id).textContent = (v && String(v).trim()) ? v : "—";
 }
@@ -217,6 +143,15 @@ function normalizeUrl(url){
 function makeQrUrl(data){
   const d = encodeURIComponent(data || "");
   return `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=0&data=${d}`;
+}
+
+/* ✅ Build employee-specific URL: .../qr-card.html?emp=N */
+function buildEmployeePageUrl(index){
+  const base = new URL(window.location.href);
+  base.pathname = base.pathname.replace(/[^/]*$/, "qr-card.html"); // force qr-card.html
+  base.search = "";
+  base.searchParams.set("emp", String(index));
+  return base.toString();
 }
 
 /* ========= RENDER ========= */
@@ -243,7 +178,9 @@ function setEmployee(e){
   if(websiteRaw){
     const w = normalizeUrl(websiteRaw);
     html("website", `<a href="${w}" target="_blank" rel="noopener">${websiteRaw}</a>`);
-  }else text("website","—");
+  }else{
+    text("website","—");
+  }
 
   // Logo
   const logo = e.logo || e.logoUrl || e.logoImage || "";
@@ -259,7 +196,7 @@ function setEmployee(e){
     `);
   }
 
-  // Profile link (optional)
+  // Profile button (optional)
   const profileUrl = e.profileUrl || e.profile || e.url || "";
   const openBtn = document.getElementById("openProfileBtn");
   if(profileUrl){
@@ -272,8 +209,15 @@ function setEmployee(e){
     openBtn.style.pointerEvents = "none";
   }
 
-  // QR data
-  const qrData = e.qrData || profileUrl || email || phone || name;
+  /* ✅ QR MUST OPEN THE EMPLOYEE PAGE (NOT index.html, NOT email)
+     Priority:
+     qrData -> profileUrl -> employeePageUrl -> websiteUrl -> phone -> email -> name
+  */
+  const index = Number(document.getElementById("empSelect").value || 0);
+  const employeePageUrl = buildEmployeePageUrl(index);
+  const websiteUrl = websiteRaw ? normalizeUrl(websiteRaw) : "";
+  const qrData = e.qrData || profileUrl || employeePageUrl || websiteUrl || phone || email || name;
+
   document.getElementById("qrImg").src = makeQrUrl(qrData);
 }
 
@@ -300,8 +244,16 @@ async function loadEmployees(){
     });
 
     sel.onchange = () => setEmployee(EMPLOYEES[Number(sel.value)]);
-    sel.value = "0";
-    setEmployee(EMPLOYEES[0]);
+
+    // ✅ Auto-load employee using ?emp=N
+    const url = new URL(window.location.href);
+    const empParam = url.searchParams.get("emp");
+    const startIndex = (empParam !== null && !isNaN(Number(empParam)))
+      ? Math.max(0, Math.min(EMPLOYEES.length - 1, Number(empParam)))
+      : 0;
+
+    sel.value = String(startIndex);
+    setEmployee(EMPLOYEES[startIndex]);
 
   }catch(err){
     console.error(err);
@@ -309,7 +261,7 @@ async function loadEmployees(){
   }
 }
 
-/* ========= PDF (3.5x2) + links open new tab ========= */
+/* ========= PDF (3.5x2) + clickable links (open in new tab) ========= */
 async function downloadCardPdf(){
   const el = document.getElementById("printCard");
 
@@ -355,17 +307,19 @@ async function downloadCardPdf(){
     addLink(addrEl, `https://www.google.com/maps?q=${encodeURIComponent(addr)}`);
   }
 
-  // QR -> profile (if exists)
+  // ✅ QR in PDF -> employee page (or profile if provided)
   const qrEl = el.querySelector("#qrImg");
+  const index = Number(document.getElementById("empSelect").value || 0);
+  const employeePageUrl = buildEmployeePageUrl(index);
   const profileUrl = CURRENT_EMP?.profileUrl || CURRENT_EMP?.profile || CURRENT_EMP?.url || "";
-  if(profileUrl){
-    addLink(qrEl, profileUrl);
-  }
+  const qrTarget = profileUrl || employeePageUrl;
+  addLink(qrEl, qrTarget);
 
   const filename = (CURRENT_EMP?.name ? CURRENT_EMP.name.replace(/\s+/g,"_") : "employee") + ".pdf";
   pdf.save(filename);
 }
 
+/* ========= INIT ========= */
 document.getElementById("pdfBtn").addEventListener("click", downloadCardPdf);
 loadEmployees();
 </script>
