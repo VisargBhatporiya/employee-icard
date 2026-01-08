@@ -3,6 +3,7 @@
     "id": "ankit",
     "name": "Ankit Bhandari",
     "designation": "Engineer",
+    "role": "Engineer",
     "phone": "+917016649244",
     "altPhone": "",
     "email": "vbhatporiya123@gmail.com",
@@ -11,34 +12,39 @@
     "photo": "https://i.pravatar.cc/300?img=12",
     "address": "4th floor - 412 L.P Sayani, Surat, GJ, 395009, India",
     "mapQuery": "4th floor - 412 L.P Sayani, Surat, GJ, 395009, India",
-    "whatsapp": "+917016649244"
+    "whatsapp": "+917016649244",
+    "logo": "logo2.png"
   },
   {
     "id": "bhavin",
     "name": "Bhavin Patel",
     "designation": "Project Engineer",
+    "role": "Project Engineer",
     "phone": "+919727148654",
     "altPhone": "+919999999999",
     "email": "bhavin@ddsengineering.in",
-    "whatsapp": "+919727148654",
-    "address": "Surat, Gujarat, India",
-    "mapQuery": "Surat Gujarat India",
     "website": "https://ddsengineering.in",
-    "photo": "https://i.pravatar.cc/150?img=12",
-    "company": "DDS Engineering"
+    "company": "DDS Engineering (India) Private Limited",
+    "photo": "https://i.pravatar.cc/300?img=15",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P. Savani Road, Adajan, Surat - 395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park 412 4th Floor Madhuvan Circle New L.P. Savani Road Adajan Surat 395009",
+    "whatsapp": "+919727148654",
+    "logo": "logo.png"
   },
   {
-    "id": "rahul",
-    "name": "Rahul Sharma",
+    "id": "deep",
+    "name": "Deep Bhandari",
     "designation": "Sales Executive",
-    "phone": "+919111111111",
-    "altPhone": "+919222222222",
-    "email": "rahul@ddsengineering.in",
-    "whatsapp": "+919111111111",
-    "address": "Ahmedabad, Gujarat, India",
-    "mapQuery": "Ahmedabad Gujarat India",
+    "role": "Sales Executive",
+    "phone": "+917990374528",
+    "altPhone": "+917990374528",
+    "email": "deep.bhandari@ddsengineering.in",
     "website": "https://ddsengineering.in",
-    "photo": "https://i.pravatar.cc/150?img=33",
-    "company": "DDS Engineering"
+    "company": "DDS Engineering (India) Private Limited",
+    "photo": "https://i.pravatar.cc/300?img=33",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P. Savani Road, Adajan, Surat - 395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park 412 4th Floor Madhuvan Circle New L.P. Savani Road Adajan Surat 395009",
+    "whatsapp": "+917990374528",
+    "logo": "logo2.png"
   }
 ]
