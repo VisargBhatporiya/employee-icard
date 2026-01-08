@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Employee QR Generator</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .qr-page{
+      width:min(420px, 100%);
+      margin:0 auto;
+    }
+    .qr-tool{
+      background:#fff;
+      border-radius:20px;
+      border:1px solid rgba(17,24,39,.06);
+      box-shadow:0 12px 30px rgba(2,6,23,.08);
+      padding:16px;
+    }
+    .qr-tool h2{
+      font-size:18px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .select{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(17,24,39,.10);
+      background:#f9fafb;
+      font-weight:700;
+      outline:none;
+      margin:10px 0 14px;
+    }
+    .qr-box{
+      text-align:center;
+      padding:12px 0 0;
+    }
+    .qr-img{
+      width:230px;
+      height:230px;
+      border-radius:16px;
+      border:1px solid rgba(17,24,39,.10);
+      background:#fff;
+      box-shadow:0 10px 24px rgba(2,6,23,.08);
+    }
+    .small{
+      margin-top:10px;
+      font-size:12px;
+      color:#6b7280;
+      word-break:break-all;
+    }
+    .btn{
+      display:inline-block;
+      margin-top:12px;
+      padding:12px 16px;
+      border-radius:999px;
+      background:#111;
+      color:#fff;
+      text-decoration:none;
+      font-weight:900;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+
+<main class="app">
+  <div class="qr-page">
+    <div class="qr-tool">
+      <h2>Employee QR Generator</h2>
+      <div style="color:#6b7280;font-size:13px;font-weight:700;">
+        Select employee → QR will open their iCard page
+      </div>
+
+      <select id="empSelect" class="select"></select>
+
+      <div class="qr-box">
+        <img id="qrImg" class="qr-img" alt="QR Code" />
+        <div id="linkText" class="small"></div>
+        <a id="openBtn" class="btn" target="_blank">Open Profile</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const empSelect = document.getElementById("empSelect");
+  const qrImg = document.getElementById("qrImg");
+  const linkText = document.getElementById("linkText");
+  const openBtn = document.getElementById("openBtn");
+
+  // Builds the real URL that QR should open
+  function buildProfileUrl(empId){
+    const base = window.location.href.replace(/qr\.html.*$/i, "index.html");
+    const url = base + "?id=" + encodeURIComponent(empId);
+    return url;
+  }
+
+  function setQr(empId){
+    const profileUrl = buildProfileUrl(empId);
+
+    // QR image API
+    qrImg.src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=" +
+      encodeURIComponent(profileUrl);
+
+    linkText.textContent = profileUrl;
+    openBtn.href = profileUrl;
+  }
+
+  async function init(){
+    const res = await fetch("employees.json", { cache: "no-store" });
+    const list = await res.json();
+
+    empSelect.innerHTML = "";
+    for(const e of list){
+      const opt = document.createElement("option");
+      opt.value = e.id;
+      opt.textContent = `${e.name} (${e.id})`;
+      empSelect.appendChild(opt);
+    }
+
+    // default first employee
+    const firstId = list[0]?.id || "ankit";
+    empSelect.value = firstId;
+    setQr(firstId);
+
+    empSelect.addEventListener("change", () => setQr(empSelect.value));
+  }
+
+  init().catch(() => {
+    linkText.textContent = "Error loading employees.json (use Live Server / localhost)";
+  });
+</script>
+
+</body>
+</html>

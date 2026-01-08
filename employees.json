@@ -1,0 +1,44 @@
+[
+  {
+    "id": "ankit",
+    "name": "Ankit Bhandari",
+    "designation": "Engineer",
+    "phone": "+917016649244",
+    "altPhone": "",
+    "email": "vbhatporiya123@gmail.com",
+    "website": "https://ddsengineering.in",
+    "company": "DDS Engineering Solutions LLP",
+    "photo": "https://i.pravatar.cc/300?img=12",
+    "address": "4th floor - 412 L.P Sayani, Surat, GJ, 395009, India",
+    "mapQuery": "4th floor - 412 L.P Sayani, Surat, GJ, 395009, India",
+    "whatsapp": "+917016649244"
+  },
+  {
+    "id": "bhavin",
+    "name": "Bhavin Patel",
+    "designation": "Project Engineer",
+    "phone": "+919727148654",
+    "altPhone": "+919999999999",
+    "email": "bhavin@ddsengineering.in",
+    "whatsapp": "+919727148654",
+    "address": "Surat, Gujarat, India",
+    "mapQuery": "Surat Gujarat India",
+    "website": "https://ddsengineering.in",
+    "photo": "https://i.pravatar.cc/150?img=12",
+    "company": "DDS Engineering"
+  },
+  {
+    "id": "rahul",
+    "name": "Rahul Sharma",
+    "designation": "Sales Executive",
+    "phone": "+919111111111",
+    "altPhone": "+919222222222",
+    "email": "rahul@ddsengineering.in",
+    "whatsapp": "+919111111111",
+    "address": "Ahmedabad, Gujarat, India",
+    "mapQuery": "Ahmedabad Gujarat India",
+    "website": "https://ddsengineering.in",
+    "photo": "https://i.pravatar.cc/150?img=33",
+    "company": "DDS Engineering"
+  }
+]
