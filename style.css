@@ -301,3 +301,84 @@ body{
   }
 }
 
+
+
+/* ===============================
+   PRINT / PDF: KEEP COLORS
+   (Fix: PDF becomes not colorful)
+================================ */
+
+@media print{
+  *{
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ensure gradients/backgrounds print */
+  body {
+    background: var(--bg) !important;
+  }
+
+  .hero {
+    background: linear-gradient(180deg, var(--blue1), var(--blue2)) !important;
+  }
+
+  /* Footer often gets removed in print; keep it or hide it if you want */
+  .contact-footer {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(255,255,255,.94) !important;
+  }
+
+  /* Optional: avoid shadows in print (cleaner) */
+  .hero,
+  .info-card {
+    box-shadow: none !important;
+  }
+}
+/* ===== PRINT: make PDF look same as preview card ===== */
+@page{
+  size: 3.5in 2in;   /* visiting card size */
+  margin: 0;
+}
+
+@media print{
+  *{
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html, body{
+    width: 3.5in !important;
+    height: 2in !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    overflow: hidden !important;
+  }
+
+  /* hide controls */
+  .topbar, .hint{ display:none !important; }
+
+  /* card must fill the PDF page exactly */
+  .card{
+    position: fixed !important;
+    inset: 0 !important;
+    width: 3.5in !important;
+    height: 2in !important;
+
+    /* keep same look like screen */
+    border-radius: 16px !important;
+    overflow: hidden !important;
+
+    /* keep shadow (PDF supports it) */
+    box-shadow: 0 18px 40px rgba(0,0,0,.15) !important;
+    margin: 0 !important;
+  }
+
+  .card-inner{
+    height: 100% !important;
+  }
+}

@@ -26,7 +26,6 @@ body{
   display:flex;
   gap:10px;
   justify-content:center;
-  align-items:center;
   flex-wrap:wrap;
   margin-bottom:12px;
 }
@@ -35,37 +34,44 @@ select, button, a.btn{
   padding:10px 14px;
   border-radius:10px;
   border:none;
-  font-weight:700;
+  font-weight:800;
 }
 
-select{ min-width:260px; }
+select{
+  min-width:260px;
+  background:#fff;
+  box-shadow:0 8px 18px rgba(0,0,0,.06);
+}
 
 button,.btn{
   background:#0b84c6;
   color:#fff;
   cursor:pointer;
   text-decoration:none;
+  box-shadow:0 10px 22px rgba(0,0,0,.10);
 }
+button:active,.btn:active{ transform:scale(.98); }
 
 .card{
-  width:420px;
+  width:640px;
+  max-width:95vw;
   margin:auto;
   background:var(--paper);
-  border-radius:16px;
+  border-radius:18px;
   overflow:hidden;
   box-shadow:0 18px 40px rgba(0,0,0,.15);
 }
 
 .card-inner{
   display:grid;
-  grid-template-columns:140px 1fr;
-  min-height:240px;
+  grid-template-columns:190px 1fr;
+  min-height:260px;
 }
 
 /* LEFT GREEN SIDE */
 .left{
   background:linear-gradient(160deg,var(--green-dark),var(--green));
-  padding:16px;
+  padding:18px;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
@@ -73,83 +79,82 @@ button,.btn{
 
 .qr{
   background:#fff;
-  padding:6px;
-  border-radius:10px;
+  padding:10px;
+  border-radius:14px;
 }
 .qr img{ width:100%; display:block; }
 
 .logo{
-  width:56px;
-  height:56px;
+  width:64px;
+  height:64px;
   background:#fff;
-  padding:6px;
+  padding:8px;
   border-radius:50%;
   object-fit:contain;
 }
 
 /* RIGHT SIDE */
 .right{
-  padding:16px;
+  padding:18px 20px;
   display:flex;
   flex-direction:column;
-  gap:6px;
+  gap:8px;
 }
 
-.empName{
-  font-size:18px;
-  font-weight:900;
+.name{
+  font-size:28px;
+  font-weight:1000;
   color:var(--green);
+  line-height:1.05;
 }
 
 .role{
-  font-size:12px;
-  font-weight:700;
+  font-size:14px;
+  font-weight:900;
+  color:#0f172a;
   margin-bottom:6px;
 }
 
 .item{
   display:flex;
   align-items:center;
-  gap:8px;
-  font-size:12px;
-  font-weight:600;
+  gap:10px;
+  font-size:14px;
+  font-weight:800;
 }
 
 .icon{
-  width:18px;
-  height:18px;
+  width:24px;
+  height:24px;
   background:var(--green);
   color:#fff;
   border-radius:50%;
   display:grid;
   place-items:center;
-  font-size:11px;
-  line-height:1;
+  font-size:13px;
 }
 
 .location{
   margin-top:auto;
   background:var(--green-light);
-  padding:6px 8px;
-  border-radius:6px;
-  font-size:11px;
-  font-weight:700;
+  padding:10px 12px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:900;
 }
 
 a{ color:inherit; text-decoration:none; }
+a:hover{ text-decoration:underline; }
 
-/* PRINT */
-@page{ size:3.5in 2in; margin:0; }
-@media print{
-  body{ padding:0; background:#fff; }
-  .topbar{ display:none; }
-  .card{
-    width:3.5in;
-    height:2in;
-    box-shadow:none;
-    border-radius:0;
-  }
+/* Small screens */
+@media (max-width:520px){
+  .card-inner{ grid-template-columns:160px 1fr; }
+  .name{ font-size:20px; }
+  .item{ font-size:12px; }
+  .location{ font-size:12px; }
 }
+
+/* PRINT is not used now (PDF button will be used) */
 </style>
 </head>
 
@@ -157,11 +162,15 @@ a{ color:inherit; text-decoration:none; }
 
 <div class="topbar">
   <select id="empSelect"></select>
-  <button onclick="window.print()">Print</button>
+
+  <!-- IMPORTANT: Use PDF button instead of Print -->
+  <button onclick="downloadCardPdf()">Download PDF (3.5x2)</button>
+
   <a id="openProfileBtn" class="btn" target="_blank">Open Profile</a>
 </div>
 
-<div class="card">
+<!-- Card -->
+<div class="card" id="printCard">
   <div class="card-inner">
 
     <!-- LEFT -->
@@ -172,8 +181,7 @@ a{ color:inherit; text-decoration:none; }
 
     <!-- RIGHT -->
     <div class="right">
-      <!-- ✅ FIX: id changed from "name" to "empName" -->
-      <div class="empName" id="empName">—</div>
+      <div class="name" id="name">—</div>
       <div class="role" id="designation">—</div>
 
       <div class="item">
@@ -197,59 +205,106 @@ a{ color:inherit; text-decoration:none; }
   </div>
 </div>
 
+<!-- libs for exact PDF export -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
 <script>
-  const qrUrl = (t) =>
-    "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(t);
+  // QR image (works on GitHub Pages too)
+  const qrUrl = t => "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(t);
 
-  // Works on localhost + GitHub Pages
-  const profileUrl = (id) => {
+  // Build index.html?id=employeeId (works local + GitHub Pages)
+  function profileUrl(empId){
     const u = new URL("index.html", window.location.href);
-    u.searchParams.set("id", id);
+    u.searchParams.set("id", empId);
     return u.toString();
-  };
+  }
 
-  fetch("employees.json", { cache: "no-store" })
-    .then((r) => r.json())
-    .then((list) => {
+  function safeText(id, txt){
+    document.getElementById(id).textContent = (txt && String(txt).trim()) ? txt : "—";
+  }
+
+  function setEmployee(e){
+    safeText("name", e.name);
+    safeText("designation", e.designation || e.role);
+
+    // phone
+    const phoneEl = document.getElementById("phone");
+    phoneEl.innerHTML = e.phone ? `<a href="tel:${e.phone}">${e.phone}</a>` : "—";
+
+    // website
+    const webEl = document.getElementById("website");
+    const website = (e.website || "").trim();
+    webEl.innerHTML = website ? `<a href="${website}" target="_blank">${website.replace(/^https?:\/\//,'')}</a>` : "—";
+
+    // email
+    const emailEl = document.getElementById("email");
+    emailEl.innerHTML = e.email ? `<a href="mailto:${e.email}">${e.email}</a>` : "—";
+
+    // address
+    safeText("address", e.address);
+
+    // logo
+    document.getElementById("logoImg").src = e.logo || "logo.png";
+
+    // qr
+    const pUrl = profileUrl(e.id);
+    document.getElementById("qrImg").src = qrUrl(pUrl);
+
+    // open profile
+    document.getElementById("openProfileBtn").href = pUrl;
+  }
+
+  // EXACT PDF export 3.5in x 2in (looks same as screen)
+  async function downloadCardPdf(){
+    const el = document.getElementById("printCard");
+
+    const canvas = await html2canvas(el, {
+      scale: 3,               // sharp PDF
+      useCORS: true,
+      backgroundColor: null
+    });
+
+    const img = canvas.toDataURL("image/png");
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: "landscape",
+      unit: "in",
+      format: [3.5, 2]        // exact visiting card
+    });
+
+    pdf.addImage(img, "PNG", 0, 0, 3.5, 2);
+    pdf.save("employee-qr-card.pdf");
+  }
+
+  // load employees
+  fetch("employees.json", { cache:"no-store" })
+    .then(r => {
+      if(!r.ok) throw new Error("employees.json not found");
+      return r.json();
+    })
+    .then(list => {
       const sel = document.getElementById("empSelect");
-      sel.innerHTML = list.map((e) => `<option value="${e.id}">${e.name}</option>`).join("");
+      sel.innerHTML = list.map(x => `<option value="${x.id}">${x.name}</option>`).join("");
 
       const pick = new URLSearchParams(location.search).get("id");
-      if (pick && list.some((x) => x.id === pick)) sel.value = pick;
+      if(pick && list.some(x => x.id === pick)) sel.value = pick;
 
-      const set = (e) => {
-        document.getElementById("empName").textContent = e.name || "—";
+      const current = () => list.find(x => x.id === sel.value) || list[0];
+      setEmployee(current());
 
-        // ✅ supports designation OR role
-        document.getElementById("designation").textContent = (e.designation || e.role) || "—";
-
-        document.getElementById("phone").innerHTML =
-          e.phone ? `<a href="tel:${e.phone}">${e.phone}</a>` : "—";
-
-        document.getElementById("website").innerHTML =
-          e.website ? `<a href="${e.website}" target="_blank">${e.website.replace(/^https?:\/\//,'')}</a>` : "—";
-
-        document.getElementById("email").innerHTML =
-          e.email ? `<a href="mailto:${e.email}">${e.email}</a>` : "—";
-
-        document.getElementById("address").textContent = e.address || "—";
-
-        document.getElementById("qrImg").src = qrUrl(profileUrl(e.id));
-        document.getElementById("logoImg").src = e.logo || "logo.png";
-        document.getElementById("openProfileBtn").href = profileUrl(e.id);
-      };
-
-      const getCurrent = () => list.find((x) => x.id === sel.value) || list[0];
-
-      set(getCurrent());
-      sel.addEventListener("change", () => set(getCurrent()));
+      sel.addEventListener("change", () => setEmployee(current()));
     })
-    .catch((err) => {
-      document.body.innerHTML = `<div style="max-width:820px;margin:60px auto;font-family:system-ui;color:#111">
-        <h2 style="margin:0 0 8px">Error loading employees</h2>
-        <div style="color:#6b7280">${err.message}</div>
-        <div style="margin-top:10px;color:#6b7280">Make sure <b>employees.json</b> is in the same folder as this page.</div>
-      </div>`;
+    .catch(err => {
+      document.body.innerHTML = `
+        <div style="max-width:760px;margin:60px auto;font-family:system-ui;color:#111">
+          <h2 style="margin:0 0 8px">Error</h2>
+          <div style="color:#6b7280">${err.message}</div>
+          <div style="margin-top:10px;color:#6b7280">
+            Keep <b>employees.json</b> in the same folder as <b>qr-card.html</b>.
+          </div>
+        </div>`;
     });
 </script>
 
