@@ -15,7 +15,7 @@
   button,.btn{background:#0b84c6;color:#fff;cursor:pointer;text-decoration:none;box-shadow:0 10px 22px rgba(0,0,0,.10)}
   button:active,.btn:active{transform:scale(.98)}
 
-  /* ===== Card (UI like your screenshot) ===== */
+  /* ===== Visiting Card UI (like your sample) ===== */
   .card{
     width:640px;max-width:95vw;margin:auto;
     border-radius:12px;overflow:hidden;
@@ -118,10 +118,17 @@
   </div>
 </div>
 
+<!-- libs -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <script>
+/* ========= CONFIG =========
+   QR MUST OPEN EMPLOYEE PROFILE PAGE (index.html page) on GitHub Pages:
+   https://visargbhatporiya.github.io/employee-icard/?emp=N
+*/
+const PROFILE_ROOT = "https://visargbhatporiya.github.io/employee-icard/";
+
 /* ========= STATE ========= */
 let EMPLOYEES = [];
 let CURRENT_EMP = null;
@@ -144,11 +151,8 @@ function makeQrUrl(data){
   const d = encodeURIComponent(data || "");
   return `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=0&data=${d}`;
 }
-
-/* ✅ GUARANTEED employee link (never redirects to / index.html) */
-function buildEmployeePageUrl(index){
-  const base = "https://visargbhatporiya.github.io/employee-icard/qr-card.html";
-  return `${base}?emp=${encodeURIComponent(index)}`;
+function buildProfileUrl(index){
+  return `${PROFILE_ROOT}?emp=${encodeURIComponent(index)}`;
 }
 
 /* ========= RENDER ========= */
@@ -171,7 +175,6 @@ function setEmployee(e){
 
   if(phone) html("phone", `<a href="tel:${phone}">${phone}</a>`); else text("phone","—");
   if(email) html("email", `<a href="mailto:${email}">${email}</a>`); else text("email","—");
-
   if(websiteRaw){
     const w = normalizeUrl(websiteRaw);
     html("website", `<a href="${w}" target="_blank" rel="noopener">${websiteRaw}</a>`);
@@ -193,24 +196,17 @@ function setEmployee(e){
     `);
   }
 
-  // Open Profile button (optional)
-  const profileUrl = e.profileUrl || e.profile || e.url || "";
-  const openBtn = document.getElementById("openProfileBtn");
-  if(profileUrl){
-    openBtn.href = profileUrl;
-    openBtn.style.opacity = "1";
-    openBtn.style.pointerEvents = "auto";
-  }else{
-    openBtn.href = "#";
-    openBtn.style.opacity = ".6";
-    openBtn.style.pointerEvents = "none";
-  }
-
-  /* ✅ QR ALWAYS opens employee page (no email, no website, no root) */
+  // ✅ Open Profile button should open same URL as QR
   const index = Number(document.getElementById("empSelect").value || 0);
-  const employeePageUrl = buildEmployeePageUrl(index);
+  const profilePageUrl = buildProfileUrl(index);
 
-  document.getElementById("qrImg").src = makeQrUrl(employeePageUrl);
+  const openBtn = document.getElementById("openProfileBtn");
+  openBtn.href = profilePageUrl;
+  openBtn.style.opacity = "1";
+  openBtn.style.pointerEvents = "auto";
+
+  // ✅ QR ALWAYS opens employee profile page (NOT email / NOT qr-card.html)
+  document.getElementById("qrImg").src = makeQrUrl(profilePageUrl);
 }
 
 /* ========= LOAD employees.json ========= */
@@ -237,15 +233,9 @@ async function loadEmployees(){
 
     sel.onchange = () => setEmployee(EMPLOYEES[Number(sel.value)]);
 
-    // ✅ Auto-load employee using ?emp=N
-    const url = new URL(window.location.href);
-    const empParam = url.searchParams.get("emp");
-    const startIndex = (empParam !== null && !isNaN(Number(empParam)))
-      ? Math.max(0, Math.min(EMPLOYEES.length - 1, Number(empParam)))
-      : 0;
-
-    sel.value = String(startIndex);
-    setEmployee(EMPLOYEES[startIndex]);
+    // default first employee
+    sel.value = "0";
+    setEmployee(EMPLOYEES[0]);
 
   }catch(err){
     console.error(err);
@@ -271,7 +261,7 @@ async function downloadCardPdf(){
 
   pdf.addImage(img, "PNG", 0, 0, pdfW, pdfH);
 
-  // clickable overlay positions from DOM
+  // Convert DOM rect -> PDF inches
   const cardRect = el.getBoundingClientRect();
   function rectToPdf(rect){
     const x = ((rect.left - cardRect.left) / cardRect.width) * pdfW;
@@ -287,7 +277,7 @@ async function downloadCardPdf(){
     pdf.link(p.x, p.y, p.w, p.h, { url, newWindow:true });
   }
 
-  // HTML anchors
+  // Phone / Email / Website clickable
   addLink(el.querySelector("#phone a"), el.querySelector("#phone a")?.href);
   addLink(el.querySelector("#email a"), el.querySelector("#email a")?.href);
   addLink(el.querySelector("#website a"), el.querySelector("#website a")?.href);
@@ -299,10 +289,10 @@ async function downloadCardPdf(){
     addLink(addrEl, `https://www.google.com/maps?q=${encodeURIComponent(addr)}`);
   }
 
-  // ✅ QR in PDF -> employee page
+  // ✅ QR in PDF should open the employee profile page too
   const qrEl = el.querySelector("#qrImg");
   const index = Number(document.getElementById("empSelect").value || 0);
-  addLink(qrEl, buildEmployeePageUrl(index));
+  addLink(qrEl, buildProfileUrl(index));
 
   const filename = (CURRENT_EMP?.name ? CURRENT_EMP.name.replace(/\s+/g,"_") : "employee") + ".pdf";
   pdf.save(filename);
