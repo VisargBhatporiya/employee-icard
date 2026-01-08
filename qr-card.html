@@ -6,155 +6,146 @@
 <title>QR Card - Employee</title>
 
 <style>
-:root{
-  --green-dark:#1f3d2b;
-  --green:#3a6f45;
-  --green-light:#9bc27e;
-  --paper:#ffffff;
-  --ink:#0f172a;
-}
+  *{box-sizing:border-box;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+  body{margin:0;background:#eef2f0;padding:20px}
 
-*{ box-sizing:border-box; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
+  .topbar{
+    display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;
+  }
+  select,button,a.btn{
+    padding:10px 14px;border-radius:10px;border:none;font-weight:800;
+  }
+  select{
+    min-width:260px;background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.06);
+  }
+  button,.btn{
+    background:#0b84c6;color:#fff;cursor:pointer;text-decoration:none;
+    box-shadow:0 10px 22px rgba(0,0,0,.10);
+  }
+  button:active,.btn:active{transform:scale(.98)}
 
-body{
-  margin:0;
-  background:#eef2f0;
-  padding:20px;
-}
+  /* ===== Card (87x56mm like screenshot) ===== */
+  .card{
+    width:640px;max-width:95vw;margin:auto;
+    border-radius:12px;overflow:hidden;
+    box-shadow:0 18px 40px rgba(0,0,0,.15);
+    background:#f7f7f7;
+    position:relative;
+  }
 
-.topbar{
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
+  /* subtle paper texture */
+  .card::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 12% 30%, rgba(0,0,0,.04), transparent 55%),
+      radial-gradient(circle at 78% 72%, rgba(0,0,0,.03), transparent 60%),
+      repeating-linear-gradient(0deg, rgba(0,0,0,.015), rgba(0,0,0,.015) 1px, transparent 1px, transparent 6px);
+    pointer-events:none;
+    opacity:.55;
+  }
 
-select, button, a.btn{
-  padding:10px 14px;
-  border-radius:10px;
-  border:none;
-  font-weight:800;
-}
+  .card-inner{
+    position:relative;
+    padding:18px 18px 16px;
+    display:grid;
+    grid-template-columns: 220px 1fr;
+    gap:18px;
+    min-height:260px;
+  }
 
-select{
-  min-width:260px;
-  background:#fff;
-  box-shadow:0 8px 18px rgba(0,0,0,.06);
-}
+  /* LEFT COLUMN */
+  .left{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:14px;
+  }
+  .logoWrap{
+    width:96px;height:96px;
+    border-radius:999px;
+    display:grid;place-items:center;
+    background:transparent;
+  }
+  .logo{
+    width:96px;height:96px;border-radius:999px;object-fit:contain;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.12));
+  }
 
-button,.btn{
-  background:#0b84c6;
-  color:#fff;
-  cursor:pointer;
-  text-decoration:none;
-  box-shadow:0 10px 22px rgba(0,0,0,.10);
-}
-button:active,.btn:active{ transform:scale(.98); }
+  .qrWrap{
+    margin-top:6px;
+    width:200px;
+    max-width:100%;
+  }
+  .qr{
+    width:200px;height:200px;max-width:100%;
+    background:#fff;
+    border-radius:10px;
+    padding:10px;
+    border:2px solid rgba(0,0,0,.10);
+  }
+  .qr img{width:100%;height:100%;display:block}
 
-.card{
-  width:640px;
-  max-width:95vw;
-  margin:auto;
-  background:var(--paper);
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 18px 40px rgba(0,0,0,.15);
-}
+  /* RIGHT COLUMN */
+  .right{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    padding-top:6px;
+  }
 
-.card-inner{
-  display:grid;
-  grid-template-columns:190px 1fr;
-  min-height:260px;
-}
+  .name{
+    font-size:34px;
+    font-weight:900;
+    line-height:1.05;
+    color:#0f172a;
+  }
+  .designation{
+    font-size:20px;
+    font-weight:500;
+    color:#111827;
+    margin-top:2px;
+  }
 
-/* LEFT GREEN SIDE */
-.left{
-  background:linear-gradient(160deg,var(--green-dark),var(--green));
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
+  .company{
+    margin-top:10px;
+    font-size:18px;
+    font-weight:900;
+    color:#111827;
+  }
+  .addr{
+    font-size:15px;
+    line-height:1.45;
+    color:#1f2937;
+    font-weight:500;
+    margin-top:2px;
+    max-width:360px;
+  }
 
-.qr{
-  background:#fff;
-  padding:10px;
-  border-radius:14px;
-}
-.qr img{ width:100%; display:block; }
+  .meta{
+    margin-top:10px;
+    display:grid;
+    grid-template-columns: 90px 10px 1fr;
+    row-gap:6px;
+    column-gap:8px;
+    align-items:center;
+    font-size:16px;
+  }
+  .label{font-weight:900;color:#111827}
+  .colon{font-weight:900;color:#111827}
+  .value{font-weight:600;color:#111827}
+  .value a{color:inherit;text-decoration:none}
+  .value a:hover{text-decoration:underline}
 
-.logo{
-  width:64px;
-  height:64px;
-  background:#fff;
-  padding:8px;
-  border-radius:50%;
-  object-fit:contain;
-}
-
-/* RIGHT SIDE */
-.right{
-  padding:18px 20px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.name{
-  font-size:28px;
-  font-weight:1000;
-  color:var(--green);
-  line-height:1.05;
-}
-
-.role{
-  font-size:14px;
-  font-weight:900;
-  color:#0f172a;
-  margin-bottom:6px;
-}
-
-.item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:14px;
-  font-weight:800;
-}
-
-.icon{
-  width:24px;
-  height:24px;
-  background:var(--green);
-  color:#fff;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font-size:13px;
-}
-
-.location{
-  margin-top:auto;
-  background:var(--green-light);
-  padding:10px 12px;
-  border-radius:10px;
-  font-size:13px;
-  font-weight:900;
-}
-
-a{ color:inherit; text-decoration:none; }
-a:hover{ text-decoration:underline; }
-
-/* Small screens */
-@media (max-width:520px){
-  .card-inner{ grid-template-columns:160px 1fr; }
-  .name{ font-size:20px; }
-  .item{ font-size:12px; }
-  .location{ font-size:12px; }
-}
-
-/* PRINT is not used now (PDF button will be used) */
+  /* responsive */
+  @media (max-width:560px){
+    .card-inner{grid-template-columns: 1fr; gap:10px;}
+    .left{flex-direction:row;align-items:center;justify-content:space-between}
+    .qrWrap{width:170px}
+    .qr{width:170px;height:170px}
+    .name{font-size:28px}
+    .designation{font-size:18px}
+  }
 </style>
 </head>
 
@@ -162,11 +153,8 @@ a:hover{ text-decoration:underline; }
 
 <div class="topbar">
   <select id="empSelect"></select>
-
-  <!-- IMPORTANT: Use PDF button instead of Print -->
-  <button onclick="downloadCardPdf()">Download PDF (3.5x2)</button>
-
-  <a id="openProfileBtn" class="btn" target="_blank">Open Profile</a>
+  <button id="pdfBtn" type="button">Download PDF (3.5x2)</button>
+  <a id="openProfileBtn" class="btn" target="_blank" rel="noopener">Open Profile</a>
 </div>
 
 <!-- Card -->
@@ -175,137 +163,211 @@ a:hover{ text-decoration:underline; }
 
     <!-- LEFT -->
     <div class="left">
-      <img id="logoImg" class="logo" alt="Logo">
-      <div class="qr"><img id="qrImg" alt="QR"></div>
+      <div class="logoWrap">
+        <img id="logoImg" class="logo" alt="Logo">
+      </div>
+
+      <div class="qrWrap">
+        <div class="qr">
+          <img id="qrImg" alt="QR">
+        </div>
+      </div>
     </div>
 
     <!-- RIGHT -->
     <div class="right">
       <div class="name" id="name">—</div>
-      <div class="role" id="designation">—</div>
+      <div class="designation" id="designation">—</div>
 
-      <div class="item">
-        <div class="icon">📞</div>
-        <div id="phone">—</div>
+      <div class="company" id="company">—</div>
+      <div class="addr" id="address">—</div>
+
+      <div class="meta">
+        <div class="label">Mobile</div><div class="colon">:</div><div class="value" id="phone">—</div>
+        <div class="label">Email</div><div class="colon">:</div><div class="value" id="email">—</div>
+        <div class="label">Website</div><div class="colon">:</div><div class="value" id="website">—</div>
       </div>
-
-      <div class="item">
-        <div class="icon">🌐</div>
-        <div id="website">—</div>
-      </div>
-
-      <div class="item">
-        <div class="icon">✉</div>
-        <div id="email">—</div>
-      </div>
-
-      <div class="location" id="address">—</div>
     </div>
 
   </div>
 </div>
 
-<!-- libs for exact PDF export -->
+<!-- libs -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <script>
-  // QR image (works on GitHub Pages too)
-  const qrUrl = t => "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(t);
+/* ========= STATE ========= */
+let EMPLOYEES = [];
+let CURRENT_EMP = null;
 
-  // Build index.html?id=employeeId (works local + GitHub Pages)
-  function profileUrl(empId){
-    const u = new URL("index.html", window.location.href);
-    u.searchParams.set("id", empId);
-    return u.toString();
+function text(id, v){
+  document.getElementById(id).textContent = (v && String(v).trim()) ? v : "—";
+}
+function html(id, v){
+  document.getElementById(id).innerHTML = v || "—";
+}
+function normalizeUrl(url){
+  if(!url) return "";
+  const u = String(url).trim();
+  if(!u) return "";
+  if(u.startsWith("http://") || u.startsWith("https://")) return u;
+  return "https://" + u;
+}
+function makeQrUrl(data){
+  const d = encodeURIComponent(data || "");
+  return `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=0&data=${d}`;
+}
+
+/* ========= RENDER ========= */
+function setEmployee(e){
+  CURRENT_EMP = e;
+
+  const name = e.name || e.fullName || e.employeeName || "—";
+  const des  = e.designation || e.role || e.title || "—";
+  const company = e.company || e.companyName || "DDS Engineering (India) Private Limited";
+  const address = e.address || e.location || e.addr || "—";
+
+  const phone = e.phone || e.mobile || e.contact || "";
+  const email = e.email || e.mail || "";
+  const websiteRaw = e.website || e.web || e.site || "";
+
+  text("name", name);
+  text("designation", des);
+  text("company", company);
+  text("address", address);
+
+  if(phone) html("phone", `<a href="tel:${phone}">${phone}</a>`); else text("phone","—");
+  if(email) html("email", `<a href="mailto:${email}">${email}</a>`); else text("email","—");
+
+  if(websiteRaw){
+    const w = normalizeUrl(websiteRaw);
+    html("website", `<a href="${w}" target="_blank" rel="noopener">${websiteRaw}</a>`);
+  }else text("website","—");
+
+  // Logo
+  const logo = e.logo || e.logoUrl || e.logoImage || "";
+  const logoImg = document.getElementById("logoImg");
+  if(logo){
+    logoImg.src = logo;
+  }else{
+    logoImg.src = "data:image/svg+xml;utf8," + encodeURIComponent(`
+      <svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'>
+        <circle cx='60' cy='60' r='58' fill='white' stroke='rgba(0,0,0,.10)'/>
+        <text x='50%' y='55%' font-size='18' text-anchor='middle' fill='#111827' font-family='Arial' font-weight='700'>LOGO</text>
+      </svg>
+    `);
   }
 
-  function safeText(id, txt){
-    document.getElementById(id).textContent = (txt && String(txt).trim()) ? txt : "—";
+  // Profile link (optional)
+  const profileUrl = e.profileUrl || e.profile || e.url || "";
+  const openBtn = document.getElementById("openProfileBtn");
+  if(profileUrl){
+    openBtn.href = profileUrl;
+    openBtn.style.opacity = "1";
+    openBtn.style.pointerEvents = "auto";
+  }else{
+    openBtn.href = "#";
+    openBtn.style.opacity = ".6";
+    openBtn.style.pointerEvents = "none";
   }
 
-  function setEmployee(e){
-    safeText("name", e.name);
-    safeText("designation", e.designation || e.role);
+  // QR data
+  const qrData = e.qrData || profileUrl || email || phone || name;
+  document.getElementById("qrImg").src = makeQrUrl(qrData);
+}
 
-    // phone
-    const phoneEl = document.getElementById("phone");
-    phoneEl.innerHTML = e.phone ? `<a href="tel:${e.phone}">${e.phone}</a>` : "—";
+/* ========= LOAD employees.json ========= */
+async function loadEmployees(){
+  const sel = document.getElementById("empSelect");
+  sel.innerHTML = `<option>Loading…</option>`;
 
-    // website
-    const webEl = document.getElementById("website");
-    const website = (e.website || "").trim();
-    webEl.innerHTML = website ? `<a href="${website}" target="_blank">${website.replace(/^https?:\/\//,'')}</a>` : "—";
+  try{
+    const res = await fetch("./employees.json", { cache:"no-store" });
+    if(!res.ok) throw new Error("employees.json not found");
 
-    // email
-    const emailEl = document.getElementById("email");
-    emailEl.innerHTML = e.email ? `<a href="mailto:${e.email}">${e.email}</a>` : "—";
+    const data = await res.json();
+    EMPLOYEES = Array.isArray(data) ? data : (data.employees || []);
+    if(!EMPLOYEES.length) throw new Error("No employees in JSON");
 
-    // address
-    safeText("address", e.address);
-
-    // logo
-    document.getElementById("logoImg").src = e.logo || "logo.png";
-
-    // qr
-    const pUrl = profileUrl(e.id);
-    document.getElementById("qrImg").src = qrUrl(pUrl);
-
-    // open profile
-    document.getElementById("openProfileBtn").href = pUrl;
-  }
-
-  // EXACT PDF export 3.5in x 2in (looks same as screen)
-  async function downloadCardPdf(){
-    const el = document.getElementById("printCard");
-
-    const canvas = await html2canvas(el, {
-      scale: 3,               // sharp PDF
-      useCORS: true,
-      backgroundColor: null
+    sel.innerHTML = "";
+    EMPLOYEES.forEach((e,i)=>{
+      const label = e.name || e.fullName || e.employeeName || `Employee ${i+1}`;
+      const opt = document.createElement("option");
+      opt.value = String(i);
+      opt.textContent = label;
+      sel.appendChild(opt);
     });
 
-    const img = canvas.toDataURL("image/png");
+    sel.onchange = () => setEmployee(EMPLOYEES[Number(sel.value)]);
+    sel.value = "0";
+    setEmployee(EMPLOYEES[0]);
 
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({
-      orientation: "landscape",
-      unit: "in",
-      format: [3.5, 2]        // exact visiting card
-    });
+  }catch(err){
+    console.error(err);
+    sel.innerHTML = `<option>Error: ${err.message}</option>`;
+  }
+}
 
-    pdf.addImage(img, "PNG", 0, 0, 3.5, 2);
-    pdf.save("employee-qr-card.pdf");
+/* ========= PDF (3.5x2) + links open new tab ========= */
+async function downloadCardPdf(){
+  const el = document.getElementById("printCard");
+
+  const canvas = await html2canvas(el, {
+    scale: 3,
+    useCORS: true,
+    backgroundColor: "#ffffff"
+  });
+
+  const img = canvas.toDataURL("image/png");
+  const { jsPDF } = window.jspdf;
+
+  const pdfW = 3.5, pdfH = 2;
+  const pdf = new jsPDF({ orientation:"landscape", unit:"in", format:[pdfW, pdfH] });
+
+  pdf.addImage(img, "PNG", 0, 0, pdfW, pdfH);
+
+  // clickable overlay positions from DOM
+  const cardRect = el.getBoundingClientRect();
+  function rectToPdf(rect){
+    const x = ((rect.left - cardRect.left) / cardRect.width) * pdfW;
+    const y = ((rect.top - cardRect.top) / cardRect.height) * pdfH;
+    const w = (rect.width / cardRect.width) * pdfW;
+    const h = (rect.height / cardRect.height) * pdfH;
+    return { x,y,w,h };
+  }
+  function addLink(domEl, url){
+    if(!domEl || !url) return;
+    const r = domEl.getBoundingClientRect();
+    const p = rectToPdf(r);
+    pdf.link(p.x, p.y, p.w, p.h, { url, newWindow:true });
   }
 
-  // load employees
-  fetch("employees.json", { cache:"no-store" })
-    .then(r => {
-      if(!r.ok) throw new Error("employees.json not found");
-      return r.json();
-    })
-    .then(list => {
-      const sel = document.getElementById("empSelect");
-      sel.innerHTML = list.map(x => `<option value="${x.id}">${x.name}</option>`).join("");
+  // HTML anchors
+  addLink(el.querySelector("#phone a"), el.querySelector("#phone a")?.href);
+  addLink(el.querySelector("#email a"), el.querySelector("#email a")?.href);
+  addLink(el.querySelector("#website a"), el.querySelector("#website a")?.href);
 
-      const pick = new URLSearchParams(location.search).get("id");
-      if(pick && list.some(x => x.id === pick)) sel.value = pick;
+  // Address -> maps
+  const addrEl = el.querySelector("#address");
+  const addr = (CURRENT_EMP?.address || CURRENT_EMP?.location || "").trim();
+  if(addr){
+    addLink(addrEl, `https://www.google.com/maps?q=${encodeURIComponent(addr)}`);
+  }
 
-      const current = () => list.find(x => x.id === sel.value) || list[0];
-      setEmployee(current());
+  // QR -> profile (if exists)
+  const qrEl = el.querySelector("#qrImg");
+  const profileUrl = CURRENT_EMP?.profileUrl || CURRENT_EMP?.profile || CURRENT_EMP?.url || "";
+  if(profileUrl){
+    addLink(qrEl, profileUrl);
+  }
 
-      sel.addEventListener("change", () => setEmployee(current()));
-    })
-    .catch(err => {
-      document.body.innerHTML = `
-        <div style="max-width:760px;margin:60px auto;font-family:system-ui;color:#111">
-          <h2 style="margin:0 0 8px">Error</h2>
-          <div style="color:#6b7280">${err.message}</div>
-          <div style="margin-top:10px;color:#6b7280">
-            Keep <b>employees.json</b> in the same folder as <b>qr-card.html</b>.
-          </div>
-        </div>`;
-    });
+  const filename = (CURRENT_EMP?.name ? CURRENT_EMP.name.replace(/\s+/g,"_") : "employee") + ".pdf";
+  pdf.save(filename);
+}
+
+document.getElementById("pdfBtn").addEventListener("click", downloadCardPdf);
+loadEmployees();
 </script>
 
 </body>
