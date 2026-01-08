@@ -145,13 +145,10 @@ function makeQrUrl(data){
   return `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=0&data=${d}`;
 }
 
-/* ✅ Build employee-specific URL: .../qr-card.html?emp=N */
+/* ✅ GUARANTEED employee link (never redirects to / index.html) */
 function buildEmployeePageUrl(index){
-  const base = new URL(window.location.href);
-  base.pathname = base.pathname.replace(/[^/]*$/, "qr-card.html"); // force qr-card.html
-  base.search = "";
-  base.searchParams.set("emp", String(index));
-  return base.toString();
+  const base = "https://visargbhatporiya.github.io/employee-icard/qr-card.html";
+  return `${base}?emp=${encodeURIComponent(index)}`;
 }
 
 /* ========= RENDER ========= */
@@ -196,7 +193,7 @@ function setEmployee(e){
     `);
   }
 
-  // Profile button (optional)
+  // Open Profile button (optional)
   const profileUrl = e.profileUrl || e.profile || e.url || "";
   const openBtn = document.getElementById("openProfileBtn");
   if(profileUrl){
@@ -209,16 +206,11 @@ function setEmployee(e){
     openBtn.style.pointerEvents = "none";
   }
 
-  /* ✅ QR MUST OPEN THE EMPLOYEE PAGE (NOT index.html, NOT email)
-     Priority:
-     qrData -> profileUrl -> employeePageUrl -> websiteUrl -> phone -> email -> name
-  */
+  /* ✅ QR ALWAYS opens employee page (no email, no website, no root) */
   const index = Number(document.getElementById("empSelect").value || 0);
   const employeePageUrl = buildEmployeePageUrl(index);
-  const websiteUrl = websiteRaw ? normalizeUrl(websiteRaw) : "";
-  const qrData = e.qrData || profileUrl || employeePageUrl || websiteUrl || phone || email || name;
 
-  document.getElementById("qrImg").src = makeQrUrl(qrData);
+  document.getElementById("qrImg").src = makeQrUrl(employeePageUrl);
 }
 
 /* ========= LOAD employees.json ========= */
@@ -307,13 +299,10 @@ async function downloadCardPdf(){
     addLink(addrEl, `https://www.google.com/maps?q=${encodeURIComponent(addr)}`);
   }
 
-  // ✅ QR in PDF -> employee page (or profile if provided)
+  // ✅ QR in PDF -> employee page
   const qrEl = el.querySelector("#qrImg");
   const index = Number(document.getElementById("empSelect").value || 0);
-  const employeePageUrl = buildEmployeePageUrl(index);
-  const profileUrl = CURRENT_EMP?.profileUrl || CURRENT_EMP?.profile || CURRENT_EMP?.url || "";
-  const qrTarget = profileUrl || employeePageUrl;
-  addLink(qrEl, qrTarget);
+  addLink(qrEl, buildEmployeePageUrl(index));
 
   const filename = (CURRENT_EMP?.name ? CURRENT_EMP.name.replace(/\s+/g,"_") : "employee") + ".pdf";
   pdf.save(filename);
