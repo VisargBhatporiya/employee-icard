@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - DDS</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .page-wrap{ width:min(520px, 100%); margin:0 auto; }
+    .panel{
+      background:#fff;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 18px 45px rgba(2,6,23,.12);
+      border:1px solid rgba(17,24,39,.08);
+    }
+    .panel-head{
+      background:#0b84c6;
+      color:#fff;
+      padding:14px 16px;
+      font-size:22px;
+      font-weight:900;
+    }
+    .panel-body{ padding:16px; }
+    .field{
+      width:100%;
+      padding:14px 14px;
+      border-radius:10px;
+      border:1px solid rgba(17,24,39,.15);
+      outline:none;
+      margin:10px 0;
+      font-size:15px;
+      background:#fff;
+    }
+    textarea.field{ min-height:110px; resize:vertical; }
+    .btn-send{
+      width:100%;
+      margin-top:10px;
+      padding:14px 16px;
+      border-radius:10px;
+      border:none;
+      background:#0b84c6;
+      color:#fff;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+    }
+    .btn-send:active{ transform:scale(.99); }
+    .small-note{
+      margin-top:10px;
+      font-size:12px;
+      color:#6b7280;
+      line-height:1.35;
+      text-align:center;
+    }
+    .top-actions{
+      display:flex;
+      gap:10px;
+      justify-content:space-between;
+      margin:0 0 12px;
+    }
+    .link-btn{
+      flex:1;
+      text-align:center;
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#fff;
+      border:1px solid rgba(17,24,39,.10);
+      box-shadow:0 10px 25px rgba(2,6,23,.07);
+      font-weight:800;
+      color:#111;
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+
+<main class="app">
+  <div class="page-wrap">
+
+    <div class="top-actions">
+      <a class="link-btn" href="index.html?id=ankit">← Back</a>
+      <a class="link-btn" href="about.html">About Us</a>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">Contact Us</div>
+
+      <div class="panel-body">
+        <input id="cName" class="field" type="text" placeholder="Enter Your Name" />
+        <input id="cPhone" class="field" type="tel" placeholder="Enter Your Mobile No" />
+        <input id="cEmail" class="field" type="email" placeholder="Enter Your Email Address" />
+        <textarea id="cMsg" class="field" placeholder="Enter your Message or Query"></textarea>
+
+        <button class="btn-send" id="btnSend">Send!</button>
+
+        <div class="small-note">
+          This is a static website (GitHub Pages). Clicking <b>Send</b> will open your Email app with the message pre-filled.
+          Optionally it will also open WhatsApp with the same message.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Fixed footer -->
+<footer class="contact-footer">
+  <a href="about.html" class="cf-item">ℹ️ <span>About</span></a>
+  <a href="contact.html" class="cf-item">✉️ <span>Contact</span></a>
+  <a href="https://ddsengineering.in" target="_blank" class="cf-item">🌐 <span>Website</span></a>
+</footer>
+
+<script>
+  // Change these company contacts once, works everywhere
+  const COMPANY_EMAIL = "info@ddsengineering.in";
+  const COMPANY_WA = "919727148654"; // without + (India)
+
+  function val(id){ return document.getElementById(id).value.trim(); }
+
+  document.getElementById("btnSend").addEventListener("click", () => {
+    const name = val("cName");
+    const phone = val("cPhone");
+    const email = val("cEmail");
+    const msg = val("cMsg");
+
+    const subject = "Contact Request - DDS Engineering Solutions LLP";
+    const body =
+`Name: ${name}
+Mobile: ${phone}
+Email: ${email}
+
+Message:
+${msg}`;
+
+    // Open mail client
+    const mailto = `mailto:${encodeURIComponent(COMPANY_EMAIL)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+
+    // Optional: also open WhatsApp (new tab)
+    const waText = `${subject}\n\n${body}`;
+    window.open(`https://wa.me/${COMPANY_WA}?text=${encodeURIComponent(waText)}`, "_blank");
+  });
+</script>
+
+</body>
+</html>
