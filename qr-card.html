@@ -1,315 +1,257 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>QR Card - Employee</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QR Card - Employee</title>
 
 <style>
-  :root{
-    --ink:#111827;
-    --muted:#6b7280;
-    --line:rgba(17,24,39,.12);
-    --paper:#ffffff;
-    --bg:#f3f5f8;
-    --brand:#0b84c6;
-  }
+:root{
+  --green-dark:#1f3d2b;
+  --green:#3a6f45;
+  --green-light:#9bc27e;
+  --paper:#ffffff;
+  --ink:#0f172a;
+}
 
-  *{ box-sizing:border-box; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
+*{ box-sizing:border-box; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; }
 
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--ink);
-    padding:18px 12px;
-  }
+body{
+  margin:0;
+  background:#eef2f0;
+  padding:20px;
+}
 
-  .wrap{
-    max-width:980px;
-    margin:0 auto;
-  }
+.topbar{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
 
-  .topbar{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:14px;
-  }
+select, button, a.btn{
+  padding:10px 14px;
+  border-radius:10px;
+  border:none;
+  font-weight:700;
+}
 
-  .select{
-    flex:1;
-    min-width:240px;
-    background:#fff;
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:10px 12px;
-    font-weight:800;
-    outline:none;
-  }
+select{ min-width:260px; }
 
-  .btn{
-    border:0;
-    background:var(--brand);
-    color:#fff;
-    padding:10px 14px;
-    border-radius:12px;
-    font-weight:900;
-    cursor:pointer;
-    box-shadow:0 10px 22px rgba(2,6,23,.10);
-    text-decoration:none;
-  }
-  .btn:active{ transform:scale(.98); }
+button,.btn{
+  background:#0b84c6;
+  color:#fff;
+  cursor:pointer;
+  text-decoration:none;
+}
 
-  /* =========================================
-     VISITING CARD SIZE (SCREEN PREVIEW)
-     ========================================= */
+.card{
+  width:420px;
+  margin:auto;
+  background:var(--paper);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 18px 40px rgba(0,0,0,.15);
+}
+
+.card-inner{
+  display:grid;
+  grid-template-columns:140px 1fr;
+  min-height:240px;
+}
+
+/* LEFT GREEN SIDE */
+.left{
+  background:linear-gradient(160deg,var(--green-dark),var(--green));
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.qr{
+  background:#fff;
+  padding:6px;
+  border-radius:10px;
+}
+.qr img{ width:100%; display:block; }
+
+.logo{
+  width:56px;
+  height:56px;
+  background:#fff;
+  padding:6px;
+  border-radius:50%;
+  object-fit:contain;
+}
+
+/* RIGHT SIDE */
+.right{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.empName{
+  font-size:18px;
+  font-weight:900;
+  color:var(--green);
+}
+
+.role{
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.icon{
+  width:18px;
+  height:18px;
+  background:var(--green);
+  color:#fff;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:11px;
+  line-height:1;
+}
+
+.location{
+  margin-top:auto;
+  background:var(--green-light);
+  padding:6px 8px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:700;
+}
+
+a{ color:inherit; text-decoration:none; }
+
+/* PRINT */
+@page{ size:3.5in 2in; margin:0; }
+@media print{
+  body{ padding:0; background:#fff; }
+  .topbar{ display:none; }
   .card{
-    width: 420px;          /* preview only */
-    max-width: 100%;
-    background:var(--paper);
-    border:1px solid rgba(17,24,39,.10);
-    border-radius:14px;
-    box-shadow:0 18px 40px rgba(2,6,23,.12);
-    overflow:hidden;
-    margin:0 auto;
+    width:3.5in;
+    height:2in;
+    box-shadow:none;
+    border-radius:0;
   }
-
-  .card-inner{
-    display:grid;
-    grid-template-columns: 120px 1fr;
-    gap:14px;
-    padding:14px;
-    align-items:center;
-  }
-
-  .left{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    align-items:flex-start;
-  }
-
-  .logo{
-    width:52px;
-    height:52px;
-    object-fit:contain;
-    border-radius:10px;
-    background:#fff;
-  }
-
-  .qr{
-    width:110px;
-    height:110px;
-    border-radius:10px;
-    background:#fff;
-    border:1px solid rgba(17,24,39,.10);
-    display:grid;
-    place-items:center;
-    padding:6px;
-  }
-  .qr img{ width:100%; height:100%; object-fit:contain; }
-
-  .right{ padding-right:4px; }
-
-  .name{
-    font-size:18px;
-    font-weight:1000;
-    margin:0;
-    line-height:1.1;
-  }
-
-  .role{
-    margin:2px 0 6px;
-    font-size:12px;
-    opacity:.85;
-    font-weight:900;
-  }
-
-  .company{
-    margin-top:6px;
-    font-weight:1000;
-    font-size:12px;
-  }
-
-  .addr{
-    margin-top:3px;
-    opacity:.88;
-    font-size:10.5px;
-    line-height:1.25;
-  }
-
-  .kv{
-    margin-top:7px;
-    display:grid;
-    grid-template-columns: 58px 1fr;
-    gap:4px 8px;
-    font-size:10.8px;
-    align-items:start;
-  }
-
-  .k{ font-weight:1000; }
-  .v{ font-weight:800; }
-  .v a{ color:inherit; text-decoration:none; }
-
-  .hint{
-    text-align:center;
-    margin:10px 0 0;
-    font-size:12px;
-    color:var(--muted);
-  }
-
-  /* =========================================
-     PRINT: EXACT CARD SIZE (3.5in x 2in)
-     ========================================= */
-  @page{
-    size: 3.5in 2in;   /* visiting card size */
-    margin: 0;         /* no extra page margin */
-  }
-
-  @media print{
-    body{ background:#fff; padding:0; }
-    .topbar, .hint{ display:none !important; }
-
-    /* Make the printed card exactly fit the page */
-    .card{
-      width: 3.5in;
-      height: 2in;
-      margin:0;
-      border:0;
-      border-radius:0;
-      box-shadow:none;
-    }
-
-    .card-inner{
-      padding:0.15in;
-      height:100%;
-    }
-
-    /* Keep QR + text fitting safely */
-    .qr{ width:1.1in; height:1.1in; }
-    .logo{ width:0.55in; height:0.55in; border-radius:0.12in; }
-
-    .name{ font-size:14pt; }
-    .role{ font-size:9pt; }
-    .company{ font-size:9.2pt; }
-    .addr{ font-size:7.5pt; }
-    .kv{ font-size:8pt; }
-  }
+}
 </style>
-
 </head>
 
 <body>
-  <div class="wrap">
 
-    <div class="topbar">
-      <select id="empSelect" class="select"></select>
-      <button class="btn" onclick="window.print()">Print / Save PDF</button>
-      <a class="btn" id="openProfileBtn" href="#" target="_blank" style="text-decoration:none; display:inline-block;">Open Profile</a>
+<div class="topbar">
+  <select id="empSelect"></select>
+  <button onclick="window.print()">Print</button>
+  <a id="openProfileBtn" class="btn" target="_blank">Open Profile</a>
+</div>
+
+<div class="card">
+  <div class="card-inner">
+
+    <!-- LEFT -->
+    <div class="left">
+      <img id="logoImg" class="logo" alt="Logo">
+      <div class="qr"><img id="qrImg" alt="QR"></div>
     </div>
 
-    <div class="card">
-      <div class="card-inner">
-        <div class="left">
-          <img id="logoImg" class="logo" alt="Logo" />
-          <div class="qr"><img id="qrImg" alt="QR"/></div>
-        </div>
+    <!-- RIGHT -->
+    <div class="right">
+      <!-- ✅ FIX: id changed from "name" to "empName" -->
+      <div class="empName" id="empName">—</div>
+      <div class="role" id="designation">—</div>
 
-        <div class="right">
-          <h1 id="name" class="name">—</h1>
-          <div id="role" class="role">—</div>
-
-          <div id="company" class="company">—</div>
-          <div id="address" class="addr">—</div>
-
-          <div class="kv">
-            <div class="k">Mobile</div>
-            <div class="v" id="phone">—</div>
-
-            <div class="k">Email</div>
-            <div class="v" id="email">—</div>
-
-            <div class="k">Website</div>
-            <div class="v" id="website">—</div>
-          </div>
-        </div>
+      <div class="item">
+        <div class="icon">📞</div>
+        <div id="phone">—</div>
       </div>
+
+      <div class="item">
+        <div class="icon">🌐</div>
+        <div id="website">—</div>
+      </div>
+
+      <div class="item">
+        <div class="icon">✉</div>
+        <div id="email">—</div>
+      </div>
+
+      <div class="location" id="address">—</div>
     </div>
 
-    <div class="hint">Tip: Use “Print / Save PDF” to export this card exactly like a visiting card.</div>
   </div>
+</div>
 
-  <script>
-    // Uses a free QR image generator. No API key needed.
-    // (If you prefer offline QR generation, tell me and I’ll convert to a local JS library.)
-    function qrUrl(text){
-      return "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(text);
-    }
+<script>
+  const qrUrl = (t) =>
+    "https://api.qrserver.com/v1/create-qr-code/?size=420x420&data=" + encodeURIComponent(t);
 
-    function buildProfileUrl(empId){
-      const u = new URL("index.html", window.location.href);
-      u.searchParams.set("id", empId);
-      return u.toString();
-    }
+  // Works on localhost + GitHub Pages
+  const profileUrl = (id) => {
+    const u = new URL("index.html", window.location.href);
+    u.searchParams.set("id", id);
+    return u.toString();
+  };
 
-    async function loadEmployees(){
-      const res = await fetch("employees.json", { cache: "no-store" });
-      if(!res.ok) throw new Error("employees.json not found");
-      return await res.json();
-    }
-
-    function setText(id, text){ document.getElementById(id).textContent = text || "—"; }
-
-    function setEmployee(emp){
-      setText("name", emp.name);
-      setText("role", emp.role);
-      setText("company", emp.company || "DDS Engineering (India) Private Limited");
-      setText("address", emp.address || emp.location || "");
-
-      const phoneEl = document.getElementById("phone");
-      phoneEl.innerHTML = emp.phone ? `<a href="tel:${emp.phone}">${emp.phone}</a>` : "—";
-
-      const emailEl = document.getElementById("email");
-      emailEl.innerHTML = emp.email ? `<a href="mailto:${emp.email}">${emp.email}</a>` : "—";
-
-      const webEl = document.getElementById("website");
-      const website = (emp.website || "").trim();
-      webEl.innerHTML = website ? `<a href="${website}" target="_blank">${website.replace(/^https?:\/\//,'')}</a>` : "—";
-
-      const profile = buildProfileUrl(emp.id);
-      document.getElementById("qrImg").src = qrUrl(profile);
-
-      const logoPath = emp.logo || "logo.png";
-      document.getElementById("logoImg").src = logoPath;
-
-      const openBtn = document.getElementById("openProfileBtn");
-      openBtn.href = profile;
-    }
-
-    (async () => {
-      const list = await loadEmployees();
+  fetch("employees.json", { cache: "no-store" })
+    .then((r) => r.json())
+    .then((list) => {
       const sel = document.getElementById("empSelect");
+      sel.innerHTML = list.map((e) => `<option value="${e.id}">${e.name}</option>`).join("");
 
-      sel.innerHTML = list.map(e => `<option value="${e.id}">${e.name} (${e.id})</option>`).join("");
+      const pick = new URLSearchParams(location.search).get("id");
+      if (pick && list.some((x) => x.id === pick)) sel.value = pick;
 
-      // default select by query ?id=...
-      const params = new URLSearchParams(window.location.search);
-      const pick = params.get("id");
-      if(pick && list.some(x => x.id === pick)) sel.value = pick;
+      const set = (e) => {
+        document.getElementById("empName").textContent = e.name || "—";
 
-      const current = () => list.find(x => x.id === sel.value) || list[0];
-      setEmployee(current());
+        // ✅ supports designation OR role
+        document.getElementById("designation").textContent = (e.designation || e.role) || "—";
 
-      sel.addEventListener("change", () => setEmployee(current()));
-    })().catch(err => {
+        document.getElementById("phone").innerHTML =
+          e.phone ? `<a href="tel:${e.phone}">${e.phone}</a>` : "—";
+
+        document.getElementById("website").innerHTML =
+          e.website ? `<a href="${e.website}" target="_blank">${e.website.replace(/^https?:\/\//,'')}</a>` : "—";
+
+        document.getElementById("email").innerHTML =
+          e.email ? `<a href="mailto:${e.email}">${e.email}</a>` : "—";
+
+        document.getElementById("address").textContent = e.address || "—";
+
+        document.getElementById("qrImg").src = qrUrl(profileUrl(e.id));
+        document.getElementById("logoImg").src = e.logo || "logo.png";
+        document.getElementById("openProfileBtn").href = profileUrl(e.id);
+      };
+
+      const getCurrent = () => list.find((x) => x.id === sel.value) || list[0];
+
+      set(getCurrent());
+      sel.addEventListener("change", () => set(getCurrent()));
+    })
+    .catch((err) => {
       document.body.innerHTML = `<div style="max-width:820px;margin:60px auto;font-family:system-ui;color:#111">
         <h2 style="margin:0 0 8px">Error loading employees</h2>
         <div style="color:#6b7280">${err.message}</div>
         <div style="margin-top:10px;color:#6b7280">Make sure <b>employees.json</b> is in the same folder as this page.</div>
       </div>`;
     });
-  </script>
+</script>
+
 </body>
 </html>
