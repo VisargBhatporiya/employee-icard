@@ -46,5 +46,21 @@
     "mapQuery": "Trinnity Business Park 412 4th Floor Madhuvan Circle New L.P. Savani Road Adajan Surat 395009",
     "whatsapp": "+917990374528",
     "logo": "logo2.png"
+  },
+   {
+    "id": "Vicky",
+    "name": "Vicky Bhatporiya",
+    "designation": "Project Engineer",
+    "role": "Project Engineer",
+    "phone": "+916351858203",
+    "altPhone": "+919999999999",
+    "email": "vickybhatporiya12345@gmail.com",
+    "website": "https://ddsengineering.in",
+    "company": "DDS Engineering (India) Private Limited",
+    "photo": "https://i.pravatar.cc/300?img=15",
+    "address": "4th floor - 412 L.P Sayani, Surat, GJ, 395009, India",
+    "mapQuery": "Trinnity Business Park 412 4th Floor Madhuvan Circle New L.P. Savani Road Adajan Surat 395009",
+    "whatsapp": "+916351858203",
+    "logo": "logo.png"
   }
 ]

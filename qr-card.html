@@ -67,7 +67,7 @@
         <!-- WEBSITE -->
         <a id="webIcon" class="label iconLink" href="#" target="_blank" rel="noopener" aria-label="Website">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm7.9 9h-3.2c-.2-2.1-.9-4-2-5.6 2.6 1 4.5 3.2 5.2 5.6zM12 4.1c1.2 1.6 2 3.9 2.2 6.9H9.8c.2-3 .9-5.3 2.2-6.9zM4.1 13h3.2c.2 2.1.9 4 2 5.6-2.6-1-4.5-3.2-5.2-5.6zm3.2-2H4.1c.7-2.4 2.6-4.6 5.2-5.6-1.1 1.6-1.8 3.5-2 5.6zM12 19.9c-1.2-1.6-2-3.9-2.2-6.9h4.4c-.2 3-.9 5.3-2.2 6.9zM16.7 13h3.2c-.7 2.4-2.6 4.6-5.2 5.6 1.1-1.6 1.8-3.5 2-5.6z"/>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm7.9 9h-3.2c-.2-2.1-.9-4-2-5.6 2.6 1 4.5 3.2 5.2 5.6zM12 4.1c1.2 1.6 2 3.9 2.2 6.9H9.8c.2-3 .9-5.3 2.2-6.9zM4.1 13h3.2c.2 2.1.9 4 2 5.6-2.6-1-4.5-3.2-5.2-5.6zm3.2-2H4.1c.7-2.4 2.6-4.6 5.2-5.6-1.1 1.6-1.8 3.5-2 5.6zM12 19.9c-1.2-1.6-2-3.9-2.2-6.9h4.4c-.2 3-.9 5.3-2.2 6.9zM16.7 13h3.2c-.7 2.4-2.6-4.6-5.2 5.6 1.1-1.6 1.8-3.5 2-5.6z"/>
           </svg>
         </a>
         <div class="colon">:</div>
@@ -108,8 +108,10 @@ function makeQrUrl(data){
   const d = encodeURIComponent(data || "");
   return `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=0&data=${d}`;
 }
-function buildProfileUrl(index){
-  return `${PROFILE_ROOT}?emp=${encodeURIComponent(index)}`;
+
+/* ✅ Build profile URL using ?id= */
+function buildProfileUrl(empId){
+  return `${PROFILE_ROOT}?id=${encodeURIComponent(empId)}`;
 }
 
 function setIconLink(el, href){
@@ -189,16 +191,21 @@ function setEmployee(e){
     `);
   }
 
-  // profile page URL (QR + Open Profile)
-  const index = Number(document.getElementById("empSelect").value || 0);
-  const profilePageUrl = buildProfileUrl(index);
+  /* ✅ IMPORTANT:
+     Profile page expects ?id=<employee-id>
+     So QR must send e.id (like "ankit"), NOT 0/1
+  */
+  const fallbackIndex = document.getElementById("empSelect").value || "0";
+  const empId = (e.id || e.empId || e.slug || fallbackIndex);
+  const profilePageUrl = buildProfileUrl(empId);
 
+  // Open Profile
   const openBtn = document.getElementById("openProfileBtn");
   openBtn.href = profilePageUrl;
   openBtn.style.opacity = "1";
   openBtn.style.pointerEvents = "auto";
 
-  // QR opens employee profile page
+  // QR
   document.getElementById("qrImg").src = makeQrUrl(profilePageUrl);
 
   // Logo opens WEBSITE
@@ -231,7 +238,7 @@ async function loadEmployees(){
     EMPLOYEES.forEach((e,i)=>{
       const label = e.name || e.fullName || e.employeeName || `Employee ${i+1}`;
       const opt = document.createElement("option");
-      opt.value = String(i);
+      opt.value = String(i);   // ✅ always index
       opt.textContent = label;
       sel.appendChild(opt);
     });
@@ -246,7 +253,7 @@ async function loadEmployees(){
   }
 }
 
-/* ========= PDF (3.5x2) + clickable links (icons + values + address + qr + logo) ========= */
+/* ========= PDF (3.5x2) + clickable links ========= */
 async function downloadCardPdf(){
   const el = document.getElementById("printCard");
 
@@ -279,29 +286,30 @@ async function downloadCardPdf(){
     pdf.link(p.x, p.y, p.w, p.h, { url, newWindow:true });
   }
 
-  // ✅ values links
+  // values links
   addLink(el.querySelector("#phone a"), el.querySelector("#phone a")?.href);
   addLink(el.querySelector("#email a"), el.querySelector("#email a")?.href);
   addLink(el.querySelector("#website a"), el.querySelector("#website a")?.href);
 
-  // ✅ icon links (same paths)
+  // icon links
   addLink(el.querySelector("#phoneIcon"), el.querySelector("#phoneIcon")?.href);
   addLink(el.querySelector("#emailIcon"), el.querySelector("#emailIcon")?.href);
   addLink(el.querySelector("#webIcon"), el.querySelector("#webIcon")?.href);
 
-  // ✅ address to maps
+  // address to maps
   const addrEl = el.querySelector("#address");
   const addr = (CURRENT_EMP?.address || CURRENT_EMP?.location || "").trim();
   if(addr){
     addLink(addrEl, `https://www.google.com/maps?q=${encodeURIComponent(addr)}`);
   }
 
-  // ✅ QR opens profile
+  // ✅ QR opens profile (?id=)
   const qrEl = el.querySelector("#qrImg");
-  const index = Number(document.getElementById("empSelect").value || 0);
-  addLink(qrEl, buildProfileUrl(index));
+  const fallbackIndex = document.getElementById("empSelect").value || "0";
+  const empId = (CURRENT_EMP?.id || CURRENT_EMP?.empId || CURRENT_EMP?.slug || fallbackIndex);
+  addLink(qrEl, buildProfileUrl(empId));
 
-  // ✅ Logo opens website
+  // Logo opens website
   const websiteRaw = CURRENT_EMP?.website || CURRENT_EMP?.web || CURRENT_EMP?.site || "";
   const websiteUrl = websiteRaw ? normalizeUrl(websiteRaw) : "";
   const logoEl = el.querySelector("#logoImg");
