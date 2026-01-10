@@ -1,117 +1,238 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>iCard</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DDS iCard</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Pro CSS -->
+  <link rel="stylesheet" href="pro.css" />
 </head>
+
 <body>
 
-<main class="app">
-  <div class="phone">
+<!-- Top Bar -->
+<header class="ic-topbar sticky-top">
+  <div class="container d-flex align-items-center justify-content-between py-2">
+    <div class="d-flex align-items-center gap-2">
+      <span class="ic-dot"></span>
+      <div class="fw-bold">DDS iCard</div>
+    </div>
 
-    <header class="hero">
-      <div class="hero-inner">
-        <div class="avatar-wrap">
-          <img id="photo" class="avatar" src="" alt="Profile Photo"/>
-        </div>
-        <h1 id="name" class="name">Loading…</h1>
-        <p id="designation" class="role">—</p>
-      </div>
-
-      <!-- Floating Buttons -->
-      <div class="fab-row">
-        <a id="btnCall" class="fab" href="#" aria-label="Call">
-          <svg viewBox="0 0 24 24" class="ico">
-            <path d="M6.6 10.8c1.5 3.1 3.5 5.1 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.2 1 .3 2.1.5 3.2.5.7 0 1.2.5 1.2 1.2V21c0 .7-.5 1.2-1.2 1.2C9.4 22.2 1.8 14.6 1.8 5.4 1.8 4.7 2.3 4.2 3 4.2h3.8c.7 0 1.2.5 1.2 1.2 0 1.1.2 2.2.5 3.2.1.4 0 .9-.2 1.2L6.6 10.8z"/>
-          </svg>
-        </a>
-
-        <a id="btnEmail" class="fab" href="#" aria-label="Email">
-          <svg viewBox="0 0 24 24" class="ico">
-            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/>
-          </svg>
-        </a>
-
-        <a id="btnWa" class="fab" href="#" target="_blank" aria-label="WhatsApp">
-          <svg viewBox="0 0 24 24" class="ico">
-            <path d="M20.5 3.5A10 10 0 0 0 3.4 18.7L2 22l3.4-1.3A10 10 0 0 0 22 12a10 10 0 0 0-1.5-8.5ZM12 20a8 8 0 0 1-4-1.1l-.3-.2-2 .8.7-2-.2-.3A8 8 0 1 1 20 12a8 8 0 0 1-8 8Z"/>
-          </svg>
-        </a>
-
-        <a id="btnMap" class="fab" href="#" target="_blank" aria-label="Location">
-          <svg viewBox="0 0 24 24" class="ico">
-            <path d="M12 2c-3.9 0-7 3.1-7 7 0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-          </svg>
-        </a>
-      </div>
-    </header>
-
-    <section class="sheet">
-      <div class="info-card">
-
-        <div class="row">
-          <div class="row-ico">
-            <svg viewBox="0 0 24 24" class="mini">
-              <path d="M6.6 10.8c1.5 3.1 3.5 5.1 6.6 6.6l2.2-2.2c.3-.3.8-.4 1.2-.2 1 .3 2.1.5 3.2.5.7 0 1.2.5 1.2 1.2V21c0 .7-.5 1.2-1.2 1.2C9.4 22.2 1.8 14.6 1.8 5.4 1.8 4.7 2.3 4.2 3 4.2h3.8c.7 0 1.2.5 1.2 1.2 0 1.1.2 2.2.5 3.2.1.4 0 .9-.2 1.2L6.6 10.8z"/>
-            </svg>
-          </div>
-          <div class="row-text">
-            <div class="label">Phone</div>
-            <a id="txtPhone" class="value" href="#"></a>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="row-ico">
-            <svg viewBox="0 0 24 24" class="mini">
-              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/>
-            </svg>
-          </div>
-          <div class="row-text">
-            <div class="label">Email</div>
-            <a id="txtEmail" class="value" href="#"></a>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="row-ico">
-            <svg viewBox="0 0 24 24" class="mini">
-              <path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
-            </svg>
-          </div>
-          <div class="row-text">
-            <div class="label">Website</div>
-            <a id="txtWebsite" class="value" href="#" target="_blank"></a>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="row-ico">
-            <svg viewBox="0 0 24 24" class="mini">
-              <path d="M12 2c-3.9 0-7 3.1-7 7 0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/>
-            </svg>
-          </div>
-          <div class="row-text">
-            <div class="label">Location</div>
-            <a id="txtAddress" class="value" href="#" target="_blank"></a>
-            <a id="btnShowMap" class="map-btn" href="#" target="_blank">Show on Map</a>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="company-block">
-        <div id="txtCompany" class="small-muted">—</div>
-        <div id="txtBigRole" class="big">—</div>
-      </div>
-    </section>
-
+    <a class="btn btn-sm btn-outline-light" target="_blank" rel="noopener" href="https://ddsengineering.in">
+      <i class="bi bi-globe2 me-1"></i> Website
+    </a>
   </div>
+</header>
+
+<main class="ic-main">
+  <div class="container">
+    <div class="ic-center">
+
+      <!-- Card -->
+      <section class="ic-card shadow-lg border-0">
+
+        <!-- Hero -->
+        <div class="ic-hero">
+          <div class="ic-hero-inner">
+            <div class="ic-avatar">
+              <img id="photo" src="" alt="Profile Photo">
+            </div>
+
+            <div class="ic-title">
+              <h1 id="name" class="ic-name">Loading…</h1>
+              <div id="designation" class="ic-role">—</div>
+
+              <div class="ic-badges">
+                <span id="txtCompanyBadge" class="badge rounded-pill text-bg-light border">—</span>
+                <span class="badge rounded-pill text-bg-primary">Verified</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="ic-actions">
+            <a id="btnCall" class="ic-action" href="#">
+              <i class="bi bi-telephone-fill"></i><span>Call</span>
+            </a>
+            <a id="btnEmail" class="ic-action" href="#">
+              <i class="bi bi-envelope-fill"></i><span>Email</span>
+            </a>
+            <a id="btnWa" class="ic-action" href="#" target="_blank" rel="noopener">
+              <i class="bi bi-whatsapp"></i><span>WhatsApp</span>
+            </a>
+            <a id="btnMap" class="ic-action" href="#" target="_blank" rel="noopener">
+              <i class="bi bi-geo-alt-fill"></i><span>Map</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="ic-body">
+
+          <!-- Info grid -->
+          <div class="ic-info">
+
+            <a id="rowPhone" class="ic-row" href="#">
+              <div class="ic-ico"><i class="bi bi-telephone-fill"></i></div>
+              <div class="ic-text">
+                <div class="ic-label">Phone</div>
+                <div id="txtPhoneText" class="ic-value">—</div>
+              </div>
+              <i class="bi bi-chevron-right ic-chev"></i>
+            </a>
+
+            <a id="rowEmail" class="ic-row" href="#">
+              <div class="ic-ico"><i class="bi bi-envelope-fill"></i></div>
+              <div class="ic-text">
+                <div class="ic-label">Email</div>
+                <div id="txtEmailText" class="ic-value">—</div>
+              </div>
+              <i class="bi bi-chevron-right ic-chev"></i>
+            </a>
+
+            <a id="rowWeb" class="ic-row" href="#" target="_blank" rel="noopener">
+              <div class="ic-ico"><i class="bi bi-globe2"></i></div>
+              <div class="ic-text">
+                <div class="ic-label">Website</div>
+                <div id="txtWebsiteText" class="ic-value">—</div>
+              </div>
+              <i class="bi bi-box-arrow-up-right ic-chev"></i>
+            </a>
+
+            <a id="rowAddr" class="ic-row" href="#" target="_blank" rel="noopener">
+              <div class="ic-ico"><i class="bi bi-geo-alt-fill"></i></div>
+              <div class="ic-text">
+                <div class="ic-label">Location</div>
+                <div id="txtAddressText" class="ic-value">—</div>
+                <div class="ic-hint">Opens Google Maps</div>
+              </div>
+              <i class="bi bi-box-arrow-up-right ic-chev"></i>
+            </a>
+
+          </div>
+
+          <!-- ================= ABOUT SECTION ================= -->
+          <div class="ic-panel mt-3">
+            <div class="d-flex justify-content-between align-items-start gap-2">
+              <div>
+                <div class="ic-panel-title">DDS Engineering Solutions LLP</div>
+                <div class="ic-panel-sub">Engineering • Consultancy • Execution</div>
+              </div>
+              <span class="badge rounded-pill text-bg-primary">Est. 2021</span>
+            </div>
+
+            <div class="ic-panel-text mt-3">
+              <p>
+                <b>DDS Engineering Solutions LLP (DDS)</b> is a multi-dimensional technical and
+                detailed engineering consultancy firm located in <b>Surat, Gujarat, India</b>.
+                The organization was originally established in <b>September 2013</b>.
+              </p>
+
+              <p>
+                <b>DDS Engineering (INDIA) Private Limited</b> was incorporated in
+                <b>June 2021</b> to expand its engineering capabilities.
+              </p>
+
+              <p>
+                DDS is well-recognized for services to the <b>Polyester Industry</b>
+                (CP, POY/FDY/PSF, DTY &amp; Extruder Spinning).
+              </p>
+
+              <p>
+                Our team has over <b>25 years of experience</b> serving world-class
+                polymerization and filament yarn plants.
+              </p>
+
+              <p class="fw-bold mb-1">Core Engineering Services:</p>
+              <ul class="mb-3">
+                <li>PROCESS Engineering</li>
+                <li>PIPING Engineering</li>
+                <li>MECHANICAL Engineering</li>
+                <li>ELECTRICAL &amp; INSTRUMENTATION Engineering</li>
+              </ul>
+
+              <p>
+                DDS offers end-to-end solutions including plant engineering, execution,
+                commissioning, OSBL design, energy optimization and audits.
+              </p>
+
+              <p>
+                Expertise with global technologies:
+                <b>DuPont–Chemtex, Zimmer, CTIEI, Huitong, Polytex, Joyou, John Brown</b>.
+              </p>
+
+              <p class="fw-bold text-success mb-0">
+                ISO 9001:2015 &amp; ISO 14001:2015 Certified Company
+              </p>
+            </div>
+
+            <div class="d-grid mt-3">
+              <a class="btn btn-outline-primary" target="_blank" rel="noopener"
+                 href="https://ddsengineering.in">
+                <i class="bi bi-globe2 me-1"></i> Visit Company Website
+              </a>
+            </div>
+          </div>
+
+          <!-- ================= CONTACT SECTION ================= -->
+          <div class="ic-panel mt-3">
+            <div class="ic-panel-title mb-2">Contact Us</div>
+            <div class="ic-panel-sub mb-3">
+              This opens your Email / WhatsApp with pre-filled details.
+            </div>
+
+            <div class="row g-2">
+              <div class="col-12">
+                <input id="cName" class="form-control form-control-lg" placeholder="Your Name">
+              </div>
+              <div class="col-12">
+                <input id="cPhone" class="form-control form-control-lg" placeholder="Mobile Number">
+              </div>
+              <div class="col-12">
+                <input id="cEmail" class="form-control form-control-lg" placeholder="Email Address">
+              </div>
+              <div class="col-12">
+                <textarea id="cMsg" class="form-control form-control-lg" rows="4"
+                  placeholder="Message / Query"></textarea>
+              </div>
+              <div class="col-12">
+                <button id="btnSend" class="btn btn-primary btn-lg w-100 fw-bold" type="button">
+                  <i class="bi bi-send-fill me-2"></i> Send
+                </button>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-3 flex-wrap">
+              <a class="btn btn-outline-secondary flex-fill"
+                 href="mailto:info@ddsengineering.in">
+                <i class="bi bi-envelope me-1"></i> info@ddsengineering.in
+              </a>
+
+              <a class="btn btn-outline-success flex-fill"
+                 target="_blank" rel="noopener"
+                 href="https://wa.me/919727148654">
+                <i class="bi bi-whatsapp me-1"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+
+        </div><!-- /ic-body -->
+      </section><!-- /ic-card -->
+
+    </div><!-- /ic-center -->
+  </div><!-- /container -->
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
+  // ===== Employee loader (employees.json) =====
   const $ = (id) => document.getElementById(id);
 
   function qp(key){
@@ -121,9 +242,10 @@
   function telClean(n){ return (n || "").replace(/\s+/g,""); }
   function waNumber(n){ return telClean(n).replace("+",""); }
 
-  function setLink(el, href, text){
-    el.href = href;
-    el.textContent = text || "—";
+  function setSafeHref(a, href){
+    a.href = href || "#";
+    if(!href || href === "#") a.classList.add("ic-disabled");
+    else a.classList.remove("ic-disabled");
   }
 
   async function load(){
@@ -131,56 +253,102 @@
 
     const res = await fetch("employees.json", { cache: "no-store" });
     const list = await res.json();
+
     const emp = list.find(x => (x.id || "").toLowerCase() === id.toLowerCase());
 
     if(!emp){
       $("name").textContent = "Employee not found";
       $("designation").textContent = `id="${id}" not in employees.json`;
-      $("photo").src = "https://via.placeholder.com/200?text=No+Photo";
+      $("photo").src = "https://via.placeholder.com/240?text=No+Photo";
       return;
     }
 
-    $("photo").src = emp.photo || "https://via.placeholder.com/200?text=Photo";
+    $("photo").src = emp.photo || "https://via.placeholder.com/240?text=Photo";
     $("name").textContent = emp.name || "—";
     $("designation").textContent = emp.designation || "—";
-
-    $("btnCall").href = emp.phone ? `tel:${telClean(emp.phone)}` : "#";
-    $("btnEmail").href = emp.email ? `mailto:${emp.email}` : "#";
-    $("btnWa").href = emp.whatsapp ? `https://wa.me/${waNumber(emp.whatsapp)}` : "#";
+    $("txtCompanyBadge").textContent = emp.company || "DDS Engineering";
 
     const mapQ = encodeURIComponent(emp.mapQuery || emp.address || "");
     const mapHref = mapQ ? `https://maps.google.com/?q=${mapQ}` : "#";
-    $("btnMap").href = mapHref;
 
-    setLink($("txtPhone"), emp.phone ? `tel:${telClean(emp.phone)}` : "#", emp.phone || "—");
-    setLink($("txtEmail"), emp.email ? `mailto:${emp.email}` : "#", emp.email || "—");
+    // Quick actions
+    setSafeHref($("btnCall"), emp.phone ? `tel:${telClean(emp.phone)}` : "#");
+    setSafeHref($("btnEmail"), emp.email ? `mailto:${emp.email}` : "#");
+    setSafeHref($("btnWa"), emp.whatsapp ? `https://wa.me/${waNumber(emp.whatsapp)}` : "#");
+    setSafeHref($("btnMap"), mapHref);
+
+    // Rows
+    setSafeHref($("rowPhone"), emp.phone ? `tel:${telClean(emp.phone)}` : "#");
+    $("txtPhoneText").textContent = emp.phone || "—";
+
+    setSafeHref($("rowEmail"), emp.email ? `mailto:${emp.email}` : "#");
+    $("txtEmailText").textContent = emp.email || "—";
 
     const site = emp.website || "";
-    setLink($("txtWebsite"), site || "#", site ? site.replace(/^https?:\/\//,"") : "—");
+    const siteText = site ? site.replace(/^https?:\/\//,"") : "—";
+    setSafeHref($("rowWeb"), site || "#");
+    $("txtWebsiteText").textContent = siteText;
 
-    setLink($("txtAddress"), mapHref, emp.address || "—");
-    $("btnShowMap").href = mapHref;
-
-    $("txtCompany").textContent = emp.company || "—";
-    $("txtBigRole").textContent = emp.designation || "—";
+    setSafeHref($("rowAddr"), mapHref);
+    $("txtAddressText").textContent = emp.address || "—";
   }
 
-  load().catch(() => {
-    $("name").textContent = "Error loading employees.json";
-    $("designation").textContent = "Run using Live Server / localhost";
-  });
+  // Contact form (static)
+  const COMPANY_EMAIL = "info@ddsengineering.in";
+  const COMPANY_WA = "919727148654";
+
+  function val(id){ return document.getElementById(id).value.trim(); }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    load().catch(() => {
+      $("name").textContent = "Error loading employees.json";
+      $("designation").textContent = "Run using Live Server / localhost";
+    });
+
+$("btnSend").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const name  = val("cName");
+  const phone = val("cPhone");
+  const email = val("cEmail");
+  const msg   = val("cMsg");
+
+  // ✅ Basic validation
+  if (!name || !phone || !msg) {
+    alert("Please fill: Name, Mobile Number, and Message.");
+    return;
+  }
+
+  const subject = "Contact Request - DDS Engineering Solutions LLP";
+  const body =
+`Name: ${name}
+Mobile: ${phone}
+Email: ${email}
+
+Message:
+${msg}`;
+
+  // ✅ Correct mailto creation
+  const mailto =
+    `mailto:${COMPANY_EMAIL}` +
+    `?subject=${encodeURIComponent(subject)}` +
+    `&body=${encodeURIComponent(body)}`;
+
+  // ✅ Open email (works if default mail client exists)
+  window.location.href = mailto;
+
+  // ✅ Optional WhatsApp (some browsers block popups)
+  const waText = `${subject}\n\n${body}`;
+  const waUrl  = `https://wa.me/${COMPANY_WA}?text=${encodeURIComponent(waText)}`;
+
+  // try open WA after small delay (reduces popup-block issues)
+  setTimeout(() => {
+    window.open(waUrl, "_blank", "noopener,noreferrer");
+  }, 200);
+});
+
+});
 </script>
 
-
-<!-- ===== FIXED CONTACT FOOTER ===== -->
-<footer class="contact-footer">
-  <a href="about.html" class="cf-item">ℹ️ <span>About</span></a>
-  <a href="contact.html" class="cf-item">✉️ <span>Contact</span></a>
-  <a href="https://ddsengineering.in" target="_blank" class="cf-item">🌐 <span>Website</span></a>
-</footer>
-
-
 </body>
-
-
 </html>

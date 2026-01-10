@@ -1,19 +1,19 @@
 [
   {
     "id": "ankit",
-    "name": "Ankit Bhandari",
-    "designation": "Engineer",
-    "role": "Engineer",
+    "name": "Ankit bhandari",
+    "designation": "se draughtsman ",
+    "role": "se draughtsman ",
     "phone": "+917016649244",
     "altPhone": "",
-    "email": "vbhatporiya123@gmail.com",
-    "website": "https://ddsengineering.in",
-    "company": "DDS Engineering Solutions LLP",
-    "photo": "https://i.pravatar.cc/300?img=12",
-    "address": "4th floor - 412 L.P Sayani, Surat, GJ, 395009, India",
-    "mapQuery": "4th floor - 412 L.P Sayani, Surat, GJ, 395009, India",
+    "email": "ankit@ddsengineering.in",
+    "website": "https://ddsengineering.in/",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "ankit_bhandari.jpg",
+    "address": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , India.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , India.",
     "whatsapp": "+917016649244",
-    "logo": "logo2.png"
+    "logo": "logo3.png"
   },
   {
     "id": "bhavin",
