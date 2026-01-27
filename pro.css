@@ -1,48 +1,29 @@
 :root{
-  --brand:#0b84c6;
-  --brand2:#075b86;
-  --bg:#f4f7fb;
-  --ink:#0b1220;
+  --bg1:#1a2b4f;
+  --bg2:#6f97f5;
+  --card:#ffffff;
   --muted:#6b7280;
-  --line:rgba(2,6,23,.10);
-  --shadow: 0 18px 55px rgba(2,6,23,.14);
-  --radius: 22px;
-  --ring: rgba(11,132,198,.25);
+  --text:#0f172a;
+  --border: rgba(15,23,42,.10);
+  --shadow: 0 18px 40px rgba(15,23,42,.18);
 }
 
 *{ box-sizing:border-box; }
 
-html{ scroll-behavior:smooth; }
-
 body{
   margin:0;
-  background:
-    radial-gradient(900px 420px at 10% 0%, rgba(11,132,198,.12), transparent 60%),
-    radial-gradient(700px 420px at 90% 10%, rgba(2,6,23,.10), transparent 60%),
-    var(--bg);
-  color:var(--ink);
-}
-
-/* ✅ reduce extra outer space on small screens */
-.container{
-  padding-left: 12px !important;
-  padding-right: 12px !important;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:#eef2ff;
+  min-height:100vh;
 }
 
 .ic-topbar{
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  color:#fff;
-}
-.ic-dot{
-  width:10px;height:10px;border-radius:999px;
-  background:#fff;
-  box-shadow: 0 0 0 6px rgba(255,255,255,.14);
-  display:inline-block;
+  background: rgba(15, 23, 42, .85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
 
-.ic-main{
-  padding: 14px 0 18px; /* ✅ less extra padding */
-}
+.ic-main{ padding: 18px 0 40px; }
 
 .ic-center{
   display:flex;
@@ -50,240 +31,344 @@ body{
 }
 
 .ic-card{
-  width: min(520px, 100%);
-  border-radius: var(--radius);
+  width:100%;
+  max-width:520px;
+  background:var(--card);
+  border-radius:26px;
   overflow:hidden;
-  background:#fff;
   box-shadow: var(--shadow);
 }
 
-/* HERO */
+/* ============ HERO (matches your screenshot) ============ */
 .ic-hero{
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  color:#fff;
-  padding: 16px 16px 12px; /* ✅ slightly tight */
+  position:relative;
+  padding: 26px 18px 64px;
+  background: linear-gradient(180deg, var(--bg2) 0%, #7aa7ff 35%, #89b2ff 100%);
 }
 
-.ic-hero-inner{
+/* wave bottom */
+.ic-hero::after{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  bottom:-1px;
+  height:88px;
+  background:#fff;
+  border-top-left-radius: 55% 95%;
+  border-top-right-radius: 55% 95%;
+}
+
+/* avatar */
+.ic-avatar-wrap{
   display:flex;
-  gap: 14px;
-  align-items:center;
+  justify-content:center;
+  margin-top: 6px;
 }
 
-.ic-avatar{
-  width: 78px;
-  height: 78px;
-  border-radius: 999px;
-  padding: 5px;
-  background: rgba(255,255,255,.18);
-  box-shadow: 0 14px 34px rgba(0,0,0,.18);
-  flex: 0 0 auto;
+.ic-avatar-ring{
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  padding: 6px;
+  background: rgba(255,255,255,.40);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  position: relative;
 }
-.ic-avatar img{
+
+.ic-avatar-ring::before{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border: 4px solid rgba(255,255,255,.8);
+}
+
+.ic-avatar-ring img{
   width:100%;
   height:100%;
-  border-radius:999px;
+  border-radius:50%;
   object-fit:cover;
-  background:#fff;
+  background: rgba(255,255,255,.45);
 }
 
-.ic-title{ min-width: 0; }
+/* name text */
+.ic-title{
+  margin-top: 14px;
+  position: relative;
+  z-index: 2;
+}
 
 .ic-name{
-  font-weight: 900;
   margin:0;
-  font-size: 18px;
-  line-height: 1.2;
-  letter-spacing: .2px;
+  font-weight:900;
+  font-size: 34px;
+  letter-spacing: -0.6px;
+  color:#0b1220;
 }
+
 .ic-role{
-  font-weight: 700;
-  color: rgba(255,255,255,.78);
-  margin-top: 3px;
-  font-size: 13px;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(15,23,42,.70);
 }
 
-.ic-badges{
+/* floating actions row */
+.ic-actions-float{
+  position:absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 12px;
   display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top: 10px;
-}
-.ic-badges .badge{
-  font-weight: 800;
+  justify-content: space-evenly;
+  gap: 14px;
+  z-index: 3;
 }
 
-/* ACTIONS */
-.ic-actions{
-  margin-top: 12px;
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.ic-action{
-  text-decoration:none;
-  color:#fff;
-  border: 1px solid rgba(255,255,255,.22);
-  background: rgba(255,255,255,.14);
-  border-radius: 16px;
-  padding: 10px 10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap: 8px;
-  font-weight: 900;
-  box-shadow: 0 12px 24px rgba(0,0,0,.12);
-  transition: transform .15s ease, background .15s ease, border-color .15s ease;
-}
-.ic-action i{ font-size: 18px; }
-.ic-action span{ font-size: 13px; }
-
-.ic-action:hover{
-  transform: translateY(-1px);
-  background: rgba(255,255,255,.18);
-  border-color: rgba(255,255,255,.30);
-}
-
-/* ✅ better keyboard focus (professional) */
-.ic-action:focus,
-.ic-row:focus,
-.btn:focus,
-.form-control:focus{
-  outline: none !important;
-  box-shadow: 0 0 0 .25rem var(--ring) !important;
-}
-
-/* BODY */
-.ic-body{
-  padding: 12px; /* ✅ less padding */
-}
-
-/* INFO ROWS */
-.ic-info{
-  display:grid;
-  gap: 10px;
-}
-
-.ic-row{
-  text-decoration:none;
-  color: var(--ink);
-  border: 1px solid var(--line);
-  background: #fff;
-  border-radius: 16px;
-  padding: 12px 12px;
-  display:flex;
-  align-items:center;
-  gap: 12px;
-  transition: background .15s ease, transform .15s ease, border-color .15s ease;
-}
-
-.ic-row:hover{
-  background: rgba(11,132,198,.05);
-  border-color: rgba(11,132,198,.22);
-  transform: translateY(-1px);
-}
-
-.ic-ico{
-  width: 40px;
-  height: 40px;
-  border-radius: 14px;
+.ic-fab{
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
   display:grid;
   place-items:center;
-  background: rgba(11,132,198,.10);
-  color: var(--brand);
-  flex: 0 0 auto;
-}
-.ic-ico i{ font-size: 18px; }
-
-.ic-text{
-  flex:1;
-  min-width:0;
-}
-.ic-label{
-  font-size: 12px;
-  font-weight: 900;
-  color: var(--muted);
-  letter-spacing: .2px;
-}
-.ic-value{
-  font-size: 14px;
-  font-weight: 900;
-  word-break: break-word;
-}
-.ic-hint{
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 3px;
-  font-weight: 700;
-}
-
-.ic-chev{
-  color: rgba(2,6,23,.35);
-  font-size: 16px;
-}
-
-/* PANELS */
-.ic-panel{
-  border: 1px solid var(--line);
   background:#fff;
-  border-radius: 18px;
-  padding: 14px;
-  box-shadow: 0 12px 30px rgba(2,6,23,.06);
+  color:#0f172a;
+  text-decoration:none;
+  box-shadow: 0 14px 28px rgba(15,23,42,.18);
+  border: 1px solid rgba(15,23,42,.08);
 }
 
-/* ✅ tighten about content spacing */
-.ic-panel-text p{ margin: 0 0 10px; }
-.ic-panel-text ul{ padding-left: 18px; margin: 0 0 10px; }
-.ic-panel-text li{ margin-bottom: 6px; }
-
-.ic-panel-title{
-  font-weight: 900;
-  font-size: 14px;
-}
-.ic-panel-sub{
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--muted);
-}
-.ic-panel-text{
-  font-size: 13px;
-  color: #374151;
-  line-height: 1.55; /* ✅ slightly tight */
+.ic-fab i{
+  font-size: 20px;
 }
 
-/* DISABLED LINKS */
+/* disabled links */
 .ic-disabled{
   pointer-events:none;
   opacity:.55;
 }
 
-/* RESPONSIVE */
-@media (max-width: 420px){
-  .ic-actions{
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* ============ BODY ============ */
+.ic-body{
+  padding: 16px;
+  background:#fff;
 }
 
-@media (min-width: 992px){
-  .container{
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
+.ic-info{
+  display:grid;
+  gap: 10px;
+  margin-top: 6px;
+}
 
-  .ic-card{
-    width: min(720px, 100%);
-  }
+.ic-row{
+  text-decoration:none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 14px;
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  background:#fff;
+}
 
-  .ic-hero-inner{ gap: 18px; }
-  .ic-avatar{ width: 92px; height: 92px; }
-  .ic-name{ font-size: 22px; }
-  .ic-role{ font-size: 14px; }
+.ic-row:hover{ background:#f8fafc; }
 
-  .ic-body{ padding: 18px; }
+.ic-ico{
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  display:grid;
+  place-items:center;
+  background: rgba(79,70,229,.10);
+  color:#3730a3;
+  flex:0 0 auto;
+}
 
-  .ic-info{
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+.ic-text{ flex:1; min-width:0; }
+
+.ic-label{
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.ic-value{
+  font-weight: 800;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.ic-hint{
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ic-chev{ display:none; }
+
+/* panels */
+.ic-panel{
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px;
+  background:#fff;
+}
+
+.ic-panel-title{
+  font-weight: 900;
+  font-size: 16px;
+}
+
+.ic-panel-sub{
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.ic-panel-text p,
+.ic-panel-text li{
+  font-size: 14px;
+  line-height: 1.55;
+  color: #111827;
+}
+
+/* mobile spacing */
+@media (max-width: 576px){
+  .ic-main{ padding: 10px 0 26px; }
+  .ic-card{ border-radius: 26px; }
+  .ic-name{ font-size: 36px; }
+}
+
+
+
+
+
+/* =========================
+   Company Logo at Top (FIXED)
+   ========================= */
+.ic-company-top{
+  background: linear-gradient(180deg, #7aa7ff 0%, #6f97f5 100%);
+  padding: 18px 0 10px;
+  text-align: center;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+}
+
+.ic-company-top img{
+  height: 64px;          /* 🔥 bigger & readable */
+  max-width: 90%;
+  object-fit: contain;
+}
+
+
+
+/* =========================
+   Professional Company Header
+   ========================= */
+.ic-company-top{
+  background: linear-gradient(180deg, #6f97f5 0%, #6a8fe8 100%);
+  padding: 18px 16px 14px;
+  text-align: center;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+}
+
+
+
+/* =========================
+   Circular Company Logo (Tight & Professional)
+   ========================= */
+
+.ic-company-top{
+  background: linear-gradient(180deg, #6f97f5 0%, #6a8fe8 100%);
+  padding: 20px 16px 16px;
+  text-align: center;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+}
+
+/* White circle with thin border */
+.ic-company-logo-circle{
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* subtle depth */
+  box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+
+  /* thin professional ring */
+  border: 1.5px solid rgba(255,255,255,0.6);
+}
+
+/* Logo almost fills the circle */
+.ic-company-logo-circle img{
+  width: 94%;
+  height: 94%;
+  object-fit: contain;
+}
+
+/* Company name text */
+.ic-company-name{
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: rgba(255,255,255,0.96);
+  line-height: 1.3;
+}
+
+
+/* =========================
+   Company Header (FINAL - One Only)
+   ========================= */
+
+.ic-company-top{
+  background: linear-gradient(180deg, var(--bg2) 0%, #7aa7ff 100%);
+  padding: 18px 16px 14px;
+  text-align: center;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+
+  /* subtle separator to hero */
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
+}
+
+/* White circle with thin border */
+.ic-company-logo-circle{
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* professional depth */
+  box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+
+  /* thin clean ring */
+  border: 1.5px solid rgba(255,255,255,0.6);
+}
+
+/* Logo fills circle nicely */
+.ic-company-logo-circle img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;      /* ✅ fills circle and removes rectangle edges */
+  display: block;
+}
+
+/* Company name */
+.ic-company-name{
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.96);
+  line-height: 1.3;
 }
