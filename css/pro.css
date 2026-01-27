@@ -293,17 +293,18 @@ body{
   height: 76px;
   margin: 0 auto 10px;
   border-radius: 50%;
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  /* subtle depth */
-  box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+  /* 🔥 very thin clean border */
+  border: 0.8px solid rgba(255,255,255,0.85);
 
-  /* thin professional ring */
-  border: 1.5px solid rgba(255,255,255,0.6);
+  /* subtle depth (not bulky) */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
+
 
 /* Logo almost fills the circle */
 .ic-company-logo-circle img{
@@ -352,7 +353,8 @@ body{
   box-shadow: 0 6px 14px rgba(0,0,0,0.16);
 
   /* thin clean ring */
-  border: 1.5px solid rgba(255,255,255,0.6);
+  border: 0.6px solid rgba(255,255,255,0.9);
+
 }
 
 /* Logo fills circle nicely */
@@ -372,3 +374,14 @@ body{
   color: rgba(255,255,255,0.96);
   line-height: 1.3;
 }
+
+
+
+/* ✅ Pull Contact Details up (only first panel inside body) */
+.ic-body > .ic-panel:first-child{
+  margin-top: -100px !important;   /* increase/decrease this value */
+}
+
+
+
+
