@@ -1,8 +1,8 @@
 :root{
-  --bg1:#1a2b4f;
-  --bg2:#6f97f5;
+  --bg1:#6EC1E4;
+  --bg2:#6EC1E4;
 
-  --dds-blue:#7ea6f8;
+  --dds-blue:#6EC1E4;
   --card:#ffffff;
   --muted:#6b7280;
   --text:#0f172a;
@@ -42,7 +42,7 @@ body{
    COMPANY HEADER
    ========================= */
 .ic-company-top{
-  background: linear-gradient(180deg, var(--bg2) 0%, #7aa7ff 100%);
+  background: linear-gradient(180deg, var(--bg2) 0%, #6EC1E4 100%);
   padding: 18px 16px 14px;
   text-align:center;
   border-top-left-radius:26px;
@@ -50,43 +50,36 @@ body{
   box-shadow: inset 0 -1px 0 rgba(255,255,255,0.18);
 }
 
-/* ✅ PERFECT CIRCLE + WHITE BORDER */
+/* ✅ LOGO: OVAL SHAPE (same feel as your logo) */
+
 .ic-company-logo-circle{
-  width: 78px;
-  height: 78px;
-  margin: 0 auto 10px;
-
-  border-radius: 50%;
-  background: #ffffff;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  background: none;     /* ✅ white behind image */
+  padding: 0;
+  border: none;
+  box-shadow: none;
 }
 
 .ic-company-logo-circle img{
-  width: 100%;
-  height: 100%;
-
-  object-fit: contain;   /* logo crop nahi hoga */
-  border-radius: 0;
+  width: 150px;   /* ⬅️ was 92px */
+  height: auto;
   display: block;
-
-  /* 🔑 SIDE FIX WITHOUT SPACE */
-  transform: scaleX(1.28);
-  
+  object-fit: contain;
+  border-radius: 0 !important;
+  background: transparent !important;
 }
 
 
 
 .ic-company-name{
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: .3px;
-  color: rgba(255,255,255,0.96);
+  color: #ffffff;   /* ⬅️ force pure white */
   line-height: 1.3;
+  margin-top: 12px; /* slight spacing after bigger logo */
 }
+
 
 /* =========================
    HERO
@@ -94,7 +87,7 @@ body{
 .ic-hero{
   position:relative;
   padding: 26px 18px 64px;
-  background: linear-gradient(180deg, var(--bg2) 0%, #7aa7ff 35%, #89b2ff 100%);
+  background: linear-gradient(180deg, var(--bg2) 0%, #6EC1E4 100%);
 }
 
 .ic-hero::after{
@@ -205,9 +198,24 @@ body{
 }
 
 /* =========================
+   SHARE INLINE
+   ========================= */
+.share-inline{
+  transition: all 0.3s ease;
+}
+
+.share-inline .btn{
+  border-radius: 14px;
+  font-weight: 600;
+}
+
+/* =========================
    MOBILE
    ========================= */
 @media (max-width: 576px){
   .ic-main{ padding: 10px 0 26px; }
   .ic-name{ font-size: 36px; }
+
+  /* slightly smaller logo on mobile */
+  .ic-company-logo-circle{ width: 82px; }
 }

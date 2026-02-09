@@ -1,526 +1,272 @@
-*{box-sizing:border-box;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-body{margin:0;background:#eef2f0;padding:20px}
-
-.topbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
-select,button,a.btn{padding:10px 14px;border-radius:10px;border:none;font-weight:800}
-select{min-width:260px;background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.06)}
-button,.btn{background:#0b84c6;color:#fff;cursor:pointer;text-decoration:none;box-shadow:0 10px 22px rgba(0,0,0,.10)}
-button:active,.btn:active{transform:scale(.98)}
-
-.card{
-  width:640px;max-width:95vw;margin:auto;
-  border-radius:12px;overflow:hidden;
-  box-shadow:0 18px 40px rgba(0,0,0,.15);
-  background:#f7f7f7;position:relative;
-}
-.card::before{
-  content:"";position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 12% 30%, rgba(0,0,0,.04), transparent 55%),
-    radial-gradient(circle at 78% 72%, rgba(0,0,0,.03), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(0,0,0,.015), rgba(0,0,0,.015) 1px, transparent 1px, transparent 6px);
-  pointer-events:none;opacity:.55;
-}
-
-/* 2-row layout */
-.card-inner{
-  position:relative;
-  padding:18px 18px 16px;
-  display:grid;
-  grid-template-columns:220px 1fr;
-  grid-template-rows:110px 200px;
-  gap:18px;
-  align-items:stretch;
-}
-
-/* top-left */
-/* top-left (UPDATED) */
-.top-left{
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;   /* ✅ center logo above QR */
-  padding-top:4px;          /* ✅ optional (tiny spacing) */
-}
-.logoLink{display:inline-grid;place-items:center;border-radius:999px}
-.logo{
-  width:110px;height:110px;border-radius:999px;object-fit:contain;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.12));
-  cursor:pointer;
-}
-
-/* top-right */
-.top-right{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap:6px;
-}
-.name{font-size:34px;font-weight:900;line-height:1.05;color:#0f172a}
-.designation{font-size:20px;font-weight:500;color:#111827;margin-top:0}
-
-/* bottom-left */
-.bottom-left{display:flex;align-items:flex-start;justify-content:flex-start}
-.qrWrap{margin:0;width:200px}
-.qr{
-  width:200px;height:200px;
-  background:#fff;border-radius:10px;padding:10px;border:2px solid rgba(0,0,0,.10);
-}
-.qr img{width:100%;height:100%;display:block}
-
-/* bottom-right */
-.bottom-right{
-  height:200px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-}
-.company{margin-top:0;font-size:18px;font-weight:900;color:#111827}
-.addr{font-size:15px;line-height:1.45;color:#1f2937;font-weight:500;margin-top:2px;max-width:360px}
-
-/* meta */
-.meta{
-  margin-top:auto;
-  display:grid;
-  grid-template-columns:28px 10px 1fr;
-  row-gap:6px;column-gap:8px;align-items:center;
-  font-size:16px;
-}
-
-/* ✅ icon clickable anchor */
-.iconLink{
-  text-decoration:none;
-  color:inherit;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-}
-
-.label{font-weight:900;color:#111827;display:flex;align-items:center;justify-content:center}
-.colon{font-weight:900;color:#111827}
-.value{font-weight:600;color:#111827}
-.value a{color:inherit;text-decoration:none}
-.value a:hover{text-decoration:underline}
-
-/* icon color black */
-.meta .label svg{
-  width:20px;height:20px;
-  fill:#000 !important;color:#000 !important;
-  display:block;
-}
-
-@media (max-width:560px){
-  .card-inner{
-    grid-template-columns:1fr;
-    grid-template-rows:auto auto auto auto;
-    gap:10px;
-  }
-  .top-left,.top-right,.bottom-left,.bottom-right{height:auto}
-  .qrWrap{width:170px}
-  .qr{width:170px;height:170px}
-  .name{font-size:28px}
-  .designation{font-size:18px}
-  .bottom-right{height:auto}
-  .meta{margin-top:10px}
-}
-
-/* print */
-@page{size:3.5in 2in;margin:0}
-@media print{
-  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
-  html,body{width:3.5in !important;height:2in !important;margin:0 !important;padding:0 !important;background:#fff !important;overflow:hidden !important}
-  .topbar{display:none !important}
-  .card{position:fixed !important;inset:0 !important;width:3.5in !important;height:2in !important;border-radius:16px !important;overflow:hidden !important;box-shadow:0 18px 40px rgba(0,0,0,.15) !important;margin:0 !important}
-  .card-inner{height:100% !important}
-}
-
-
-
-
-
-
-/* =============================================================================== */
-/* ===============================
-   GLOBAL RESET & VARIABLES
-================================ */
-
 :root{
-  --bg:#f3f5f8;
-  --blue1:#5f86d6;
-  --blue2:#a9c3ea;
-  --text:#111827;
-  --muted:#6b7280;
-  --line:rgba(17,24,39,.08);
-  --soft:#f3f4f6;
-  --footer-h:64px;
+  --card-w: 3.5in;
+  --card-h: 2in;
+  --black: #000;
+  --muted: #444;
 }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-}
+*{ box-sizing:border-box; }
 
 body{
-  background:var(--bg);
-  color:var(--text);
-  padding-bottom: var(--footer-h); /* only exact footer height */
+  margin:0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background:#f3f4f6;
+  color:#000;
 }
 
+/* ===== TOP BAR ===== */
+.topbar{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:12px 14px;
+  background:#fff;
+  border-bottom:1px solid rgba(0,0,0,.15);
+}
+.topbar select,
+.topbar button,
+.topbar .btn{
+  height:38px;
+  padding:0 14px;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,.25);
+  background:#fff;
+  font-weight:600;
+  font-size:14px;
+}
+.topbar button{ cursor:pointer; }
+.topbar .btn{
+  text-decoration:none;
+  color:#000;
+  display:inline-flex;
+  align-items:center;
+}
 
-/* ===============================
-   APP CONTAINER
-================================ */
-
-.app{
-  min-height:100vh;
+/* ===== CENTER WRAP ===== */
+.cardWrap{
   display:flex;
   justify-content:center;
-  padding:22px 14px;
+  padding: 18px 10px 28px;
 }
 
-.phone{
-  width:min(420px, 100%);
-}
-
-/* ===============================
-   HERO / HEADER
-================================ */
-
-.hero{
-  position:relative;
-  height:340px;
-  border-radius:26px;
-  overflow:hidden;
-  background:linear-gradient(180deg, var(--blue1), var(--blue2));
-  box-shadow:0 20px 45px rgba(2,6,23,.14);
-}
-
-/* white curved wave */
-.hero::after{
-  content:"";
-  position:absolute;
-  left:-35%;
-  right:-35%;
-  bottom:-120px;
-  height:240px;
+/* ===== CARD ===== */
+.card{
+  width: var(--card-w);
+  height: var(--card-h);
   background:#fff;
-  border-radius:50%;
+  border-radius: 10px;              /* closer to reference */
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0,0,0,.12);
+
+
+  border-right: 10px solid #000;
+
 }
 
-.hero-inner{
-  position:relative;
-  z-index:2;
+/* top-left black rounded bar (reference style) */
+/* top-left thin accent bar */
+.cornerAccent{
+  position:absolute;
+  left: 0.14in;          /* slightly inward */
+  top: -0.08in;
+
+  width: 0.18in;         /* 🔥 thinner */
+  height: 0.85in;        /* balanced height */
+
+  background:#000;
+  border-radius: 0.14in; /* smoother, slimmer curve */
+}
+
+
+/* inner grid */
+.card-inner{
+  width:100%;
   height:100%;
   display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  padding-top:46px;
-  padding-bottom:90px; /* reserve space for floating icons */
-  text-align:center;
+  padding: 0.14in;          /* slightly more breathing space */
+  gap: 0.12in;              /* consistent left-right distance */
 }
 
-/* avatar */
-.avatar-wrap{
-  width:122px;
-  height:122px;
-  border-radius:50%;
-  background:rgba(255,255,255,.75);
-  display:grid;
-  place-items:center;
-}
-
-.avatar{
-  width:108px;
-  height:108px;
-  border-radius:50%;
-  object-fit:cover;
-  border:4px solid #fff;
-}
-
-/* name & role */
-.name{
-  margin-top:16px;
-  font-size:30px;
-  font-weight:900;
-  color:#111;
-}
-
-.role{
-  margin-top:6px;
-  font-size:15px;
-  font-weight:700;
-  opacity:.85;
-  position:relative;
-  z-index:2;
-}
-
-/* ===============================
-   FLOATING ACTION BUTTONS
-================================ */
-
-.fab-row{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:18px;   /* lower so role never hides */
-  z-index:3;
+/* ===== LEFT SIDE ===== */
+.left{
+  width: 1.22in;
   display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+
+  /* 🔥 key change */
+  align-items: flex-end;     /* move content to right edge */
+
+  padding-top: 0.04in;
+  padding-bottom: 0.04in;
+  /* padding-right: 0.04in;    gap from divider */
+}
+
+.logoLink{
+  width: 0.92in;
+  height: 0.92in;
+  display:flex;
+  align-items:center;
   justify-content:center;
-  gap:16px;
 }
-
-.fab{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  background:rgba(255,255,255,.96);
-  display:grid;
-  place-items:center;
-  box-shadow:0 18px 35px rgba(2,6,23,.14);
-  border:1px solid rgba(17,24,39,.06);
-  text-decoration:none;
+.logo{
+  width: 0.82in;            /* ✅ minimum logo size */
+  height: 0.82in;
+  object-fit: contain;
 }
-
-.fab:active{ transform:scale(.96); }
-
-.ico{
-  width:22px;
-  height:22px;
-  fill:#111;
-  opacity:.9;
-}
-
-/* ===============================
-   CONTENT SHEET
-================================ */
-
-.sheet{
-  margin-top:14px;
-  padding:0 10px 18px;
-}
-
-.info-card{
-  background:#fff;
-  border-radius:20px;
-  box-shadow:0 12px 30px rgba(2,6,23,.08);
-  border:1px solid rgba(17,24,39,.06);
-  overflow:hidden;
-}
-
-.row{
+/* QR should be big + no border like reference */
+.qrWrap{
+  width: 0.76in;
+  height: 0.76in;
   display:flex;
-  gap:14px;
-  padding:16px;
-  align-items:flex-start;
-  border-bottom:1px solid var(--line);
-}
-
-.row:last-child{ border-bottom:none; }
-
-.row-ico{
-  width:46px;
-  height:46px;
-  border-radius:16px;
-  background:var(--soft);
-  display:grid;
-  place-items:center;
-  flex:0 0 46px;
-}
-
-.mini{
-  width:18px;
-  height:18px;
-  fill:#9ca3af;
-}
-
-.row-text{
-  flex:1;
-  min-width:0;
-}
-
-.label{
-  font-size:12px;
-  color:#9ca3af;
-  margin-bottom:6px;
-}
-
-.value{
-  display:block;
-  font-size:15px;
-  font-weight:800;
-  color:#111;
-  text-decoration:none;
-  line-height:1.25;
-  word-break:break-word;
-}
-
-/* map button */
-.map-btn{
-  display:inline-block;
-  margin-top:10px;
-  padding:10px 18px;
-  border-radius:999px;
-  background:#eef2ff;
-  color:#9ca3af;
-  text-decoration:none;
-  font-weight:900;
-  font-size:12px;
-  border:1px solid rgba(17,24,39,.06);
-  opacity:.6;
-}
-
-/* company block */
-.company-block{
-  margin-top:18px;
-  padding:0 8px;
-}
-
-.small-muted{
-  color:#9ca3af;
-  font-size:12px;
-  margin-bottom:6px;
-}
-
-.big{
-  font-size:18px;
-  font-weight:900;
-  color:#111;
-}
-
-/* ===============================
-   FIXED PROFESSIONAL FOOTER
-================================ */
-
-.contact-footer{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-
-  height:var(--footer-h);
-  background:rgba(255,255,255,.94);
-  backdrop-filter:blur(10px);
-
-  border-top:1px solid rgba(17,24,39,.10);
-  display:flex;
-  justify-content:space-around;
   align-items:center;
-  z-index:999;
+  justify-content:center;
+}
+.qrImg{
+  width: 0.76in;            /* ✅ minimum QR size */
+  height: 0.76in;
+  object-fit: cover;
 }
 
-.cf-item{
+/* ===== DIVIDER (keep fixed distance) ===== */
+.divider{
+  width: 1.3px;
+  background:#000;
+  opacity: .85;
+}
+
+/* ===== RIGHT SIDE (keep content aligned + not touching edges) ===== */
+.right{
+  flex:1;
   display:flex;
   flex-direction:column;
+  justify-content:flex-start;
+  padding-top: 0.03in;
+  padding-right: 0.04in;    /* ✅ keeps text from sticking to edge */
+}
+/* Name row (user icon + name) */
+.nameRow{
+  display:flex;
+  gap: 8px;
+  align-items:flex-start;
+  margin: 0 0 0.10in 0;            /* ✅ balanced spacing */
+}
+
+.userIcon{
+  width: 20px;
+  height: 20px;
+  display:flex;
   align-items:center;
-  min-width:88px;
+  justify-content:center;
+  margin-top: 2px;
+}
+.userIcon svg{
+  width: 20px;
+  height: 20px;
+  fill:#000;
+}
+
+.name{
+  font-size: 14.6px;        /* ⬅ reduced more */
+  font-weight: 900;
+  letter-spacing: .1px;
+  text-transform: uppercase;
+  line-height: 1.03;
+}
+
+
+.designation{
+  font-size: 10.8px;        /* ⬅ reduced */
+  font-weight: 500;
+  color: #444;
+  margin-top: 1px;
+  line-height: 1.05;
+}
+
+
+/* ===== CONTACT LIST ===== */
+.meta{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;        /* 🔥 minimum clean gap */
+}
+
+
+
+/* contact rows */
+.row{
+  display: flex;
+  align-items: center;
+  gap: 10px;       /* icon ↔ text gap */
+  min-height: 0;  /* ✅ important */
+}
+
+
+/* black rounded-square icon like reference */
+.iconBox{
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  background: #000;
+  border-radius: 4px;
+
+  /* ✅ center icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBox svg{
+  width: 12px;
+  height: 12px;
+  fill: #fff;      /* 🔥 THIS is the main fix */
+}
+
+
+
+/* value text */
+.value{
+  font-size: 11.8px;
+  font-weight: 500;
+  line-height: 1.05;   /* 🔥 very tight */
+}
+
+
+
+.value a{
+  color: inherit;
   text-decoration:none;
-  font-weight:900;
-  font-size:12px;
-  color:#111;
+}
+.value a:hover{
+  text-decoration: underline;
 }
 
-.cf-item span{
-  margin-top:2px;
-  font-size:11px;
-  color:#6b7280;
-  font-weight:800;
+/* Address row */
+.addressRow{
+  align-items:flex-start;
+  margin-top: 2px;
 }
-
-.cf-item:active{ transform:scale(.97); }
-
-/* desktop polish */
-@media (min-width:900px){
-  .contact-footer{
-    max-width:none;
-    left:0;
-    right:0;
-    transform:none;
-    border-radius:0;
-    box-shadow:0 -8px 20px rgba(2,6,23,.08);
-  }
+.addrText{
+  font-size: 10.1px;        /* ⬅ reduced */
+  line-height: 1.32;
+  color:#000;
+  max-width: 2.05in;
 }
 
 
-
-/* ===============================
-   PRINT / PDF: KEEP COLORS
-   (Fix: PDF becomes not colorful)
-================================ */
-
+/* ===== PRINT ===== */
 @media print{
-  *{
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  /* Ensure gradients/backgrounds print */
-  body {
-    background: var(--bg) !important;
-  }
-
-  .hero {
-    background: linear-gradient(180deg, var(--blue1), var(--blue2)) !important;
-  }
-
-  /* Footer often gets removed in print; keep it or hide it if you want */
-  .contact-footer {
-    position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    background: rgba(255,255,255,.94) !important;
-  }
-
-  /* Optional: avoid shadows in print (cleaner) */
-  .hero,
-  .info-card {
-    box-shadow: none !important;
-  }
-}
-/* ===== PRINT: make PDF look same as preview card ===== */
-@page{
-  size: 3.5in 2in;   /* visiting card size */
-  margin: 0;
-}
-
-@media print{
-  *{
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  html, body{
-    width: 3.5in !important;
-    height: 2in !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #fff !important;
-    overflow: hidden !important;
-  }
-
-  /* hide controls */
-  .topbar, .hint{ display:none !important; }
-
-  /* card must fill the PDF page exactly */
+  body{ background:#fff; }
+  .no-print{ display:none !important; }
+  .cardWrap{ padding:0; }
   .card{
-    position: fixed !important;
-    inset: 0 !important;
-    width: 3.5in !important;
-    height: 2in !important;
-
-    /* keep same look like screen */
-    border-radius: 16px !important;
-    overflow: hidden !important;
-
-    /* keep shadow (PDF supports it) */
-    box-shadow: 0 18px 40px rgba(0,0,0,.15) !important;
-    margin: 0 !important;
-  }
-
-  .card-inner{
-    height: 100% !important;
+    box-shadow:none;
+    border-radius:0;
+    width: var(--card-w);
+    height: var(--card-h);
   }
 }
