@@ -167,6 +167,14 @@
                 <button id="copyLink" class="btn btn-light btn-lg">
                   <i class="bi bi-clipboard me-2"></i> Copy Link
                 </button>
+
+                <div class="mt-3 text-center">
+                  <a id="shareLinkPreview" href="#" target="_blank" rel="noopener"
+                    class="small text-primary text-decoration-underline d-none">
+                    —
+                  </a>
+                </div>
+
               </div>
             </div>
           </div>
@@ -236,6 +244,68 @@
 
     </div><!-- /ic-center -->
   </div><!-- /container -->
+
+
+
+
+  <!-- ✅ SAVE CONTACT PREVIEW MODAL -->
+<div class="modal fade" id="saveContactModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 overflow-hidden">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">
+          <i class="bi bi-person-vcard me-2"></i> Confirm Contact Details
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <img id="mPhoto" src="" alt="Photo"
+               style="width:56px;height:56px;object-fit:cover;border-radius:14px;border:1px solid rgba(0,0,0,.1)">
+          <div>
+            <div id="mName" class="fw-bold fs-5">—</div>
+            <div id="mDesig" class="text-muted small">—</div>
+            <div class="small">DDS Engineering (INDIA) Pvt. Ltd.</div>
+          </div>
+        </div>
+
+        <div class="list-group">
+          <div class="list-group-item d-flex justify-content-between">
+            <span class="text-muted">Phone</span>
+            <span id="mPhone" class="fw-semibold">—</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between">
+            <span class="text-muted">Email</span>
+            <span id="mEmail" class="fw-semibold">—</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between">
+            <span class="text-muted">Website</span>
+            <span id="mWeb" class="fw-semibold">—</span>
+          </div>
+          <div class="list-group-item">
+            <div class="text-muted mb-1">Address</div>
+            <div id="mAddr" class="fw-semibold">—</div>
+          </div>
+        </div>
+
+        <div class="alert alert-info mt-3 mb-0 small">
+          After you confirm, your phone will download a <strong>.VCF contact file</strong> and prompt you to save it.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-lg" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary btn-lg fw-bold" id="btnConfirmSave">
+          Confirm Save <i class="bi bi-download ms-2"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -277,50 +347,95 @@
       .replace(/,/g, "\\,");
   }
 
+
+async function copyTextSmart(text){
+  // 1) Try modern clipboard API
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {}
+
+  // 2) Fallback for blocked clipboard permissions
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+function showShareLinkPreview(){
+  const link = currentShareLink();
+  const a = $("shareLinkPreview");
+  if(!a) return;
+
+  a.href = link;
+  a.textContent = link;
+  a.classList.remove("d-none");
+}
+
   // =========================
   // VCF Download
   // =========================
   function downloadVcf(emp) {
-    if (!emp) return alert("Employee not loaded yet.");
+  if (!emp) return alert("Employee not loaded yet.");
 
-    const fullName = emp.name || "DDS Contact";
-    const parts = fullName.trim().split(" ");
-    const firstName = parts[0] || "";
-    const lastName = parts.slice(1).join(" ") || "";
+  const fullName = emp.name || "DDS Contact";
+  const parts = fullName.trim().split(" ");
+  const firstName = parts[0] || "";
+  const lastName = parts.slice(1).join(" ") || "";
 
-    const phone = emp.phone || "";
-    const email = emp.email || "";
-    const website = normalizeUrl(emp.website || emp.web || "");
-    const address = emp.address || "";
-    const designation = emp.designation || "";
-    const company = "DDS Engineering (INDIA) Pvt. Ltd.";
+  const phone = emp.phone || "";
+  const email = emp.email || "";
+  const website = normalizeUrl(emp.website || emp.web || "");
+  const address = emp.address || "";
+  const designation = emp.designation || "";
+  const company = "DDS Engineering (INDIA) Pvt. Ltd.";
 
-    const vcf = [
-      "BEGIN:VCARD",
-      "VERSION:3.0",
-      `N:${escapeVcard(lastName)};${escapeVcard(firstName)};;;`,
-      `FN:${escapeVcard(fullName)}`,
-      `ORG:${escapeVcard(company)}`,
-      designation ? `TITLE:${escapeVcard(designation)}` : "",
-      phone ? `TEL;TYPE=CELL:${telClean(phone)}` : "",
-      email ? `EMAIL;TYPE=INTERNET:${escapeVcard(email)}` : "",
-      website ? `URL:${website}` : "",
-      address ? `ADR;TYPE=WORK:;;${escapeVcard(address)};;;;` : "",
-      "END:VCARD"
-    ].filter(Boolean).join("\r\n");
+  const vcf = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    `N:${escapeVcard(lastName)};${escapeVcard(firstName)};;;`,
+    `FN:${escapeVcard(fullName)}`,
+    `ORG:${escapeVcard(company)}`,
+    designation ? `TITLE:${escapeVcard(designation)}` : "",
+    phone ? `TEL;TYPE=CELL:${telClean(phone)}` : "",
+    email ? `EMAIL;TYPE=INTERNET:${escapeVcard(email)}` : "",
+    website ? `URL:${website}` : "",
+    address ? `ADR;TYPE=WORK:;;${escapeVcard(address)};;;;` : "",
+    "END:VCARD"
+  ].filter(Boolean).join("\r\n");
 
-    const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
+  // ✅ 1) Always download the .vcf file
+  const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${fullName.replace(/\s+/g, "_")}.vcf`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${fullName.replace(/\s+/g, "_")}.vcf`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 
-    URL.revokeObjectURL(url);
+  // ✅ 2) Try to open "Add Contact" on mobile (best effort)
+  // iOS/Android often open the vCard import UI from a data URL
+  try {
+    const dataUrl = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcf);
+    window.location.href = dataUrl;
+  } catch (e) {
+    // ignore if browser blocks it
   }
+}
 
   // =========================
   // Load employee
@@ -395,7 +510,44 @@
     });
 
     // Save to Contacts
-    $("btnSaveVcf")?.addEventListener("click", () => downloadVcf(currentEmp));
+let saveModal = null;
+
+function fillSavePreview(emp){
+  if(!emp) return;
+
+  $("mPhoto").src = emp.photo || "https://via.placeholder.com/120?text=Photo";
+  $("mName").textContent = emp.name || "—";
+  $("mDesig").textContent = emp.designation || "—";
+
+  $("mPhone").textContent = emp.phone || "—";
+  $("mEmail").textContent = emp.email || "—";
+
+  const webText = emp.website || emp.web || "";
+  $("mWeb").textContent = webText ? webText : "—";
+
+  $("mAddr").textContent = emp.address || emp.mapQuery || "—";
+}
+
+$("btnSaveVcf")?.addEventListener("click", () => {
+  if(!currentEmp) return alert("Employee not loaded yet.");
+
+  fillSavePreview(currentEmp);
+
+  const el = $("saveContactModal");
+  saveModal = bootstrap.Modal.getOrCreateInstance(el);
+  saveModal.show();
+});
+
+// ✅ Confirm Save
+$("btnConfirmSave")?.addEventListener("click", () => {
+  if(!currentEmp) return;
+
+  // close modal first (nice UX)
+  saveModal?.hide();
+
+  // then download/import
+  downloadVcf(currentEmp);
+});
 
     // ✅ Inline toggle (same page)
     const btnToggleShare = $("btnToggleShare");
@@ -441,13 +593,15 @@
 
     // Instagram (copy link)
     $("shareInstagram")?.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(currentShareLink());
-        alert("Link copied! Now open Instagram and paste it in DM / Story.");
-      } catch {
-        alert("Copy failed. Please manually copy the page URL.");
-      }
+      const link = currentShareLink();
+      const ok = await copyTextSmart(link);
+
+      showShareLinkPreview();
+
+      if(ok) alert("Link copied! Now open Instagram and paste it in DM / Story.");
+      else alert("Copy blocked. Link shown below—click it or copy manually.");
     });
+
 
     // LinkedIn
     $("shareLinkedIn")?.addEventListener("click", () => {
@@ -457,13 +611,15 @@
 
     // Copy link
     $("copyLink")?.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(currentShareLink());
-        alert("Link copied!");
-      } catch {
-        alert("Copy failed. Please manually copy the page URL.");
-      }
-    });
+  const link = currentShareLink();
+  const ok = await copyTextSmart(link);
+
+  showShareLinkPreview();
+
+  if(ok) alert("Link copied!");
+  else alert("Copy blocked. Link shown below—click it or copy manually.");
+});
+
 
     // Contact send
     $("btnSend")?.addEventListener("click", (e) => {

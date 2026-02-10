@@ -209,3 +209,13 @@ body{
   font-weight: 600;
 }
 
+/* =========================
+   MOBILE
+   ========================= */
+@media (max-width: 576px){
+  .ic-main{ padding: 10px 0 26px; }
+  .ic-name{ font-size: 36px; }
+
+  /* slightly smaller logo on mobile */
+  .ic-company-logo-circle{ width: 82px; }
+}
