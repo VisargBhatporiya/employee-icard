@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>QR Card - Employee</title>
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Screenshot export -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <!-- Local QR -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+  <style>
+    @media print{
+      @page { size: 3.5in 2in; margin: 0; }
+      html, body { margin:0 !important; padding:0 !important; background:#fff !important; }
+      body{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
 </head>
 
 <body>
@@ -15,47 +30,41 @@
   <a id="openProfileBtn" class="btn" target="_blank" rel="noopener">Open Profile</a>
 </div>
 
-<!-- CARD -->
 <div class="cardWrap">
   <div class="card" id="printCard">
-
-    <!-- top-left black rounded pattern -->
     <div class="cornerAccent" aria-hidden="true"></div>
 
     <div class="card-inner">
-      <!-- LEFT SIDE -->
+      <!-- LEFT -->
       <div class="left">
-        <a id="logoLink" class="logoLink" target="_blank" rel="noopener" href="#">
-          <img id="logoImg" class="logo" alt="Logo" />
-        </a>
+        <div class="logoQrStack">
+          <a id="logoLink" class="logoLink" target="_blank" rel="noopener" href="#">
+            <img id="logoImg" class="logo" alt="Logo" crossorigin="anonymous" />
+          </a>
 
-        <div class="qrWrap">
-          <img id="qrImg" class="qrImg" alt="QR" />
+          <div class="qrWrap">
+            <img id="qrImg" class="qrImg" alt="QR" crossorigin="anonymous" />
+          </div>
         </div>
       </div>
 
-      <!-- DIVIDER -->
       <div class="divider" aria-hidden="true"></div>
 
-      <!-- RIGHT SIDE -->
+      <!-- RIGHT -->
       <div class="right">
-
-        <!-- NAME + USER ICON -->
         <div class="nameRow">
           <div class="userIcon" aria-hidden="true">
             <svg viewBox="0 0 24 24">
               <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.34 0-10 1.67-10 5v3h20v-3c0-3.33-6.66-5-10-5z"/>
             </svg>
           </div>
-          <div>
+          <div class="nameBlock">
             <div class="name" id="name">—</div>
             <div class="designation" id="designation">—</div>
           </div>
         </div>
 
-        <!-- CONTACTS -->
         <div class="meta">
-
           <div class="row">
             <a id="phoneIcon" class="iconBox iconLink" href="#" aria-label="Call">
               <svg viewBox="0 0 24 24">
@@ -89,9 +98,9 @@
                 <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
               </svg>
             </span>
-            <div class="addrText" id="address">—</div>
-          </div>
+            <a class="addrText addrLink" id="address" href="#" target="_blank" rel="noopener">—</a>
 
+          </div>
         </div>
 
       </div>
@@ -99,24 +108,22 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-
 <script>
-/* ========= CONFIG ========= */
 const PROFILE_ROOT = "https://visargbhatporiya.github.io/employee-icard/";
-
-/* ========= STATE ========= */
 let EMPLOYEES = [];
 let CURRENT_EMP = null;
 
-/* ========= HELPERS ========= */
-function text(id, v){
-  document.getElementById(id).textContent = (v && String(v).trim()) ? v : "—";
-}
-function html(id, v){
-  document.getElementById(id).innerHTML = v || "—";
-}
+// We'll store these so PDF can add clickable links
+let CURRENT_PROFILE_URL = "";
+let CURRENT_WEB_URL = "";
+let CURRENT_TEL_URL = "";
+let CURRENT_MAIL_URL = "";
+let CURRENT_MAP_URL = "";
+
+
+function text(id, v){ document.getElementById(id).textContent = (v && String(v).trim()) ? v : "—"; }
+function html(id, v){ document.getElementById(id).innerHTML = v || "—"; }
+
 function normalizeUrl(url){
   if(!url) return "";
   const u = String(url).trim();
@@ -124,27 +131,41 @@ function normalizeUrl(url){
   if(u.startsWith("http://") || u.startsWith("https://")) return u;
   return "https://" + u;
 }
-function makeQrUrl(data){
+
+async function makeQrDataUrl(data){
+  try{
+    if(window.QRCode && QRCode.toDataURL){
+      return await QRCode.toDataURL(String(data || ""), { width: 400, margin: 0 });
+    }
+  }catch(e){ console.warn("QR generation failed, fallback", e); }
   const d = encodeURIComponent(data || "");
   return `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=${d}`;
 }
-function buildProfileUrl(empId){
-  return `${PROFILE_ROOT}?id=${encodeURIComponent(empId)}`;
-}
+
+function buildProfileUrl(empId){ return `${PROFILE_ROOT}?id=${encodeURIComponent(empId)}`; }
+
 function setIconLink(el, href){
   if(!el) return;
-  if(href){
-    el.href = href;
-    el.style.pointerEvents = "auto";
-    el.style.opacity = "1";
-  }else{
-    el.href = "#";
-    el.style.pointerEvents = "none";
-    el.style.opacity = ".45";
-  }
+  if(href){ el.href = href; el.style.pointerEvents="auto"; el.style.opacity="1"; }
+  else{ el.href="#"; el.style.pointerEvents="none"; el.style.opacity=".45"; }
 }
 
-/* ========= RENDER ========= */
+function buildMapUrl(addr){
+  const a = (addr || "").toString().trim();
+  if(!a || a === "—") return "";
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(a);
+}
+
+
+function waitForImg(img){
+  return new Promise((resolve) => {
+    if(!img) return resolve();
+    if(img.complete && img.naturalWidth > 0) return resolve();
+    img.onload = () => resolve();
+    img.onerror = () => resolve();
+  });
+}
+
 function setEmployee(e){
   CURRENT_EMP = e;
 
@@ -159,41 +180,45 @@ function setEmployee(e){
 
   text("name", name);
   text("designation", des);
-  text("address", address);
+// ✅ Address clickable (Google Maps)
+CURRENT_MAP_URL = buildMapUrl(address);
 
-  // clickable values
-  let telHref = "";
-  if(phone){
-    const tel = phone.replace(/\s+/g,"");
-    telHref = `tel:${tel}`;
-    html("phone", `<a href="${telHref}">${phone}</a>`);
-  }else text("phone","—");
+const addrEl = document.getElementById("address");
+if(addrEl){
+  addrEl.textContent = (address && String(address).trim()) ? address : "—";
 
-  let mailHref = "";
-  if(email){
-    mailHref = `mailto:${email}`;
-    html("email", `<a href="${mailHref}">${email}</a>`);
-  }else text("email","—");
-
-  let webHref = "";
-if (websiteRaw) {
-  webHref = websiteUrl;
-
-  // ✅ show clean domain like "www.ddsengineering.in"
-  const showText = websiteRaw
-    .replace(/^https?:\/\//i, "")
-    .replace(/\/+$/,"");
-
-  html("website", `<a href="${webHref}" target="_blank" rel="noopener">${showText}</a>`);
-} else {
-  text("website", "—");
+  if(CURRENT_MAP_URL){
+    addrEl.href = CURRENT_MAP_URL;
+    addrEl.style.pointerEvents = "auto";
+    addrEl.style.opacity = "1";
+  }else{
+    addrEl.href = "#";
+    addrEl.style.pointerEvents = "none";
+    addrEl.style.opacity = ".9";
+  }
 }
 
+  // Save for PDF click
+  CURRENT_TEL_URL = phone ? `tel:${phone.replace(/\s+/g,"")}` : "";
+  CURRENT_MAIL_URL = email ? `mailto:${email}` : "";
+  CURRENT_WEB_URL  = websiteRaw ? websiteUrl : "";
 
-  // icons clickable
-  setIconLink(document.getElementById("phoneIcon"), telHref);
-  setIconLink(document.getElementById("emailIcon"), mailHref);
-  setIconLink(document.getElementById("webIcon"), webHref);
+  if(phone){
+    html("phone", `<a href="${CURRENT_TEL_URL}">${phone}</a>`);
+  }else text("phone","—");
+
+  if(email){
+    html("email", `<a href="${CURRENT_MAIL_URL}">${email}</a>`);
+  }else text("email","—");
+
+  if(websiteRaw){
+    const showText = websiteRaw.replace(/^https?:\/\//i, "").replace(/\/+$/,"");
+    html("website", `<a href="${CURRENT_WEB_URL}" target="_blank" rel="noopener">${showText}</a>`);
+  }else text("website","—");
+
+  setIconLink(document.getElementById("phoneIcon"), CURRENT_TEL_URL);
+  setIconLink(document.getElementById("emailIcon"), CURRENT_MAIL_URL);
+  setIconLink(document.getElementById("webIcon"), CURRENT_WEB_URL);
 
   // logo
   const logo = e.logo || e.logoUrl || e.logoImage || "";
@@ -203,29 +228,27 @@ if (websiteRaw) {
   }else{
     logoImg.src = "data:image/svg+xml;utf8," + encodeURIComponent(`
       <svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'>
-        <circle cx='90' cy='90' r='84' fill='white' stroke='black' stroke-width='2'/>
+        <rect x='6' y='6' width='168' height='168' fill='white' stroke='black' stroke-width='2'/>
         <text x='50%' y='55%' font-size='22' text-anchor='middle' fill='black'
               font-family='Arial' font-weight='700'>LOGO</text>
       </svg>
     `);
   }
 
-  // profile url (?id=)
+  // profile url
   const fallbackIndex = document.getElementById("empSelect").value || "0";
   const empId = (e.id || e.empId || e.slug || fallbackIndex);
-  const profilePageUrl = buildProfileUrl(empId);
+  CURRENT_PROFILE_URL = buildProfileUrl(empId);
+  document.getElementById("openProfileBtn").href = CURRENT_PROFILE_URL;
 
-  // Open Profile
-  const openBtn = document.getElementById("openProfileBtn");
-  openBtn.href = profilePageUrl;
+  // qr
+  const qrEl = document.getElementById("qrImg");
+  makeQrDataUrl(CURRENT_PROFILE_URL).then(src => { qrEl.src = src; });
 
-  // QR
-  document.getElementById("qrImg").src = makeQrUrl(profilePageUrl);
-
-  // Logo opens website
-  const logoLink  = document.getElementById("logoLink");
-  if(webHref){
-    logoLink.href = webHref;
+  // logo click -> website
+  const logoLink = document.getElementById("logoLink");
+  if(CURRENT_WEB_URL){
+    logoLink.href = CURRENT_WEB_URL;
     logoLink.style.pointerEvents = "auto";
     logoLink.style.opacity = "1";
   }else{
@@ -235,15 +258,12 @@ if (websiteRaw) {
   }
 }
 
-/* ========= LOAD employees.json ========= */
 async function loadEmployees(){
   const sel = document.getElementById("empSelect");
   sel.innerHTML = `<option>Loading…</option>`;
-
   try{
     const res = await fetch("./employees.json", { cache:"no-store" });
     if(!res.ok) throw new Error("employees.json not found");
-
     const data = await res.json();
     EMPLOYEES = Array.isArray(data) ? data : (data.employees || []);
     if(!EMPLOYEES.length) throw new Error("No employees in JSON");
@@ -267,66 +287,96 @@ async function loadEmployees(){
   }
 }
 
-/* ========= PDF (3.5x2) + clickable links ========= */
-async function downloadCardPdf(){
-  const el = document.getElementById("printCard");
-
-  const canvas = await html2canvas(el, {
-    scale: 3,
-    useCORS: true,
-    backgroundColor: "#ffffff"
-  });
-
-  const img = canvas.toDataURL("image/png");
-  const { jsPDF } = window.jspdf;
-
-  const pdfW = 3.5, pdfH = 2;
-  const pdf = new jsPDF({ orientation:"landscape", unit:"in", format:[pdfW, pdfH] });
-  pdf.addImage(img, "PNG", 0, 0, pdfW, pdfH);
-
-  const cardRect = el.getBoundingClientRect();
-  function rectToPdf(rect){
-    const x = ((rect.left - cardRect.left) / cardRect.width) * pdfW;
-    const y = ((rect.top - cardRect.top) / cardRect.height) * pdfH;
-    const w = (rect.width / cardRect.width) * pdfW;
-    const h = (rect.height / cardRect.height) * pdfH;
-    return { x,y,w,h };
-  }
-  function addLink(domEl, url){
-    if(!domEl || !url) return;
-    const r = domEl.getBoundingClientRect();
-    const p = rectToPdf(r);
-    pdf.link(p.x, p.y, p.w, p.h, { url, newWindow:true });
-  }
-
-  addLink(el.querySelector("#phone a"), el.querySelector("#phone a")?.href);
-  addLink(el.querySelector("#email a"), el.querySelector("#email a")?.href);
-  addLink(el.querySelector("#website a"), el.querySelector("#website a")?.href);
-
-  addLink(el.querySelector("#phoneIcon"), el.querySelector("#phoneIcon")?.href);
-  addLink(el.querySelector("#emailIcon"), el.querySelector("#emailIcon")?.href);
-  addLink(el.querySelector("#webIcon"), el.querySelector("#webIcon")?.href);
-
-  const addr = (CURRENT_EMP?.address || CURRENT_EMP?.location || "").trim();
-  if(addr){
-    addLink(el.querySelector("#address"), `https://www.google.com/maps?q=${encodeURIComponent(addr)}`);
-  }
-
-  const fallbackIndex = document.getElementById("empSelect").value || "0";
-  const empId = (CURRENT_EMP?.id || CURRENT_EMP?.empId || CURRENT_EMP?.slug || fallbackIndex);
-  addLink(el.querySelector("#qrImg"), buildProfileUrl(empId));
-
-  const websiteRaw = CURRENT_EMP?.website || CURRENT_EMP?.web || CURRENT_EMP?.site || "";
-  const websiteUrl = websiteRaw ? normalizeUrl(websiteRaw) : "";
-  if(websiteUrl){
-    addLink(el.querySelector("#logoImg"), websiteUrl);
-  }
-
-  const filename = (CURRENT_EMP?.name ? CURRENT_EMP.name.replace(/\s+/g,"_") : "employee") + ".pdf";
-  pdf.save(filename);
+/** Add clickable rectangle (in inches) */
+function addLink(pdf, url, x, y, w, h){
+  if(!url) return;
+  pdf.link(x, y, w, h, { url });
 }
 
-/* ========= INIT ========= */
+/* ✅ PERFECT PDF ONLY (no style/json changes) */
+async function downloadCardPdf(){
+  const card = document.getElementById("printCard");
+
+  document.body.classList.add("exporting");
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+  if (document.fonts?.ready) { try { await document.fonts.ready; } catch(e){} }
+  await Promise.all([
+    waitForImg(document.getElementById("logoImg")),
+    waitForImg(document.getElementById("qrImg"))
+  ]);
+
+  const rect = card.getBoundingClientRect();
+  const SCALE = 4;
+
+  const canvas = await html2canvas(card, {
+    backgroundColor: "#ffffff",
+    scale: SCALE,
+    width: rect.width,
+    height: rect.height,
+    useCORS: true,
+    allowTaint: false,
+    logging: false,
+    onclone: (doc) => {
+  doc.body.classList.add("exporting");
+
+  const logoLink = doc.getElementById("logoLink");
+  const logoImg  = doc.getElementById("logoImg");
+
+  if (logoLink){
+    logoLink.style.borderRadius = "0";
+    logoLink.style.overflow = "visible";
+    logoLink.style.clipPath = "none";
+    logoLink.style.webkitClipPath = "none";
+
+    /* 🔽 PDF ONLY logo container size */
+    logoLink.style.width = "78px";
+    logoLink.style.height = "78px";
+  }
+
+  if (logoImg){
+    logoImg.style.borderRadius = "0";
+    logoImg.style.clipPath = "none";
+    logoImg.style.webkitClipPath = "none";
+    logoImg.style.objectFit = "contain";
+
+    /* 🔽 PDF ONLY logo image size */
+    logoImg.style.width = "78px";
+    logoImg.style.height = "78px";
+  }
+}
+
+  });
+
+  const imgData = canvas.toDataURL("image/png", 1.0);
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({
+    orientation: "landscape",
+    unit: "in",
+    format: [3.5, 2],
+    compress: false
+  });
+
+  pdf.addImage(imgData, "PNG", 0, 0, 3.5, 2, undefined, "NONE");
+
+  addLink(pdf, CURRENT_WEB_URL,     0.22, 0.18, 1.05, 0.85);
+  addLink(pdf, CURRENT_PROFILE_URL, 0.36, 1.12, 0.70, 0.70);
+  addLink(pdf, CURRENT_TEL_URL,     1.55, 0.55, 1.85, 0.22);
+  addLink(pdf, CURRENT_MAIL_URL,    1.55, 0.80, 1.85, 0.22);
+  addLink(pdf, CURRENT_WEB_URL,     1.55, 1.05, 1.85, 0.22);
+  addLink(pdf, CURRENT_MAP_URL,     1.55, 1.30, 1.85, 0.60);
+
+
+  const safeName = (document.getElementById("name")?.textContent || "card")
+    .trim().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/gi, "");
+
+  pdf.save(`${safeName || "qr-card"}.pdf`);
+
+  document.body.classList.remove("exporting");
+}
+
+/* ✅ REQUIRED INIT (you were missing this) */
 document.getElementById("pdfBtn").addEventListener("click", downloadCardPdf);
 loadEmployees();
 </script>

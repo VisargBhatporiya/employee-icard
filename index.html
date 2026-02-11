@@ -33,20 +33,16 @@
 
         <!-- HERO -->
         <div class="ic-hero">
-
-          <!-- Avatar -->
           <div class="ic-avatar-wrap">
             <div class="ic-avatar-ring">
               <img id="photo" src="" alt="Profile Photo">
             </div>
           </div>
 
-          <!-- Name + Role -->
           <div class="ic-title text-center">
             <h1 id="name" class="ic-name">Loading…</h1>
             <div id="designation" class="ic-role">—</div>
           </div>
-
         </div>
 
         <!-- Body -->
@@ -57,7 +53,6 @@
             <div class="ic-panel-title mb-2">Contact Details</div>
 
             <div class="list-group list-group-flush">
-              <!-- Phone -->
               <a id="aPhone" href="#" class="list-group-item d-flex align-items-center justify-content-between py-3">
                 <div class="d-flex align-items-center gap-3">
                   <i class="bi bi-telephone-fill fs-5"></i>
@@ -69,7 +64,6 @@
                 <i class="bi bi-chevron-right"></i>
               </a>
 
-              <!-- Email -->
               <a id="aEmail" href="#" class="list-group-item d-flex align-items-center justify-content-between py-3">
                 <div class="d-flex align-items-center gap-3">
                   <i class="bi bi-envelope-fill fs-5"></i>
@@ -81,7 +75,6 @@
                 <i class="bi bi-chevron-right"></i>
               </a>
 
-              <!-- Website -->
               <a id="aWeb" href="#" target="_blank" rel="noopener"
                  class="list-group-item d-flex align-items-center justify-content-between py-3">
                 <div class="d-flex align-items-center gap-3">
@@ -94,7 +87,6 @@
                 <i class="bi bi-box-arrow-up-right"></i>
               </a>
 
-              <!-- Location -->
               <a id="aLoc" href="#" target="_blank" rel="noopener"
                  class="list-group-item d-flex align-items-center justify-content-between py-3">
                 <div class="d-flex align-items-center gap-3">
@@ -109,69 +101,82 @@
             </div>
           </div>
 
-          <!-- ✅ SHARE SECTION (INLINE – NO POPUP) -->
-          <div class="ic-panel mt-3">
-            <div class="ic-panel-title mb-2 text-center">
-              <i class="bi bi-share-fill me-1"></i> Share
-            </div>
+          <!-- ✅ SHARE SECTION (LIKE YOUR SCREENSHOT) -->
+          <div class="ic-panel mt-3 ic-share">
 
-            <!-- Number input -->
-            
-            <!-- Action buttons -->
-            <div class="d-flex gap-2 justify-content-center flex-wrap mb-3">
+            <!-- input -->
+            <input id="shareNumber"
+                   type="tel"
+                   class="form-control form-control-lg ic-share-input"
+                   placeholder="Number With Country code (e.g. +91 98765 43210)" />
+
+            <!-- WhatsApp share title clickable -->
+            <button id="btnShareWaTitle" type="button" class="ic-share-title-btn">
+              <i class="bi bi-whatsapp"></i> Share
+            </button>
+
+            <!-- buttons side-by-side -->
+            <div class="ic-share-actions-2">
               <button id="btnSaveVcf"
                       type="button"
                       class="btn btn-primary btn-lg fw-bold ic-btn-eq">
-                Save to Contacts <i class="bi bi-download ms-2"></i>
+                      Save to Contacts <i class="bi bi-download"></i>
               </button>
 
               <button id="btnToggleShare"
                       type="button"
-                      class="btn btn-outline-primary btn-lg fw-bold ic-btn-eq">
-                Share <i class="bi bi-chevron-down ms-2"></i>
+                      class="btn btn-info btn-lg fw-bold text-white ic-btn-eq">
+                Share <i class="bi bi-share-fill ms-2"></i>
               </button>
             </div>
 
+            <!-- share panel (hidden by default) -->
+            <div id="sharePanel" class="ic-share-panel d-none">
 
-            <!-- ✅ INLINE SHARE OPTIONS -->
-            <div id="shareInline" class="share-inline d-none">
-              <div class="d-grid gap-2">
-                <button id="shareWhatsApp" class="btn btn-outline-success btn-lg">
-                  <i class="bi bi-whatsapp me-2"></i> WhatsApp
+              <button id="btnCloseShare" type="button" class="ic-share-close" aria-label="Close">×</button>
+
+              <div class="ic-share-heading">Share My Digital Card</div>
+
+              <div class="ic-share-list">
+                <button id="shareWhatsApp" class="ic-share-item">
+                  <i class="bi bi-whatsapp"></i>
+                  <span>WhatsApp</span>
                 </button>
 
-                <button id="shareSMS" class="btn btn-outline-primary btn-lg">
-                  <i class="bi bi-chat-dots me-2"></i> SMS
+                <button id="shareSMS" class="ic-share-item">
+                  <i class="bi bi-chat-dots"></i>
+                  <span>SMS</span>
                 </button>
 
-                <button id="shareFacebook" class="btn btn-outline-primary btn-lg">
-                  <i class="bi bi-facebook me-2"></i> Facebook
+                <button id="shareFacebook" class="ic-share-item">
+                  <i class="bi bi-facebook"></i>
+                  <span>Facebook</span>
                 </button>
 
-                <button id="shareTwitter" class="btn btn-outline-dark btn-lg">
-                  <i class="bi bi-twitter-x me-2"></i> Twitter / X
+                <button id="shareTwitter" class="ic-share-item">
+                  <i class="bi bi-twitter-x"></i>
+                  <span>Twitter</span>
                 </button>
 
-                <button id="shareInstagram" class="btn btn-outline-danger btn-lg">
-                  <i class="bi bi-instagram me-2"></i> Instagram
+                <button id="shareInstagram" class="ic-share-item">
+                  <i class="bi bi-instagram"></i>
+                  <span>Instagram</span>
                 </button>
 
-                <button id="shareLinkedIn" class="btn btn-outline-primary btn-lg">
-                  <i class="bi bi-linkedin me-2"></i> LinkedIn
+                <button id="shareLinkedIn" class="ic-share-item">
+                  <i class="bi bi-linkedin"></i>
+                  <span>LinkedIn</span>
                 </button>
-
-                <button id="copyLink" class="btn btn-light btn-lg">
-                  <i class="bi bi-clipboard me-2"></i> Copy Link
-                </button>
-
-                <div class="mt-3 text-center">
-                  <a id="shareLinkPreview" href="#" target="_blank" rel="noopener"
-                    class="small text-primary text-decoration-underline d-none">
-                    —
-                  </a>
-                </div>
-
               </div>
+
+              <div class="ic-share-bottom">
+                <button id="igMini" class="ic-mini ig"><i class="bi bi-instagram"></i></button>
+                <button id="liMini" class="ic-mini li"><i class="bi bi-linkedin"></i></button>
+              </div>
+            </div>
+
+            <div class="ic-share-hint">
+              Share this page link directly on WhatsApp
             </div>
           </div>
 
@@ -180,7 +185,6 @@
             <div class="ic-panel-title mb-3">Company Profile</div>
 
             <div class="ic-panel-text">
-              <!-- (your company profile same as before) -->
               <p><strong>DDS Engineering Solutions LLP (DDS)</strong> is a multi-dimensional,
                 technical, and detailed engineering consultancy firm located in
                 <strong>Surat, Gujarat State</strong>. It was established in <strong>September 2013</strong>.</p>
@@ -241,77 +245,70 @@
     </div><!-- /ic-center -->
   </div><!-- /container -->
 
-
-
-
   <!-- ✅ SAVE CONTACT PREVIEW MODAL -->
-<div class="modal fade" id="saveContactModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 overflow-hidden">
-      <div class="modal-header">
-        <h5 class="modal-title fw-bold">
-          <i class="bi bi-person-vcard me-2"></i> Confirm Contact Details
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+  <div class="modal fade" id="saveContactModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 overflow-hidden">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-person-vcard me-2"></i> Confirm Contact Details
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
 
-      <div class="modal-body">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <img id="mPhoto" src="" alt="Photo"
-               style="width:56px;height:56px;object-fit:cover;border-radius:14px;border:1px solid rgba(0,0,0,.1)">
-          <div>
-            <div id="mName" class="fw-bold fs-5">—</div>
-            <div id="mDesig" class="text-muted small">—</div>
-            <div class="small">DDS Engineering (INDIA) Pvt. Ltd.</div>
+        <div class="modal-body">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <img id="mPhoto" src="" alt="Photo"
+                 style="width:56px;height:56px;object-fit:cover;border-radius:14px;border:1px solid rgba(0,0,0,.1)">
+            <div>
+              <div id="mName" class="fw-bold fs-5">—</div>
+              <div id="mDesig" class="text-muted small">—</div>
+              <div class="small">DDS Engineering (INDIA) Pvt. Ltd.</div>
+            </div>
+          </div>
+
+          <div class="list-group">
+            <div class="list-group-item d-flex justify-content-between">
+              <span class="text-muted">Phone</span>
+              <span id="mPhone" class="fw-semibold">—</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between">
+              <span class="text-muted">Email</span>
+              <span id="mEmail" class="fw-semibold">—</span>
+            </div>
+            <div class="list-group-item d-flex justify-content-between">
+              <span class="text-muted">Website</span>
+              <span id="mWeb" class="fw-semibold">—</span>
+            </div>
+            <div class="list-group-item">
+              <div class="text-muted mb-1">Address</div>
+              <div id="mAddr" class="fw-semibold">—</div>
+            </div>
+          </div>
+
+          <div class="alert alert-info mt-3 mb-0 small">
+            After you confirm, your phone will download a <strong>.VCF contact file</strong> and prompt you to save it.
           </div>
         </div>
 
-        <div class="list-group">
-          <div class="list-group-item d-flex justify-content-between">
-            <span class="text-muted">Phone</span>
-            <span id="mPhone" class="fw-semibold">—</span>
-          </div>
-          <div class="list-group-item d-flex justify-content-between">
-            <span class="text-muted">Email</span>
-            <span id="mEmail" class="fw-semibold">—</span>
-          </div>
-          <div class="list-group-item d-flex justify-content-between">
-            <span class="text-muted">Website</span>
-            <span id="mWeb" class="fw-semibold">—</span>
-          </div>
-          <div class="list-group-item">
-            <div class="text-muted mb-1">Address</div>
-            <div id="mAddr" class="fw-semibold">—</div>
-          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary btn-lg" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-primary btn-lg fw-bold" id="btnConfirmSave">
+            Confirm Save <i class="bi bi-download ms-2"></i>
+          </button>
         </div>
-
-        <div class="alert alert-info mt-3 mb-0 small">
-          After you confirm, your phone will download a <strong>.VCF contact file</strong> and prompt you to save it.
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary btn-lg" data-bs-dismiss="modal">
-          Cancel
-        </button>
-        <button type="button" class="btn btn-primary btn-lg fw-bold" id="btnConfirmSave">
-          Confirm Save <i class="bi bi-download ms-2"></i>
-        </button>
       </div>
     </div>
   </div>
-</div>
 
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  // =========================
-  // Helpers
-  // =========================
   const $ = (id) => document.getElementById(id);
-
   let currentEmp = null;
 
   function qp(key){
@@ -319,7 +316,6 @@
     return (u.searchParams.get(key) || "").trim();
   }
   function telClean(n){ return (n || "").replace(/\s+/g,""); }
-  function waNumber(n){ return telClean(n).replace("+",""); }
 
   function setSafeHref(a, href){
     if(!a) return;
@@ -343,99 +339,77 @@
       .replace(/,/g, "\\,");
   }
 
-
-async function copyTextSmart(text){
-  // 1) Try modern clipboard API
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {}
-
-  // 2) Fallback for blocked clipboard permissions
-  try {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "fixed";
-    ta.style.left = "-9999px";
-    document.body.appendChild(ta);
-    ta.select();
-    ta.setSelectionRange(0, ta.value.length);
-    const ok = document.execCommand("copy");
-    ta.remove();
-    return ok;
-  } catch {
-    return false;
+  function currentShareLink() { return window.location.href; }
+  function currentShareText() {
+    const nm = currentEmp?.name ? `${currentEmp.name} - ` : "";
+    return `${nm}My Digital Card: ${currentShareLink()}`;
   }
-}
 
-function showShareLinkPreview(){
-  const link = currentShareLink();
-  const a = $("shareLinkPreview");
-  if(!a) return;
+  function cleanShareNumber(raw){
+    raw = (raw || "").trim().replace(/\s+/g, "");
+    if(!raw) return "";
+    if(raw.startsWith("00")) raw = "+" + raw.slice(2);
+    raw = raw.replace(/[^0-9+]/g, "");
+    return raw.replace("+", "");
+  }
 
-  a.href = link;
-  a.textContent = link;
-  a.classList.remove("d-none");
-}
+  function openWhatsAppShare(){
+    const number = cleanShareNumber($("shareNumber")?.value || "");
+    const text = encodeURIComponent(currentShareText());
+    const url = number ? `https://wa.me/${number}?text=${text}` : `https://wa.me/?text=${text}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
 
-  // =========================
-  // VCF Download
-  // =========================
+  function openNew(url){
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
   function downloadVcf(emp) {
-  if (!emp) return alert("Employee not loaded yet.");
+    if (!emp) return alert("Employee not loaded yet.");
 
-  const fullName = emp.name || "DDS Contact";
-  const parts = fullName.trim().split(" ");
-  const firstName = parts[0] || "";
-  const lastName = parts.slice(1).join(" ") || "";
+    const fullName = emp.name || "DDS Contact";
+    const parts = fullName.trim().split(" ");
+    const firstName = parts[0] || "";
+    const lastName = parts.slice(1).join(" ") || "";
 
-  const phone = emp.phone || "";
-  const email = emp.email || "";
-  const website = normalizeUrl(emp.website || emp.web || "");
-  const address = emp.address || "";
-  const designation = emp.designation || "";
-  const company = "DDS Engineering (INDIA) Pvt. Ltd.";
+    const phone = emp.phone || "";
+    const email = emp.email || "";
+    const website = normalizeUrl(emp.website || emp.web || "");
+    const address = emp.address || "";
+    const designation = emp.designation || "";
+    const company = "DDS Engineering (INDIA) Pvt. Ltd.";
 
-  const vcf = [
-    "BEGIN:VCARD",
-    "VERSION:3.0",
-    `N:${escapeVcard(lastName)};${escapeVcard(firstName)};;;`,
-    `FN:${escapeVcard(fullName)}`,
-    `ORG:${escapeVcard(company)}`,
-    designation ? `TITLE:${escapeVcard(designation)}` : "",
-    phone ? `TEL;TYPE=CELL:${telClean(phone)}` : "",
-    email ? `EMAIL;TYPE=INTERNET:${escapeVcard(email)}` : "",
-    website ? `URL:${website}` : "",
-    address ? `ADR;TYPE=WORK:;;${escapeVcard(address)};;;;` : "",
-    "END:VCARD"
-  ].filter(Boolean).join("\r\n");
+    const vcf = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      `N:${escapeVcard(lastName)};${escapeVcard(firstName)};;;`,
+      `FN:${escapeVcard(fullName)}`,
+      `ORG:${escapeVcard(company)}`,
+      designation ? `TITLE:${escapeVcard(designation)}` : "",
+      phone ? `TEL;TYPE=CELL:${telClean(phone)}` : "",
+      email ? `EMAIL;TYPE=INTERNET:${escapeVcard(email)}` : "",
+      website ? `URL:${website}` : "",
+      address ? `ADR;TYPE=WORK:;;${escapeVcard(address)};;;;` : "",
+      "END:VCARD"
+    ].filter(Boolean).join("\r\n");
 
-  // ✅ 1) Always download the .vcf file
-  const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
+    const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${fullName.replace(/\s+/g, "_")}.vcf`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${fullName.replace(/\s+/g, "_")}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
 
-  // ✅ 2) Try to open "Add Contact" on mobile (best effort)
-  // iOS/Android often open the vCard import UI from a data URL
-  try {
-    const dataUrl = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcf);
-    window.location.href = dataUrl;
-  } catch (e) {
-    // ignore if browser blocks it
+    try {
+      const dataUrl = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcf);
+      window.location.href = dataUrl;
+    } catch {}
   }
-}
 
-  // =========================
-  // Load employee
-  // =========================
   async function load(){
     const id = qp("id") || "ankit";
 
@@ -475,28 +449,11 @@ function showShareLinkPreview(){
     setSafeHref($("aLoc"), mapHref);
   }
 
-  // =========================
-  // Share helpers
-  // =========================
-  function currentShareLink() { return window.location.href; }
-  function currentShareText() {
-    const nm = currentEmp?.name ? `${currentEmp.name} - ` : "";
-    return `${nm}My Digital Card: ${currentShareLink()}`;
-  }
-  function getShareNumber() { return ($("shareNumber")?.value || "").trim(); }
-
-  // =========================
-  // Contact Form
-  // =========================
   const COMPANY_EMAIL = "info@ddsengineering.in";
   const COMPANY_WA = "919727148654";
   function val(id){ return $(id).value.trim(); }
 
-  // =========================
-  // DOM Ready
-  // =========================
   document.addEventListener("DOMContentLoaded", () => {
-
     load().catch((err) => {
       console.error(err);
       $("name").textContent = "Profile unavailable";
@@ -505,117 +462,80 @@ function showShareLinkPreview(){
       currentEmp = null;
     });
 
-    // Save to Contacts
-let saveModal = null;
+    // Save modal
+    let saveModal = null;
 
-function fillSavePreview(emp){
-  if(!emp) return;
-
-  $("mPhoto").src = emp.photo || "https://via.placeholder.com/120?text=Photo";
-  $("mName").textContent = emp.name || "—";
-  $("mDesig").textContent = emp.designation || "—";
-
-  $("mPhone").textContent = emp.phone || "—";
-  $("mEmail").textContent = emp.email || "—";
-
-  const webText = emp.website || emp.web || "";
-  $("mWeb").textContent = webText ? webText : "—";
-
-  $("mAddr").textContent = emp.address || emp.mapQuery || "—";
-}
-
-$("btnSaveVcf")?.addEventListener("click", () => {
-  if(!currentEmp) return alert("Employee not loaded yet.");
-
-  fillSavePreview(currentEmp);
-
-  const el = $("saveContactModal");
-  saveModal = bootstrap.Modal.getOrCreateInstance(el);
-  saveModal.show();
-});
-
-// ✅ Confirm Save
-$("btnConfirmSave")?.addEventListener("click", () => {
-  if(!currentEmp) return;
-
-  // close modal first (nice UX)
-  saveModal?.hide();
-
-  // then download/import
-  downloadVcf(currentEmp);
-});
-
-    // ✅ Inline toggle (same page)
-    const btnToggleShare = $("btnToggleShare");
-    const shareInline = $("shareInline");
-    if (btnToggleShare && shareInline) {
-      btnToggleShare.addEventListener("click", () => {
-        const isHidden = shareInline.classList.contains("d-none");
-        shareInline.classList.toggle("d-none", !isHidden);
-
-        btnToggleShare.innerHTML = isHidden
-          ? 'Close <i class="bi bi-chevron-up ms-2"></i>'
-          : 'Share <i class="bi bi-chevron-down ms-2"></i>';
-      });
+    function fillSavePreview(emp){
+      if(!emp) return;
+      $("mPhoto").src = emp.photo || "https://via.placeholder.com/120?text=Photo";
+      $("mName").textContent = emp.name || "—";
+      $("mDesig").textContent = emp.designation || "—";
+      $("mPhone").textContent = emp.phone || "—";
+      $("mEmail").textContent = emp.email || "—";
+      const webText = emp.website || emp.web || "";
+      $("mWeb").textContent = webText ? webText : "—";
+      $("mAddr").textContent = emp.address || emp.mapQuery || "—";
     }
 
-    // WhatsApp
-    $("shareWhatsApp")?.addEventListener("click", () => {
-      const num = getShareNumber().replace(/\s+/g, "").replace("+", "");
-      const text = encodeURIComponent(currentShareText());
-      const url = num ? `https://wa.me/${num}?text=${text}` : `https://wa.me/?text=${text}`;
-      window.open(url, "_blank", "noopener,noreferrer");
+    $("btnSaveVcf")?.addEventListener("click", () => {
+      if(!currentEmp) return alert("Employee not loaded yet.");
+      fillSavePreview(currentEmp);
+      saveModal = bootstrap.Modal.getOrCreateInstance($("saveContactModal"));
+      saveModal.show();
     });
 
-    // SMS
+    $("btnConfirmSave")?.addEventListener("click", () => {
+      if(!currentEmp) return;
+      saveModal?.hide();
+      downloadVcf(currentEmp);
+    });
+
+    // WhatsApp title tap
+    $("btnShareWaTitle")?.addEventListener("click", openWhatsAppShare);
+
+    // Toggle share panel
+    const panel = $("sharePanel");
+    $("btnToggleShare")?.addEventListener("click", () => {
+      panel?.classList.toggle("d-none");
+    });
+    $("btnCloseShare")?.addEventListener("click", () => {
+      panel?.classList.add("d-none");
+    });
+
+    // Share actions
+    $("shareWhatsApp")?.addEventListener("click", openWhatsAppShare);
+
     $("shareSMS")?.addEventListener("click", () => {
-      const num = getShareNumber().replace(/\s+/g, "");
       const body = encodeURIComponent(currentShareText());
-      const url = num ? `sms:${num}?&body=${body}` : `sms:?&body=${body}`;
-      window.location.href = url;
+      window.location.href = `sms:?&body=${body}`;
     });
 
-    // Facebook
     $("shareFacebook")?.addEventListener("click", () => {
       const u = encodeURIComponent(currentShareLink());
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}`, "_blank", "noopener,noreferrer");
+      openNew(`https://www.facebook.com/sharer/sharer.php?u=${u}`);
     });
 
-    // Twitter/X
     $("shareTwitter")?.addEventListener("click", () => {
       const text = encodeURIComponent(currentShareText());
-      window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank", "noopener,noreferrer");
+      openNew(`https://twitter.com/intent/tweet?text=${text}`);
     });
 
-    // Instagram (copy link)
     $("shareInstagram")?.addEventListener("click", async () => {
-      const link = currentShareLink();
-      const ok = await copyTextSmart(link);
-
-      showShareLinkPreview();
-
-      if(ok) alert("Link copied! Now open Instagram and paste it in DM / Story.");
-      else alert("Copy blocked. Link shown below—click it or copy manually.");
+      try{
+        await navigator.clipboard.writeText(currentShareLink());
+        alert("Link copied! Now open Instagram and paste in DM/Story.");
+      }catch{
+        alert("Copy blocked. Please copy link manually: " + currentShareLink());
+      }
     });
 
-
-    // LinkedIn
     $("shareLinkedIn")?.addEventListener("click", () => {
       const u = encodeURIComponent(currentShareLink());
-      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${u}`, "_blank", "noopener,noreferrer");
+      openNew(`https://www.linkedin.com/sharing/share-offsite/?url=${u}`);
     });
 
-    // Copy link
-    $("copyLink")?.addEventListener("click", async () => {
-  const link = currentShareLink();
-  const ok = await copyTextSmart(link);
-
-  showShareLinkPreview();
-
-  if(ok) alert("Link copied!");
-  else alert("Copy blocked. Link shown below—click it or copy manually.");
-});
-
+    $("igMini")?.addEventListener("click", () => $("shareInstagram")?.click());
+    $("liMini")?.addEventListener("click", () => $("shareLinkedIn")?.click());
 
     // Contact send
     $("btnSend")?.addEventListener("click", (e) => {

@@ -1,11 +1,18 @@
 :root{
-  --card-w: 3.5in;
-  --card-h: 2in;
-  --black: #000;
-  --muted: #444;
+  /* 3.5in x 2in @ 96dpi */
+  --card-w: 336px;
+  --card-h: 192px;
+
+  --black:#000;
+  --muted:#444;
+
+  /* export-safe */
+  --right-border: 10px;
+  --pad: 13px;
 }
 
 *{ box-sizing:border-box; }
+html, body{ height:100%; }
 
 body{
   margin:0;
@@ -47,8 +54,10 @@ body{
 
 /* ===== CENTER WRAP ===== */
 .cardWrap{
+  min-height: calc(100vh - 64px);
   display:flex;
   justify-content:center;
+  align-items:center;
   padding: 18px 10px 28px;
 }
 
@@ -57,216 +66,325 @@ body{
   width: var(--card-w);
   height: var(--card-h);
   background:#fff;
-  border-radius: 10px;              /* closer to reference */
+  border-radius: 0;
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 28px rgba(0,0,0,.12);
-
-
-  border-right: 10px solid #000;
-
+  border-right: none;
 }
 
-/* top-left black rounded bar (reference style) */
-/* top-left thin accent bar */
+/* Thick right black border (export-stable) */
+.card::after{
+  content:"";
+  position:absolute;
+  top:-2px;
+  right:-2px;
+  width: calc(var(--right-border) + 4px);
+  height: calc(100% + 4px);
+  background: var(--black);
+  z-index: 1;
+  transform: translateZ(0);
+}
+
+/* Top-left rounded black bar */
 .cornerAccent{
   position:absolute;
-  left: 0.14in;          /* slightly inward */
-  top: -0.08in;
-
-  width: 0.18in;         /* 🔥 thinner */
-  height: 0.85in;        /* balanced height */
-
+  left:-2px;
+  top:-2px;
+  width: 20px;
+  height: 96px;
   background:#000;
-  border-radius: 0.14in; /* smoother, slimmer curve */
+  border-radius: 0 0 16px 0;
+  z-index: 2;
+  transform: translateZ(0);
 }
 
-
-/* inner grid */
+/* inner layout */
 .card-inner{
   width:100%;
   height:100%;
   display:flex;
-  padding: 0.14in;          /* slightly more breathing space */
-  gap: 0.12in;              /* consistent left-right distance */
+  padding: var(--pad);
+  gap: 12px;
+  position: relative;
+  z-index: 3;
 }
 
-/* ===== LEFT SIDE ===== */
+/* ===== LEFT SIDE (logo + qr) ===== */
 .left{
-  width: 1.22in;
+  width: 118px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding-left: 0;
+  position: relative;
+}
+
+.logoQrStack{
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
-
-  /* 🔥 key change */
-  align-items: flex-end;     /* move content to right edge */
-
-  padding-top: 0.04in;
-  padding-bottom: 0.04in;
-  /* padding-right: 0.04in;    gap from divider */
+  align-items:center;
+  justify-content:center;
+  gap: 14px;
+  transform: none;
 }
 
+/* ✅ IMPORTANT: NEVER clip logo */
 .logoLink{
-  width: 0.92in;
-  height: 0.92in;
+  width: 98px;
+  height: 98px;
   display:flex;
   align-items:center;
   justify-content:center;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
 }
+
 .logo{
-  width: 0.82in;            /* ✅ minimum logo size */
-  height: 0.82in;
+  width: 98px;
+  height: 98px;
   object-fit: contain;
+  display:block;
+
+  /* extra safety */
+  border-radius: 0 !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
 }
-/* QR should be big + no border like reference */
+
+/* QR */
 .qrWrap{
-  width: 0.76in;
-  height: 0.76in;
+  position: static;
+  width: 64px;
+  height: 64px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
+
 .qrImg{
-  width: 0.76in;            /* ✅ minimum QR size */
-  height: 0.76in;
-  object-fit: cover;
+  width: 64px;
+  height: 64px;
+  object-fit:contain;
+  image-rendering: pixelated;
 }
 
-/* ===== DIVIDER (keep fixed distance) ===== */
+/* center divider */
 .divider{
-  width: 1.3px;
+  width: 1.4px;
   background:#000;
-  opacity: .85;
+  opacity:.85;
 }
 
-/* ===== RIGHT SIDE (keep content aligned + not touching edges) ===== */
+/* ===== RIGHT SIDE ===== */
 .right{
   flex:1;
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
-  padding-top: 0.03in;
-  padding-right: 0.04in;    /* ✅ keeps text from sticking to edge */
-}
-/* Name row (user icon + name) */
-.nameRow{
-  display:flex;
-  gap: 8px;
-  align-items:flex-start;
-  margin: 0 0 0.10in 0;            /* ✅ balanced spacing */
+  padding-top: 4px;
+  padding-right: calc(6px + var(--right-border));
 }
 
-.userIcon{
-  width: 20px;
-  height: 20px;
+.nameRow{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-top: 2px;
-}
-.userIcon svg{
-  width: 20px;
-  height: 20px;
-  fill:#000;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 8px 0;
 }
 
 .name{
-  font-size: 14.6px;        /* ⬅ reduced more */
+  font-size: 13px;
   font-weight: 900;
-  letter-spacing: .1px;
+  letter-spacing: .15px;
   text-transform: uppercase;
-  line-height: 1.03;
+  line-height: 1;
 }
-
 
 .designation{
-  font-size: 10.8px;        /* ⬅ reduced */
+  font-size: 10px;
   font-weight: 500;
-  color: #444;
+  color:#444;
   margin-top: 1px;
-  line-height: 1.05;
+  line-height: 1;
 }
 
-
-/* ===== CONTACT LIST ===== */
+/* meta list */
 .meta{
-  display: flex;
-  flex-direction: column;
-  gap: 4px;        /* 🔥 minimum clean gap */
+  display:flex;
+  flex-direction:column;
+  gap: 4px;
 }
 
-
-
-/* contact rows */
 .row{
-  display: flex;
+  display:flex;
   align-items: center;
-  gap: 10px;       /* icon ↔ text gap */
-  min-height: 0;  /* ✅ important */
+  gap: 10px;
 }
 
+/* =========================
+   EXACT LEAF ICON (MATCH SS PERFECT)
+   ========================= */
+/* =========================
+   SHAPE EXACT LIKE YOUR IMAGE
+   (rounded TL + BR only)
+   ========================= */
 
-/* black rounded-square icon like reference */
 .iconBox{
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  background: #000;
-  border-radius: 4px;
+  width:24px;
+  height:24px;
+  min-width:24px;
 
-  /* ✅ center icon */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#000;
+
+  /* TL rounded, TR sharp, BR rounded, BL sharp */
+  border-radius: 14px 0 14px 0;
 }
 
 .iconBox svg{
-  width: 12px;
-  height: 12px;
-  fill: #fff;      /* 🔥 THIS is the main fix */
+  width:12px;
+  height:12px;
+  fill:#fff;
 }
 
+/* ✅ Employee icon (ONLY black person, NO leaf box) */
+.userIcon{
+  width:22px;
+  height:22px;
+  min-width:22px;
+  background: transparent !important;
+  border-radius:0 !important;
+  overflow: visible !important;
+  position:relative;
 
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-/* value text */
+  color:#000; /* person icon black */
+}
+
+/* remove the old cut + circle effects */
+.userIcon::before,
+.userIcon::after{
+  content:none !important;
+}
+
+/* black person svg */
+.userIcon svg{
+  width:22px;
+  height:22px;
+  fill: currentColor;
+}
+
+/* values */
 .value{
-  font-size: 11.8px;
+  font-size: 11px;
   font-weight: 500;
-  line-height: 1.05;   /* 🔥 very tight */
+  line-height: 1.1;
+  padding-top: 1px;
 }
+.value a{ color:inherit; text-decoration:none; }
+.value a:hover{ text-decoration:underline; }
 
-
-
-.value a{
-  color: inherit;
-  text-decoration:none;
-}
-.value a:hover{
-  text-decoration: underline;
-}
-
-/* Address row */
+/* Address */
 .addressRow{
   align-items:flex-start;
   margin-top: 2px;
 }
 .addrText{
-  font-size: 10.1px;        /* ⬅ reduced */
-  line-height: 1.32;
+  font-size: 9.6px;
+  line-height: 1.28;
   color:#000;
-  max-width: 2.05in;
+  max-width: 200px;
 }
-
 
 /* ===== PRINT ===== */
 @media print{
-  body{ background:#fff; }
-  .no-print{ display:none !important; }
-  .cardWrap{ padding:0; }
-  .card{
-    box-shadow:none;
-    border-radius:0;
-    width: var(--card-w);
-    height: var(--card-h);
+  body{
+    background:#fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
+  .no-print{ display:none !important; }
+  .cardWrap{ padding:0 !important; min-height:auto !important; }
+  .card{ box-shadow:none !important; border-radius:0 !important; }
 }
+
+/* ===== EXPORT MODE (html2canvas clone safety) ===== */
+body.exporting .logoLink,
+body.exporting #logoLink{
+  border-radius: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  transform: none !important;
+}
+
+body.exporting .logo,
+body.exporting #logoImg{
+  border-radius: 0 !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  width: 98px !important;
+  height: 98px !important;
+  object-fit: contain !important;
+}
+
+/* extra safety: do NOT round any images during export */
+body.exporting img{
+  border-radius: 0 !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+}
+
+
+
+
+/* ===== PDF EXPORT FIX: keep logo original shape (no circle clip) ===== */
+/* body.exporting .logoLink,
+body.exporting #logoLink{
+  border-radius: 0 !important;
+  overflow: visible !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+body.exporting .logo,
+body.exporting #logoImg{
+  border-radius: 0 !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+} */
+
+
+/* ✅ HARD OVERRIDE: absolutely no rounding in PDF capture */
+body.exporting #logoLink,
+body.exporting #logoImg,
+body.exporting .logoLink,
+body.exporting .logo{
+  border-radius: 0 !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  overflow: visible !important;
+}
+
+
+
+
+.addrLink{ color:inherit; text-decoration:none; }
+.addrLink:hover{ text-decoration:underline; }
