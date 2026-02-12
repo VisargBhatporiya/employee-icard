@@ -6,9 +6,11 @@
   --black:#000;
   --muted:#444;
 
-  /* export-safe */
   --right-border: 10px;
   --pad: 13px;
+
+  --logo-size: 80px;
+  --qr-size: 54px;
 }
 
 *{ box-sizing:border-box; }
@@ -73,7 +75,7 @@ body{
   border-right: none;
 }
 
-/* Thick right black border (export-stable) */
+/* Thick right black border */
 .card::after{
   content:"";
   position:absolute;
@@ -89,14 +91,13 @@ body{
 /* Top-left rounded black bar */
 .cornerAccent{
   position:absolute;
-  left:-2px;
-  top:-2px;
-  width: 20px;
-  height: 96px;
+  left:10px;
+  top:0;
+  width:14px;
+  height:60px;
   background:#000;
-  border-radius: 0 0 16px 0;
-  z-index: 2;
-  transform: translateZ(0);
+  border-radius: 0 0 40px 40px;
+  z-index:2;
 }
 
 /* inner layout */
@@ -104,7 +105,7 @@ body{
   width:100%;
   height:100%;
   display:flex;
-  padding: var(--pad);
+  padding: 20px var(--pad) var(--pad) var(--pad);
   gap: 12px;
   position: relative;
   z-index: 3;
@@ -116,7 +117,6 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  padding-left: 0;
   position: relative;
 }
 
@@ -126,53 +126,45 @@ body{
   align-items:center;
   justify-content:center;
   gap: 14px;
-  transform: none;
+  transform: translateX(14px);
 }
 
-/* ✅ IMPORTANT: NEVER clip logo */
 .logoLink{
-  width: 98px;
-  height: 98px;
+  width: 60px;
+  height: 86px;
   display:flex;
   align-items:center;
   justify-content:center;
   border-radius: 0 !important;
   overflow: visible !important;
   background: transparent !important;
-  clip-path: none !important;
-  -webkit-clip-path: none !important;
 }
 
 .logo{
-  width: 98px;
-  height: 98px;
+  width: 60px;
+  height: 86px;
   object-fit: contain;
   display:block;
-
-  /* extra safety */
   border-radius: 0 !important;
-  clip-path: none !important;
-  -webkit-clip-path: none !important;
+  clip-path:none !important;
+  -webkit-clip-path:none !important;
+  image-rendering:auto;
 }
 
-/* QR */
 .qrWrap{
-  position: static;
-  width: 64px;
-  height: 64px;
+  width: var(--qr-size);
+  height: var(--qr-size);
   display:flex;
   align-items:center;
   justify-content:center;
 }
-
 .qrImg{
-  width: 64px;
-  height: 64px;
+  width: var(--qr-size);
+  height: var(--qr-size);
   object-fit:contain;
   image-rendering: pixelated;
 }
 
-/* center divider */
 .divider{
   width: 1.4px;
   background:#000;
@@ -212,49 +204,33 @@ body{
   line-height: 1;
 }
 
-/* meta list */
 .meta{
   display:flex;
   flex-direction:column;
   gap: 4px;
 }
-
 .row{
   display:flex;
   align-items: center;
   gap: 10px;
 }
 
-/* =========================
-   EXACT LEAF ICON (MATCH SS PERFECT)
-   ========================= */
-/* =========================
-   SHAPE EXACT LIKE YOUR IMAGE
-   (rounded TL + BR only)
-   ========================= */
-
 .iconBox{
-  width:24px;
-  height:24px;
-  min-width:24px;
-
+  width:18px;
+  height: 18px;
+  min-width:18px;
   display:flex;
   align-items:center;
   justify-content:center;
-
   background:#000;
-
-  /* TL rounded, TR sharp, BR rounded, BL sharp */
-  border-radius: 14px 0 14px 0;
+  border-radius: 12px 0 12px 0;
 }
-
 .iconBox svg{
-  width:12px;
-  height:12px;
+  width:9px;
+  height:9px;
   fill:#fff;
 }
 
-/* ✅ Employee icon (ONLY black person, NO leaf box) */
 .userIcon{
   width:22px;
   height:22px;
@@ -262,29 +238,17 @@ body{
   background: transparent !important;
   border-radius:0 !important;
   overflow: visible !important;
-  position:relative;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
-  color:#000; /* person icon black */
+  color:#000;
 }
-
-/* remove the old cut + circle effects */
-.userIcon::before,
-.userIcon::after{
-  content:none !important;
-}
-
-/* black person svg */
 .userIcon svg{
   width:22px;
   height:22px;
   fill: currentColor;
 }
 
-/* values */
 .value{
   font-size: 11px;
   font-weight: 500;
@@ -294,17 +258,32 @@ body{
 .value a{ color:inherit; text-decoration:none; }
 .value a:hover{ text-decoration:underline; }
 
-/* Address */
 .addressRow{
   align-items:flex-start;
   margin-top: 2px;
 }
+
+.addressBlock{
+  display:flex;
+  flex-direction:column;
+}
+
+.companyName{
+  font-size:9.5px;
+  font-weight:600;
+  margin-bottom:2px;
+  white-space: nowrap;
+}
+
 .addrText{
-  font-size: 9.6px;
-  line-height: 1.28;
+  font-size:9.6px;
+  line-height:1.28;
   color:#000;
   max-width: 200px;
 }
+
+.addrLink{ color:inherit; text-decoration:none; }
+.addrLink:hover{ text-decoration:underline; }
 
 /* ===== PRINT ===== */
 @media print{
@@ -318,73 +297,55 @@ body{
   .card{ box-shadow:none !important; border-radius:0 !important; }
 }
 
-/* ===== EXPORT MODE (html2canvas clone safety) ===== */
-body.exporting .logoLink,
-body.exporting #logoLink{
+
+
+
+/* =========================
+   HARD RESET LOGO (NO CIRCLE)
+   Put at VERY END of style.css
+   ========================= */
+#logoLink,
+.logoLink{
   border-radius: 0 !important;
   overflow: visible !important;
   background: transparent !important;
+
   clip-path: none !important;
   -webkit-clip-path: none !important;
-  transform: none !important;
+
+  mask: none !important;
+  -webkit-mask: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
 }
 
-body.exporting .logo,
-body.exporting #logoImg{
+#logoImg,
+.logo{
   border-radius: 0 !important;
+  overflow: visible !important;
+
   clip-path: none !important;
   -webkit-clip-path: none !important;
-  width: 98px !important;
-  height: 98px !important;
+
+  mask: none !important;
+  -webkit-mask: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+
   object-fit: contain !important;
 }
 
-/* extra safety: do NOT round any images during export */
-body.exporting img{
+/* If any global css does img { border-radius:50% } */
+img#logoImg{
   border-radius: 0 !important;
-  clip-path: none !important;
-  -webkit-clip-path: none !important;
 }
 
 
 
-
-/* ===== PDF EXPORT FIX: keep logo original shape (no circle clip) ===== */
-/* body.exporting .logoLink,
-body.exporting #logoLink{
-  border-radius: 0 !important;
-  overflow: visible !important;
-  clip-path: none !important;
-  -webkit-clip-path: none !important;
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
+.exporting #logoImg{
+  object-fit: contain !important;
 }
-
-body.exporting .logo,
-body.exporting #logoImg{
-  border-radius: 0 !important;
-  clip-path: none !important;
-  -webkit-clip-path: none !important;
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
-} */
-
-
-/* ✅ HARD OVERRIDE: absolutely no rounding in PDF capture */
-body.exporting #logoLink,
-body.exporting #logoImg,
-body.exporting .logoLink,
-body.exporting .logo{
-  border-radius: 0 !important;
-  clip-path: none !important;
-  -webkit-clip-path: none !important;
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
-  overflow: visible !important;
-}
-
-
-
-
-.addrLink{ color:inherit; text-decoration:none; }
-.addrLink:hover{ text-decoration:underline; }

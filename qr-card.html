@@ -6,7 +6,7 @@
   <title>QR Card - Employee</title>
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Screenshot export -->
+  <!-- Export -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
@@ -39,11 +39,11 @@
       <div class="left">
         <div class="logoQrStack">
           <a id="logoLink" class="logoLink" target="_blank" rel="noopener" href="#">
-            <img id="logoImg" class="logo" alt="Logo" crossorigin="anonymous" />
+            <img id="logoImg" class="logo" alt="Logo" />
           </a>
 
           <div class="qrWrap">
-            <img id="qrImg" class="qrImg" alt="QR" crossorigin="anonymous" />
+            <img id="qrImg" class="qrImg" alt="QR" />
           </div>
         </div>
       </div>
@@ -98,28 +98,36 @@
                 <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
               </svg>
             </span>
-            <a class="addrText addrLink" id="address" href="#" target="_blank" rel="noopener">—</a>
-
+            <div class="addressBlock">
+              <div class="companyName">DDS Engineering (INDIA) Pvt. Ltd.</div>
+              <a class="addrText addrLink" id="address" href="#" target="_blank" rel="noopener">—</a>
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
+
     </div>
   </div>
 </div>
 
 <script>
 const PROFILE_ROOT = "https://visargbhatporiya.github.io/employee-icard/";
+
+/* ✅ FIXED LOGO (NOT from employees.json)
+   You already have: employee-icard/assets/logo.png
+   This code auto-detects correct path (inner/outer live-server root)
+*/
+const FIXED_LOGO_CLICK_URL = "https://www.ddsengineering.in";
+
 let EMPLOYEES = [];
 let CURRENT_EMP = null;
 
-// We'll store these so PDF can add clickable links
 let CURRENT_PROFILE_URL = "";
 let CURRENT_WEB_URL = "";
 let CURRENT_TEL_URL = "";
 let CURRENT_MAIL_URL = "";
 let CURRENT_MAP_URL = "";
-
 
 function text(id, v){ document.getElementById(id).textContent = (v && String(v).trim()) ? v : "—"; }
 function html(id, v){ document.getElementById(id).innerHTML = v || "—"; }
@@ -132,6 +140,33 @@ function normalizeUrl(url){
   return "https://" + u;
 }
 
+function buildProfileUrl(empId){ return `${PROFILE_ROOT}?id=${encodeURIComponent(empId)}`; }
+
+function buildMapUrl(addr){
+  const a = (addr || "").toString().trim();
+  if(!a || a === "—") return "";
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(a);
+}
+
+function setIconLink(el, href){
+  if(!el) return;
+  if(href){ el.href = href; el.style.pointerEvents="auto"; el.style.opacity="1"; }
+  else{ el.href="#"; el.style.pointerEvents="none"; el.style.opacity=".45"; }
+}
+
+function waitForImg(img){
+  return new Promise((resolve) => {
+    if(!img) return resolve();
+    if(img.complete && img.naturalWidth > 0) return resolve();
+    img.onload = () => resolve();
+    img.onerror = () => resolve();
+  });
+}
+
+async function decodeImg(img){
+  try{ if(img && img.decode) await img.decode(); }catch(e){}
+}
+
 async function makeQrDataUrl(data){
   try{
     if(window.QRCode && QRCode.toDataURL){
@@ -142,28 +177,40 @@ async function makeQrDataUrl(data){
   return `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=${d}`;
 }
 
-function buildProfileUrl(empId){ return `${PROFILE_ROOT}?id=${encodeURIComponent(empId)}`; }
+/* ✅ Load logo using working path (tries both) */
+function applyFixedLogo(){
+  const logoImg = document.getElementById("logoImg");
+  const logoLink = document.getElementById("logoLink");
 
-function setIconLink(el, href){
-  if(!el) return;
-  if(href){ el.href = href; el.style.pointerEvents="auto"; el.style.opacity="1"; }
-  else{ el.href="#"; el.style.pointerEvents="none"; el.style.opacity=".45"; }
-}
+  const candidates = [
+    "./assets/images/logo/logo.png",              // when server root = employee-icard/
+    "./employee-icard/assets/images/logo/logo.png"// when server root = outer folder
+  ];
 
-function buildMapUrl(addr){
-  const a = (addr || "").toString().trim();
-  if(!a || a === "—") return "";
-  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(a);
-}
+  let i = 0;
 
+  const tryNext = () => {
+    const src = candidates[i] + "?v=" + Date.now(); // cache buster
+    logoImg.src = src;
 
-function waitForImg(img){
-  return new Promise((resolve) => {
-    if(!img) return resolve();
-    if(img.complete && img.naturalWidth > 0) return resolve();
-    img.onload = () => resolve();
-    img.onerror = () => resolve();
-  });
+    logoImg.onerror = () => {
+      i++;
+      if(i < candidates.length) tryNext();
+      else console.log("❌ Logo not found. Checked:", candidates);
+    };
+  };
+
+  tryNext();
+
+  if(FIXED_LOGO_CLICK_URL){
+    logoLink.href = FIXED_LOGO_CLICK_URL;
+    logoLink.style.pointerEvents = "auto";
+    logoLink.style.opacity = "1";
+  }else{
+    logoLink.href = "#";
+    logoLink.style.pointerEvents = "none";
+    logoLink.style.opacity = ".7";
+  }
 }
 
 function setEmployee(e){
@@ -180,36 +227,28 @@ function setEmployee(e){
 
   text("name", name);
   text("designation", des);
-// ✅ Address clickable (Google Maps)
-CURRENT_MAP_URL = buildMapUrl(address);
 
-const addrEl = document.getElementById("address");
-if(addrEl){
-  addrEl.textContent = (address && String(address).trim()) ? address : "—";
-
-  if(CURRENT_MAP_URL){
-    addrEl.href = CURRENT_MAP_URL;
-    addrEl.style.pointerEvents = "auto";
-    addrEl.style.opacity = "1";
-  }else{
-    addrEl.href = "#";
-    addrEl.style.pointerEvents = "none";
-    addrEl.style.opacity = ".9";
+  CURRENT_MAP_URL = buildMapUrl(address);
+  const addrEl = document.getElementById("address");
+  if(addrEl){
+    addrEl.textContent = (address && String(address).trim()) ? address : "—";
+    if(CURRENT_MAP_URL){
+      addrEl.href = CURRENT_MAP_URL;
+      addrEl.style.pointerEvents = "auto";
+      addrEl.style.opacity = "1";
+    }else{
+      addrEl.href = "#";
+      addrEl.style.pointerEvents = "none";
+      addrEl.style.opacity = ".9";
+    }
   }
-}
 
-  // Save for PDF click
   CURRENT_TEL_URL = phone ? `tel:${phone.replace(/\s+/g,"")}` : "";
   CURRENT_MAIL_URL = email ? `mailto:${email}` : "";
   CURRENT_WEB_URL  = websiteRaw ? websiteUrl : "";
 
-  if(phone){
-    html("phone", `<a href="${CURRENT_TEL_URL}">${phone}</a>`);
-  }else text("phone","—");
-
-  if(email){
-    html("email", `<a href="${CURRENT_MAIL_URL}">${email}</a>`);
-  }else text("email","—");
+  if(phone)  html("phone", `<a href="${CURRENT_TEL_URL}">${phone}</a>`); else text("phone","—");
+  if(email)  html("email", `<a href="${CURRENT_MAIL_URL}">${email}</a>`); else text("email","—");
 
   if(websiteRaw){
     const showText = websiteRaw.replace(/^https?:\/\//i, "").replace(/\/+$/,"");
@@ -220,51 +259,24 @@ if(addrEl){
   setIconLink(document.getElementById("emailIcon"), CURRENT_MAIL_URL);
   setIconLink(document.getElementById("webIcon"), CURRENT_WEB_URL);
 
-  // logo
-  const logo = e.logo || e.logoUrl || e.logoImage || "";
-  const logoImg = document.getElementById("logoImg");
-  if(logo){
-    logoImg.src = logo;
-  }else{
-    logoImg.src = "data:image/svg+xml;utf8," + encodeURIComponent(`
-      <svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'>
-        <rect x='6' y='6' width='168' height='168' fill='white' stroke='black' stroke-width='2'/>
-        <text x='50%' y='55%' font-size='22' text-anchor='middle' fill='black'
-              font-family='Arial' font-weight='700'>LOGO</text>
-      </svg>
-    `);
-  }
-
-  // profile url
   const fallbackIndex = document.getElementById("empSelect").value || "0";
   const empId = (e.id || e.empId || e.slug || fallbackIndex);
   CURRENT_PROFILE_URL = buildProfileUrl(empId);
   document.getElementById("openProfileBtn").href = CURRENT_PROFILE_URL;
 
-  // qr
   const qrEl = document.getElementById("qrImg");
   makeQrDataUrl(CURRENT_PROFILE_URL).then(src => { qrEl.src = src; });
-
-  // logo click -> website
-  const logoLink = document.getElementById("logoLink");
-  if(CURRENT_WEB_URL){
-    logoLink.href = CURRENT_WEB_URL;
-    logoLink.style.pointerEvents = "auto";
-    logoLink.style.opacity = "1";
-  }else{
-    logoLink.href = "#";
-    logoLink.style.pointerEvents = "none";
-    logoLink.style.opacity = ".7";
-  }
 }
 
 async function loadEmployees(){
   const sel = document.getElementById("empSelect");
   sel.innerHTML = `<option>Loading…</option>`;
+
   try{
     const res = await fetch("./employees.json", { cache:"no-store" });
     if(!res.ok) throw new Error("employees.json not found");
     const data = await res.json();
+
     EMPLOYEES = Array.isArray(data) ? data : (data.employees || []);
     if(!EMPLOYEES.length) throw new Error("No employees in JSON");
 
@@ -281,6 +293,9 @@ async function loadEmployees(){
     sel.value = "0";
     setEmployee(EMPLOYEES[0]);
 
+    // ✅ apply fixed logo once
+    applyFixedLogo();
+
   }catch(err){
     console.error(err);
     sel.innerHTML = `<option>Error: ${err.message}</option>`;
@@ -293,18 +308,24 @@ function addLink(pdf, url, x, y, w, h){
   pdf.link(x, y, w, h, { url });
 }
 
-/* ✅ PERFECT PDF ONLY (no style/json changes) */
 async function downloadCardPdf(){
   const card = document.getElementById("printCard");
+  const logoImg = document.getElementById("logoImg");
+  const qrImg = document.getElementById("qrImg");
+
+  // 🔒 Capture exact on-screen logo size (this is what makes it oval)
+const logoRect = document.getElementById("logoLink").getBoundingClientRect();
+  const LOGO_W = Math.round(logoRect.width);
+  const LOGO_H = Math.round(logoRect.height);
 
   document.body.classList.add("exporting");
   await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
+  // ensure logo is applied (your fixed logo function)
+  if (typeof applyFixedLogo === "function") applyFixedLogo();
+
   if (document.fonts?.ready) { try { await document.fonts.ready; } catch(e){} }
-  await Promise.all([
-    waitForImg(document.getElementById("logoImg")),
-    waitForImg(document.getElementById("qrImg"))
-  ]);
+  await Promise.all([waitForImg(logoImg), waitForImg(qrImg)]);
 
   const rect = card.getBoundingClientRect();
   const SCALE = 4;
@@ -317,34 +338,33 @@ async function downloadCardPdf(){
     useCORS: true,
     allowTaint: false,
     logging: false,
+
+    // ✅ MOST IMPORTANT PART
     onclone: (doc) => {
-  doc.body.classList.add("exporting");
+      // Keep ORIGINAL CSS sizes. Don't force square sizing.
+      const l  = doc.getElementById("logoImg");
+      const ll = doc.getElementById("logoLink");
 
-  const logoLink = doc.getElementById("logoLink");
-  const logoImg  = doc.getElementById("logoImg");
+      if (ll){
+        ll.style.width = "";          // IMPORTANT: remove forced width
+        ll.style.height = "";         // IMPORTANT: remove forced height
+        ll.style.borderRadius = "0";
+        ll.style.overflow = "visible";
+        ll.style.clipPath = "none";
+        ll.style.webkitClipPath = "none";
+      }
 
-  if (logoLink){
-    logoLink.style.borderRadius = "0";
-    logoLink.style.overflow = "visible";
-    logoLink.style.clipPath = "none";
-    logoLink.style.webkitClipPath = "none";
+      if (l){
+        l.style.width = "";           // IMPORTANT: remove forced width
+        l.style.height = "";          // IMPORTANT: remove forced height
 
-    /* 🔽 PDF ONLY logo container size */
-    logoLink.style.width = "78px";
-    logoLink.style.height = "78px";
-  }
-
-  if (logoImg){
-    logoImg.style.borderRadius = "0";
-    logoImg.style.clipPath = "none";
-    logoImg.style.webkitClipPath = "none";
-    logoImg.style.objectFit = "contain";
-
-    /* 🔽 PDF ONLY logo image size */
-    logoImg.style.width = "78px";
-    logoImg.style.height = "78px";
-  }
-}
+        // Must match UI
+        l.style.objectFit = "contain";
+        l.style.borderRadius = "0";
+        l.style.clipPath = "none";
+        l.style.webkitClipPath = "none";
+      }
+    }
 
   });
 
@@ -360,13 +380,13 @@ async function downloadCardPdf(){
 
   pdf.addImage(imgData, "PNG", 0, 0, 3.5, 2, undefined, "NONE");
 
-  addLink(pdf, CURRENT_WEB_URL,     0.22, 0.18, 1.05, 0.85);
+  // your links (keep as you have)
+  addLink(pdf, FIXED_LOGO_CLICK_URL || CURRENT_WEB_URL, 0.22, 0.18, 1.05, 0.85);
   addLink(pdf, CURRENT_PROFILE_URL, 0.36, 1.12, 0.70, 0.70);
   addLink(pdf, CURRENT_TEL_URL,     1.55, 0.55, 1.85, 0.22);
   addLink(pdf, CURRENT_MAIL_URL,    1.55, 0.80, 1.85, 0.22);
   addLink(pdf, CURRENT_WEB_URL,     1.55, 1.05, 1.85, 0.22);
   addLink(pdf, CURRENT_MAP_URL,     1.55, 1.30, 1.85, 0.60);
-
 
   const safeName = (document.getElementById("name")?.textContent || "card")
     .trim().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/gi, "");
@@ -376,7 +396,7 @@ async function downloadCardPdf(){
   document.body.classList.remove("exporting");
 }
 
-/* ✅ REQUIRED INIT (you were missing this) */
+
 document.getElementById("pdfBtn").addEventListener("click", downloadCardPdf);
 loadEmployees();
 </script>
