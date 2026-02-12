@@ -141,8 +141,8 @@ body{
 }
 
 .logo{
-  width: 60px;
-  height: 86px;
+  width: 200px;
+  height: 100px;
   object-fit: contain;
   display:block;
   border-radius: 0 !important;
@@ -169,6 +169,7 @@ body{
   width: 1.4px;
   background:#000;
   opacity:.85;
+  height: 165px;
 }
 
 /* ===== RIGHT SIDE ===== */
