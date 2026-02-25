@@ -126,31 +126,35 @@ body{
   align-items:center;
   justify-content:center;
   gap: 14px;
-  transform: translateX(14px);
+
+  /* keep your horizontal shift, add tiny Y nudge */
+  transform: translate(14px, var(--logo-nudge-y));
 }
 
 .logoLink{
-  width: 60px;
-  height: 86px;
+  width: var(--logo-w);
+  height: var(--logo-h);
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   border-radius: 0 !important;
-  overflow: visible !important;
+  overflow: hidden !important;     /* IMPORTANT: prevent weird visual shifting */
   background: transparent !important;
 }
 
 .logo{
-  width: 200px;
-  height: 100px;
-  object-fit: contain;
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: contain !important;
   display:block;
+
   border-radius: 0 !important;
   clip-path:none !important;
   -webkit-clip-path:none !important;
-  image-rendering:auto;
 }
-
 .qrWrap{
   width: var(--qr-size);
   height: var(--qr-size);
@@ -193,12 +197,12 @@ body{
   font-size: 13px;
   font-weight: 900;
   letter-spacing: .15px;
-  text-transform: uppercase;
+  text-transform: none;
   line-height: 1;
 }
 
 .designation{
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 500;
   color:#444;
   margin-top: 1px;
@@ -251,7 +255,7 @@ body{
 }
 
 .value{
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 500;
   line-height: 1.1;
   padding-top: 1px;
@@ -277,7 +281,7 @@ body{
 }
 
 .addrText{
-  font-size:9.6px;
+  font-size:9px;
   line-height:1.28;
   color:#000;
   max-width: 200px;
@@ -349,4 +353,13 @@ img#logoImg{
 
 .exporting #logoImg{
   object-fit: contain !important;
+}
+
+
+
+:root{
+  /* ...your existing vars... */
+  --logo-w: 70px;
+  --logo-h: 86px;
+  --logo-nudge-y: 2px; /* small down push to fix "little upside" */
 }

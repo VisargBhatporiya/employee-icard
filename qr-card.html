@@ -313,15 +313,9 @@ async function downloadCardPdf(){
   const logoImg = document.getElementById("logoImg");
   const qrImg = document.getElementById("qrImg");
 
-  // 🔒 Capture exact on-screen logo size (this is what makes it oval)
-const logoRect = document.getElementById("logoLink").getBoundingClientRect();
-  const LOGO_W = Math.round(logoRect.width);
-  const LOGO_H = Math.round(logoRect.height);
-
   document.body.classList.add("exporting");
   await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
-  // ensure logo is applied (your fixed logo function)
   if (typeof applyFixedLogo === "function") applyFixedLogo();
 
   if (document.fonts?.ready) { try { await document.fonts.ready; } catch(e){} }
@@ -339,33 +333,80 @@ const logoRect = document.getElementById("logoLink").getBoundingClientRect();
     allowTaint: false,
     logging: false,
 
-    // ✅ MOST IMPORTANT PART
     onclone: (doc) => {
-      // Keep ORIGINAL CSS sizes. Don't force square sizing.
+
+      /* =========================
+         ✅ PDF ONLY FIX: NORMAL ROWS
+         ========================= */
+      const normalRows = doc.querySelectorAll(".row:not(.addressRow)");
+      normalRows.forEach(r => {
+        r.style.display = "flex";
+        r.style.alignItems = "center";
+        r.style.gap = "10px";
+      });
+
+      const normalIcons = doc.querySelectorAll(".row:not(.addressRow) .iconBox");
+      normalIcons.forEach(icon => {
+        icon.style.display = "flex";
+        icon.style.alignItems = "center";
+        icon.style.justifyContent = "center";
+        icon.style.transform = "translateY(1px)";
+      });
+
+      /* =========================
+         ✅ PDF ONLY FIX: ADDRESS ROW (TOP ALIGN LIKE SCREEN)
+         ========================= */
+      const addrRow = doc.querySelector(".addressRow");
+      if (addrRow){
+        addrRow.style.display = "flex";
+        addrRow.style.alignItems = "flex-start";   // IMPORTANT (matches screenshot 1)
+        addrRow.style.gap = "10px";
+      }
+
+      const locationIcon = doc.querySelector(".addressRow .iconBox");
+      if(locationIcon){
+        locationIcon.style.display = "flex";
+        locationIcon.style.alignItems = "center";
+        locationIcon.style.justifyContent = "center";
+        locationIcon.style.transform = "translateY(2px)"; // aligns with DDS Engineering line
+      }
+
+      /* =========================
+         ✅ Keep ORIGINAL LOGO SHAPE
+         ========================= */
       const l  = doc.getElementById("logoImg");
       const ll = doc.getElementById("logoLink");
 
       if (ll){
-        ll.style.width = "";          // IMPORTANT: remove forced width
-        ll.style.height = "";         // IMPORTANT: remove forced height
+        ll.style.width = "";
+        ll.style.height = "";
         ll.style.borderRadius = "0";
-        ll.style.overflow = "visible";
+        ll.style.overflow = "hidden";
         ll.style.clipPath = "none";
         ll.style.webkitClipPath = "none";
+        ll.style.display = "flex";
+        ll.style.alignItems = "center";
+        ll.style.justifyContent = "center";
       }
 
       if (l){
-        l.style.width = "";           // IMPORTANT: remove forced width
-        l.style.height = "";          // IMPORTANT: remove forced height
-
-        // Must match UI
+        l.style.width = "100%";
+        l.style.height = "100%";
         l.style.objectFit = "contain";
         l.style.borderRadius = "0";
         l.style.clipPath = "none";
         l.style.webkitClipPath = "none";
+        l.style.display = "block";
+      }
+
+      /* =========================
+         ✅ Ensure Name not uppercase in PDF
+         ========================= */
+      const nameEl = doc.querySelector(".name");
+      if(nameEl){
+        nameEl.style.textTransform = "none";
       }
     }
-
   });
 
   const imgData = canvas.toDataURL("image/png", 1.0);
@@ -380,7 +421,6 @@ const logoRect = document.getElementById("logoLink").getBoundingClientRect();
 
   pdf.addImage(imgData, "PNG", 0, 0, 3.5, 2, undefined, "NONE");
 
-  // your links (keep as you have)
   addLink(pdf, FIXED_LOGO_CLICK_URL || CURRENT_WEB_URL, 0.22, 0.18, 1.05, 0.85);
   addLink(pdf, CURRENT_PROFILE_URL, 0.36, 1.12, 0.70, 0.70);
   addLink(pdf, CURRENT_TEL_URL,     1.55, 0.55, 1.85, 0.22);
@@ -395,8 +435,6 @@ const logoRect = document.getElementById("logoLink").getBoundingClientRect();
 
   document.body.classList.remove("exporting");
 }
-
-
 document.getElementById("pdfBtn").addEventListener("click", downloadCardPdf);
 loadEmployees();
 </script>

@@ -30,5 +30,21 @@
     "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , India.",
     "whatsapp": "+917016649244",
     "logo": "assets/images/logo/logo3.png"
+  },
+  {
+    "id": "Jiten",
+    "name": "Jiten Dhobi",
+    "designation": "Director",
+    "role": "sr Draughtsman",
+    "phone": "+919601402333",
+    "altPhone": "",
+    "email": "jiten@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "assets/images/profiles/ankit_bhandari.jpg",
+    "address": "Trinnity Business Park, 412, 4th Floor, Maduvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat,India.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , India.",
+    "whatsapp": "+919601402333",
+    "logo": "assets/images/logo/logo3.png"
   }
 ]
