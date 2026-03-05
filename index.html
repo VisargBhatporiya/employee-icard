@@ -101,21 +101,18 @@
             </div>
           </div>
 
-          <!-- ✅ SHARE SECTION (LIKE YOUR SCREENSHOT) -->
+          <!-- ✅ SHARE SECTION -->
           <div class="ic-panel mt-3 ic-share">
 
-            <!-- input -->
             <input id="shareNumber"
                    type="tel"
                    class="form-control form-control-lg ic-share-input"
                    placeholder="Number With Country code (e.g. +91 98765 43210)" />
 
-            <!-- WhatsApp share title clickable -->
             <button id="btnShareWaTitle" type="button" class="ic-share-title-btn">
               <i class="bi bi-whatsapp"></i> Share
             </button>
 
-            <!-- buttons side-by-side -->
             <div class="ic-share-actions-2">
               <button id="btnSaveVcf"
                       type="button"
@@ -130,9 +127,7 @@
               </button>
             </div>
 
-            <!-- share panel (hidden by default) -->
             <div id="sharePanel" class="ic-share-panel d-none">
-
               <button id="btnCloseShare" type="button" class="ic-share-close" aria-label="Close">×</button>
 
               <div class="ic-share-heading">Share My Digital Card</div>
@@ -180,26 +175,26 @@
             </div>
           </div>
 
-          <!-- ✅ ABOUT SECTION -->
+<!-- ✅ COMPANY PROFILE -->
 <div class="ic-panel mt-3">
   <div class="ic-panel-title mb-3">Company Profile:</div>
 
   <div class="ic-panel-text">
 
     <p>
-      <strong>DDS Engineering Solutions LLP (DDS)</strong> is a multi-dimensional, technical, and detailed engineering consultancy firm located in Surat, Gujarat State. It was started in September 2013.
+      <strong>DDS Engineering Solutions LLP (DDS)</strong>: A multi-dimensional, technical, and detailed engineering consultancy firm started in September 2013.
     </p>
 
     <p>
-      <strong>DDS Engineering (INDIA) Private Limited (DDS)</strong> was started in June 2021.
+      <strong>DDS Engineering (INDIA) Private Limited (DDS)</strong>: Started in June 2021.
     </p>
 
     <p>
-      DDS is well-recognized for its dedicated services to the Polyester industry (CP, POY/FDY/PSF and DTY and Extruder Spinning).
+      DDS is well-recognised for its dedicated services in the polyester industry (CP, POY, FDY/PSF, DTY, and extruder spinning). DDS has diversified into speciality chemicals.
     </p>
 
     <p>
-      DDS is made up of professionally qualified technical people that have served world-class synthetic polyester filament yarn and polymerization plants for 25 years.
+      DDS is made up of professionally qualified technical people that have served world-class synthetic polyester filament yarn and polymerization plants.
     </p>
 
     <p>
@@ -208,26 +203,28 @@
       Our team has experience in the areas of Engineering, Project management and shop floor.
     </p>
 
-    <p>
-      DDS offers a complete solution as an <strong>Engineering Design Contractor</strong>, right from product selection, technology selection, and plant engineering to execution and start-up, Detail Design, and engineering of OSBL. Plant design, optimisation, modifications, energy-saving solutions, product improvement and process audits, improvement in operating procedures, and utility revamping are our other key deliverables (expertise in DuPont – Chemtex CPs, Zimmer, CTIEI, Huitong, Polytex, Joyou, John Brown).
-    </p>
-
-    <p style="color: #006400; font-weight: bold; margin-top: 15px;">
-      We are an ISO 9001: 2015 and ISO 14001: 2015 certified company
-    </p>
-
-    <p class="fw-bold mb-2 mt-3">Core Engineering Services:</p>
-    <ul class="mb-0">
-      <li>Process </li>
-      <li>Piping </li>
-      <li>Mechanical </li>
+    <ul class="mb-3">
+      <li>Process</li>
+      <li>Piping</li>
+      <li>Mechanical</li>
       <li>Electrical &amp; Instrumentation Engineering</li>
     </ul>
 
+    <p>
+      DDS offers a comprehensive solution as an engineering design contractor, which includes product selection, technology selection, plant engineering, execution, and start-up, detail design, and engineering of OSBL.
+    </p>
+
+    <p>
+      Our other key deliverables include plant design, process optimisation, scale-up assistance from R&amp;D to the pilot plant and its commercial production, modifications, energy-saving solutions, product improvement, process audits, improvements to operating procedures, and utility revamping (expertise in DuPont – Chemtex CPs, Zimmer, CTIEI, Huitong, Polytex, Joyou, John Brown).
+    </p>
+
+    <p class="fw-bold mt-3" style="color:#006400;">
+      We are an ISO 9001: 2015 and ISO 14001: 2015 certified company.
+    </p>
+
   </div>
 </div>
-
-          <!-- ✅ CONTACT SECTION -->
+          <!-- ✅ CONTACT US -->
           <div class="ic-panel mt-3">
             <div class="ic-panel-title mb-2">Contact Us</div>
 
@@ -449,16 +446,19 @@
     const mapQ = encodeURIComponent(emp.mapQuery || emp.address || "");
     const mapHref = mapQ ? `https://maps.google.com/?q=${mapQ}` : "#";
 
-    $("dPhone").textContent   = emp.phone || "—";
-    $("dEmail").textContent   = emp.email || "—";
+    $("dPhone").textContent = emp.phone || "—";
+    $("dEmail").textContent = emp.email || "—";
 
-    const webText = emp.website || emp.web || "";
-    $("dWebsite").textContent = webText ? webText : "—";
+    // ✅ Website: show without https/http, but keep link working
+    const webTextRaw = (emp.website || emp.web || "").trim();
+    const webTextClean = webTextRaw.replace(/^https?:\/\//i, "");
+    $("dWebsite").textContent = webTextClean ? webTextClean : "—";
+
     $("dAddress").textContent = emp.address || emp.mapQuery || "—";
 
     setSafeHref($("aPhone"), emp.phone ? `tel:${telClean(emp.phone)}` : "#");
     setSafeHref($("aEmail"), emp.email ? `mailto:${emp.email}` : "#");
-    setSafeHref($("aWeb"), webText ? normalizeUrl(webText) : "#");
+    setSafeHref($("aWeb"), webTextRaw ? normalizeUrl(webTextRaw) : "#");  // ✅ FIXED: no "webText" undefined
     setSafeHref($("aLoc"), mapHref);
   }
 
@@ -485,8 +485,11 @@
       $("mDesig").textContent = emp.designation || "—";
       $("mPhone").textContent = emp.phone || "—";
       $("mEmail").textContent = emp.email || "—";
-      const webText = emp.website || emp.web || "";
-      $("mWeb").textContent = webText ? webText : "—";
+
+      const webTextRaw = (emp.website || emp.web || "").trim();
+      const webTextClean = webTextRaw.replace(/^https?:\/\//i, "");
+      $("mWeb").textContent = webTextClean ? webTextClean : "—";
+
       $("mAddr").textContent = emp.address || emp.mapQuery || "—";
     }
 
