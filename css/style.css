@@ -187,13 +187,23 @@ body{
   padding-right: calc(6px + var(--right-border));
 }
 
+/* ✅ Make nameRow behave exactly like other rows */
 .nameRow{
   display:flex;
   gap: 10px;
-  align-items: center;
+  align-items:center;
   margin: 0 0 8px 0;
+  min-width:0;
 }
 
+/* ✅ Ensure name block starts on same X as phone/email values */
+.nameBlock{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+
+/* name */
 .name{
   font-size: 13px;
   font-weight: 900;
@@ -202,11 +212,12 @@ body{
   line-height: 1;
 }
 
+/* designation */
 .designation{
   font-size: 9px;
   font-weight: 500;
   color:#444;
-  margin-top: 1px;
+  margin-top: 3px;
   line-height: 1;
 }
 
@@ -216,41 +227,41 @@ body{
   gap: 4px;
 }
 
+/* ✅ rows */
 .row{
   display:flex;
-  align-items: center;     /* ✅ keep icon + text same line */
-  gap: 10px;
-}
-
-/* ===== ICON STYLE (MATCH REFERENCE IMAGE) ===== */
-.iconBox{
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-  display:flex;
   align-items:center;
-  justify-content:center;
-  background:#fff;
-  border: 1.4px solid #000;
-  border-radius: 999px;
-}
-.iconBox svg{
-  width: 10px;
-  height: 10px;
-  fill:#000;
+  gap:10px;
+  min-width:0;
 }
 
-/* Name icon */
+/* ==========================================================
+   ✅ ICON ALIGNMENT FIX (ONLY phone/email/user/location)
+   Make icon column same width for PERFECT vertical alignment
+   ========================================================== */
+.iconBox,
 .userIcon{
   width: 20px;
   height: 20px;
   min-width: 20px;
+  flex-shrink: 0;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   background:#fff;
-  border: 1.6px solid #000;
   border-radius: 999px;
+  box-sizing: border-box;
+}
+
+.iconBox{ border: 1.4px solid #000; }
+.userIcon{ border: 1.6px solid #000; }
+
+.iconBox svg{
+  width: 11px;
+  height: 11px;
+  fill:#000;
 }
 .userIcon svg{
   width: 12px;
@@ -258,37 +269,54 @@ body{
   fill:#000;
 }
 
+/* ✅ links behave like blocks */
+a.iconBox{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+}
+
+/* value (phone/email) */
 .value{
   font-size: 10.5px;
   font-weight: 500;
   line-height: 1.1;
-  padding-top: 0;          /* ✅ remove tiny vertical shift */
-  display:flex;            /* ✅ keeps link aligned with icon */
-  align-items:center;
+  padding-top: 0;
+  display:block;
+  min-width:0;
 }
 .value a{ color:inherit; text-decoration:none; }
 .value a:hover{ text-decoration:underline; }
 
-/* ✅ Space between email and address like yellow */
+/* ✅ Space between email and address */
 .addressRow{
+  display:flex;
   align-items:flex-start;
-  margin-top: 10px;        /* ✅ added space */
+  gap:10px;
+  margin-top: 10px;
+  min-width:0;
 }
 
-/* ✅ align location icon with first line (company name) */
+/* ✅ keep location icon locked in same column */
 .addressRow .iconBox{
-  margin-top: 1px;
+  margin-top: -2.5px !important;
+  flex-shrink: 0;
 }
 
 .addressBlock{
   display:flex;
   flex-direction:column;
+  justify-content:flex-start;
+  padding-top: 1px;
+  min-width:0;
 }
 
 .companyName{
   font-size:9.5px;
   font-weight:600;
-  margin-bottom:2px;
+  margin:0 0 2px 0;
+  line-height:1.15;
   white-space: nowrap;
 }
 
@@ -297,7 +325,7 @@ body{
   line-height:1.28;
   color:#000;
   max-width: 200px;
-  white-space: pre-line;   /* ✅ comma -> next line (from JS \n) */
+  white-space: pre-line;
 }
 
 .websiteText{
@@ -305,7 +333,7 @@ body{
   line-height: 1.2;
   color:#000;
   text-decoration: none;
-  margin-top: 2px;
+  margin-top: 6px;
   white-space: nowrap;
 }
 .websiteText:hover{ text-decoration: underline; }
@@ -370,9 +398,4 @@ img#logoImg{
 
 .exporting #logoImg{
   object-fit: contain !important;
-}
-
-
-.addrText{
-  white-space: pre-line;
 }

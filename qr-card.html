@@ -223,46 +223,38 @@ function setEmployee(e){
   // ✅ Address formatting EXACT like reference card
   const rawAddress = (e.address || e.location || e.addr || "").toString().trim();
 
-  function formatDDSAddress(addr){
-    if(!addr) return "—";
+function formatDDSAddress(addr){
+  if(!addr) return "—";
 
-    // normalize spaces/newlines
-    const clean = addr.replace(/\s+/g, " ").trim();
+  // normalize spaces/newlines
+  let clean = String(addr)
+    .replace(/\s+/g, " ")
+    .replace(/\s*,\s*/g, ", ")
+    .trim();
 
-    // split by commas into parts
-    const parts = clean.split(",").map(s => s.trim()).filter(Boolean);
+  // Fix common pin formatting like "Surat- 395009" -> "Surat-395009"
+  clean = clean.replace(/Surat-\s*(\d{6})/i, "Surat-$1");
 
-    // helper: safe get
-    const p = (i) => (parts[i] || "").trim();
+  // Split by commas
+  const parts = clean.split(",").map(s => s.trim()).filter(Boolean);
 
-    // If the address is shorter/different, fallback to clean (no weird breaks)
-    if(parts.length < 6){
-      return clean;
-    }
+  // If not enough parts, just return clean
+  if(parts.length < 6) return clean;
 
-    // Build EXACT lines (handles your known DDS format)
-    // 0: Trinnity Business Park
-    // 1: 412
-    // 2: 4th Floor
-    // 3: Madhuvan Circle
-    // 4: L.P. Savani Road
-    // 5: Adajan
-    // 6: Surat- 395009
-    // 7: Gujarat
-    // 8: INDIA
-    const line1 = [p(0), p(1), p(2)].filter(Boolean).join(", ") + ",";
-    const line2 = [p(3), p(4)].filter(Boolean).join(", ") + ",";
-    const line3 = [p(5), p(6)].filter(Boolean).join(", ") + ",";
-    const line4 = [p(7), p(8)].filter(Boolean).join(", ");
+  // Helper
+  const p = (i) => (parts[i] || "").trim();
 
-    // Remove any double commas caused by missing parts
-    return [line1, line2, line3, line4]
-      .map(x => x.replace(/,\s*,/g, ",").replace(/,\s*$/, ",").trim())
-      .join("\n")
-      .replace(/,\n/g, ",\n") // keep comma at line end like reference
-      .trim();
-  }
+  // ✅ EXACT lines like your screenshot
+  const line1 = `${p(0)}, ${p(1)}, ${p(2)},`;
+  const line2 = `${p(3)}, ${p(4)},`;
+  const line3 = `${p(5)}, ${p(6)}, ${p(7)}, ${p(8)}`; 
+  // (Adajan, Surat-395009, Gujarat, INDIA.)
 
+  return [line1, line2, line3]
+    .map(x => x.replace(/\s+/g, " ").replace(/,\s*,/g, ",").trim())
+    .join("\n")
+    .trim();
+}
   const formattedAddress = formatDDSAddress(rawAddress);
   const phone = (e.phone || e.mobile || e.contact || "").toString().trim();
   const email = (e.email || e.mail || "").toString().trim();

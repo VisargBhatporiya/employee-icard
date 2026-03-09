@@ -72,11 +72,7 @@ body{
 }
 
 /* =========================
-   TYPOGRAPHY HIERARCHY (CLIENT REQUEST)
-   Highest: Employee Name
-   2nd: Company Name
-   3rd: UI / Controls + Panel Titles
-   4th: Designation + Company Profile Content
+   TYPOGRAPHY HIERARCHY
    ========================= */
 
 /* 2nd highest: Company name */
@@ -202,12 +198,42 @@ body{
   margin: -6px -6px 14px;
 }
 
-/* 4th highest: company profile content */
+/* =========================
+   ✅ COMPANY PROFILE TEXT (FIXED SPACING)
+   ========================= */
+.ic-panel-text{
+  text-align: left;                 /* ✅ looks best on narrow width */
+  text-rendering: optimizeLegibility;
+}
+
 .ic-panel-text p,
 .ic-panel-text li{
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.75;                /* ✅ better spacing */
   color: #111827;
+
+  /* ✅ stop ugly hyphen cuts */
+  hyphens: none;
+  word-break: normal;
+  overflow-wrap: normal;
+
+  letter-spacing: 0;
+  word-spacing: normal;
+}
+
+/* ✅ Paragraph spacing */
+.ic-panel-text p{
+  margin: 0 0 12px;
+}
+
+/* ✅ List spacing */
+.ic-panel-text ul{
+  margin: 6px 0 14px;
+  padding-left: 22px;
+}
+
+.ic-panel-text li{
+  margin: 4px 0;
 }
 
 .ic-disabled{
@@ -216,7 +242,7 @@ body{
 }
 
 /* =========================
-   CONTACT LIST (3rd highest UI)
+   CONTACT LIST
    ========================= */
 .ic-panel .list-group-item{
   font-size: 16px;
@@ -236,11 +262,10 @@ body{
 }
 
 /* =========================
-   SHARE (CLEAN + NO DUPLICATES)
+   SHARE
    ========================= */
 .ic-share{ text-align:center; }
 
-/* 3rd highest: share input */
 .ic-share-input{
   max-width: 320px;
   margin: 0 auto 12px;
@@ -250,7 +275,6 @@ body{
   font-size: 16px;
 }
 
-/* 3rd highest: share title */
 .ic-share-title-btn{
   border:0;
   background:transparent;
@@ -271,7 +295,6 @@ body{
   font-size:18px;
 }
 
-/* ✅ ALWAYS side-by-side */
 .ic-share-actions-2{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -280,7 +303,6 @@ body{
   margin-bottom: 10px;
 }
 
-/* 3rd highest: common button style */
 .ic-btn-eq{
   width: 100%;
   min-width: 0;
@@ -317,7 +339,6 @@ body{
   transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
 }
 
-/* icon box to look neat */
 #btnSaveVcf i{
   margin:0 !important;
   width: 34px;
@@ -329,7 +350,6 @@ body{
   background: rgba(255,255,255,.18);
 }
 
-/* hover / active */
 #btnSaveVcf:hover{
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(11,94,215,.35);
@@ -364,7 +384,6 @@ body{
   box-shadow: 0 12px 30px rgba(0,0,0,.15);
 }
 
-/* close button */
 .ic-share-close{
   position:absolute;
   top:10px;
@@ -382,10 +401,9 @@ body{
   font-weight:700;
 }
 
-/* title */
 .ic-share-heading{
   font-weight: 900;
-  font-size: 16px; /* keep within 3rd tier */
+  font-size: 16px;
   margin-top: 26px;
   margin-bottom: 14px;
   color:#0f172a;
@@ -398,7 +416,6 @@ body{
   align-items:center;
 }
 
-/* items */
 .ic-share-item{
   border:0;
   background: transparent;
@@ -413,7 +430,7 @@ body{
   cursor:pointer;
   transition: all .2s ease;
   border-radius: 12px;
-  font-size: 16px; /* 3rd tier */
+  font-size: 16px;
 }
 
 .ic-share-item i{
@@ -424,7 +441,6 @@ body{
   background:#f1f5f9;
 }
 
-/* bottom mini icons */
 .ic-share-bottom{
   margin-top: 14px;
   display:flex;
@@ -448,7 +464,7 @@ body{
 .ic-mini.li{ background: #0a66c2; color:#fff; }
 
 /* =========================
-   CONTACT US INPUTS (3rd tier)
+   CONTACT US INPUTS
    ========================= */
 #cName, #cPhone, #cEmail, #cMsg{
   font-size: 16px;
@@ -465,18 +481,16 @@ body{
   .ic-company-logo-circle{ display:block; margin:0 auto; }
   .ic-company-logo-circle img{ margin:0 auto; }
 
-  /* maintain hierarchy on mobile */
-  .ic-company-name{ font-size: 20px; } /* 2nd highest */
-  .ic-name{ font-size: 30px; }         /* highest */
-  .ic-role{ font-size: 14px; }         /* 4th */
+  .ic-company-name{ font-size: 20px; }
+  .ic-name{ font-size: 30px; }
+  .ic-role{ font-size: 14px; }
 
-  .ic-panel-title{ font-size: 16px; }  /* 3rd */
-  .ic-share-input{ max-width: 100%; font-size: 16px; } /* 3rd */
+  .ic-panel-title{ font-size: 16px; }
+  .ic-share-input{ max-width: 100%; font-size: 16px; }
 
   .ic-btn-eq{ height: 48px; font-size: 16px; }
   .ic-share-actions-2{ gap:10px; }
 
-  /* Save button slight compact */
   #btnSaveVcf{
     height: 50px;
     font-size: 16px;
