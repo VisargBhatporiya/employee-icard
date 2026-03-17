@@ -31,11 +31,12 @@
     "whatsapp": "+917016649244",
     "logo": "assets/images/logo/logo3.png"
   },
+ 
   {
     "id": "Jiten",
     "name": "Jiten Dhobi",
     "designation": "Director",
-    "role": "sr Draughtsman",
+    "role": "Director",
     "phone": "+91 9601402333",
     "altPhone": "",
     "email": "jiten@ddsengineering.in",
@@ -46,5 +47,160 @@
     "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
     "whatsapp": "+919601402333",
     "logo": "assets/images/logo/logo3.png"
+  },
+
+  {
+    "id": "Bhavin",
+    "name": "Bhavin Randeriya",
+    "designation": "Process",
+    "role": "Process",
+    "phone": "+91 9727148654",
+    "altPhone": "",
+    "email": "bhavin@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+919727148654",
+    "logo": "assets/images/logo/logo3.png"
+  },
+
+  {
+    "id": "Pathik",
+    "name": "Pathik Kuvadia",
+    "designation": "Piping",
+    "role": "Piping",
+    "phone": "+91 7567223510",
+    "altPhone": "",
+    "email": "pathik@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+917567223510",
+    "logo": "assets/images/logo/logo3.png"
+  },
+
+  {
+    "id": "Hiren",
+    "name": "Hiren Gohil",
+    "designation": "Instrumentation & Electrical",
+    "role": "Instrumentation & Electrical",
+    "phone": "+91 9924737067",
+    "altPhone": "",
+    "email": "hiren@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+919924737067",
+    "logo": "assets/images/logo/logo3.png"
+  },
+
+  {
+    "id": "Manan",
+    "name": "Manan Patel",
+    "designation": "Piping",
+    "role": "Piping",
+    "phone": "+91 9725537634",
+    "altPhone": "",
+    "email": "manan.patel@ddsengineering.in'",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+919725537634",
+    "logo": "assets/images/logo/logo3.png"
+  },
+
+  {
+    "id": "Sameer",
+    "name": "Sameer Patel",
+    "designation": "Piping",
+    "role": "Piping",
+    "phone": "+91 9924533886",
+    "altPhone": "",
+    "email": "sameer@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+919924533886",
+    "logo": "assets/images/logo/logo3.png"
+  },
+
+  {
+    "id": "Mansi",
+    "name": "Mansi Mehta",
+    "designation": "Electrical",
+    "role": "Electrical",
+    "phone": "+91 9913256344",
+    "altPhone": "",
+    "email": "mansi@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+919913256344",
+    "logo": "assets/images/logo/logo3.png"
+  },
+
+
+  {
+    "id": "Jenish",
+    "name": "Jenish Patel",
+    "designation": "Piping",
+    "role": "Piping",
+    "phone": "+91 9428640122",
+    "altPhone": "",
+    "email": "jenishp@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+919428640122",
+    "logo": "assets/images/logo/logo3.png"
+  },
+
+{
+    "id": "Raj",
+    "name": "Raj Prajapati",
+    "designation": "Process",
+    "role": "Process",
+    "phone": "+91 7096947716",
+    "altPhone": "",
+    "email": "rajp@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "assets/images/profiles/Raj_Prajapati.jpg",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+917096947716",
+    "logo": "assets/images/logo/logo3.png"
+  },
+
+  {
+    "id": "Hemil",
+    "name": "Hemil Patel",
+    "designation": "Process",
+    "role": "Process",
+    "phone": "+91 7405445000",
+    "altPhone": "",
+    "email": "hemilp@ddsengineering.in",
+    "website": "https://www.ddsengineering.in",
+    "company": "DDS Engineering (INDIA) Private Limited",
+    "photo": "",
+    "address": "Trinnity Business Park, 412, 4th Floor, Madhuvan Circle, New L.P.Savani Road, Adajan, Surat-395009, Gujarat, INDIA.",
+    "mapQuery": "Trinnity Business Park, 412, 4th Floor, Maduvan Cricle, New L.P.Savani Road, Adajan, Surat-395009 , Gujarat , INDIA.",
+    "whatsapp": "+917405445000",
+    "logo": "assets/images/logo/logo3.png"
   }
+
 ]
